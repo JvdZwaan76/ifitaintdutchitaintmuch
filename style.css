@@ -13,6 +13,23 @@ body {
     position: relative;
 }
 
+.background-matrix {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(to bottom, rgba(0,255,0,0.05) 0, rgba(0,255,0,0.05) 1px, transparent 1px, transparent 20px);
+    opacity: 0.3;
+    animation: matrixRain 10s linear infinite;
+    z-index: 0;
+}
+
+@keyframes matrixRain {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-100%); }
+}
+
 .container {
     text-align: center;
     z-index: 2;
@@ -22,8 +39,18 @@ body {
     font-size: 3rem;
     color: #ff8c00;
     text-shadow: 0 0 5px #ff8c00, 0 0 10px #ff8c00, 0 0 20px #ff8c00, 0 0 40px #ff4500, 0 0 80px #ff4500;
-    animation: flicker 1.5s infinite alternate;
+    animation: flicker 1.5s infinite alternate, glitch 3s infinite;
     margin-bottom: 2rem;
+}
+
+@keyframes glitch {
+    0% { text-shadow: 0.05em 0 0 #ff4500, -0.03em -0.04em 0 #ff8c00, 0.04em 0.03em 0 #fff; }
+    14% { text-shadow: 0.05em 0 0 #ff4500, -0.03em -0.04em 0 #ff8c00, 0.04em 0.03em 0 #fff; }
+    15% { text-shadow: -0.05em -0.025em 0 #ff4500, 0.025em 0.035em 0 #ff8c00, -0.04em -0.04em 0 #fff; }
+    49% { text-shadow: -0.05em -0.025em 0 #ff4500, 0.025em 0.035em 0 #ff8c00, -0.04em -0.04em 0 #fff; }
+    50% { text-shadow: 0.025em 0.035em 0 #ff4500, 0.05em 0 0 #ff8c00, 0 -0.04em 0 #fff; }
+    99% { text-shadow: 0.025em 0.035em 0 #ff4500, 0.05em 0 0 #ff8c00, 0 -0.04em 0 #fff; }
+    100% { text-shadow: -0.025em 0 0 #ff4500, -0.025em -0.035em 0 #ff8c00, -0.04em 0.05em 0 #fff; }
 }
 
 @keyframes flicker {
@@ -39,7 +66,14 @@ body {
     background: rgba(0, 0, 0, 0.7);
     padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(255, 140, 0, 0.5);
+    box-shadow: 0 0 20px rgba(255, 140, 0, 0.5), 0 0 40px rgba(255, 69, 0, 0.3);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 20px rgba(255, 140, 0, 0.5), 0 0 40px rgba(255, 69, 0, 0.3); }
+    50% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.7), 0 0 60px rgba(255, 69, 0, 0.5); }
+    100% { box-shadow: 0 0 20px rgba(255, 140, 0, 0.5), 0 0 40px rgba(255, 69, 0, 0.3); }
 }
 
 input {
@@ -51,6 +85,12 @@ input {
     background: #111;
     border: 1px solid #ff8c00;
     color: #fff;
+    box-shadow: 0 0 10px #ff8c00;
+    transition: box-shadow 0.3s;
+}
+
+input:focus {
+    box-shadow: 0 0 20px #ff4500;
 }
 
 button {
@@ -59,16 +99,19 @@ button {
     border: none;
     color: #000;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background 0.3s, box-shadow 0.3s;
+    box-shadow: 0 0 10px #ff8c00;
 }
 
 button:hover {
     background: #ff4500;
+    box-shadow: 0 0 20px #ff4500;
 }
 
 #message {
     margin-top: 1rem;
     color: #ff8c00;
+    text-shadow: 0 0 5px #ff8c00;
 }
 
 /* Smoke effect */
@@ -82,6 +125,7 @@ button:hover {
     overflow: hidden;
     z-index: 1;
     pointer-events: none;
+    opacity: 0.6;
 }
 
 .smoke::before {
@@ -90,31 +134,16 @@ button:hover {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(0,0,0,0) 10%, rgba(0,0,0,0.3) 100%);
-    animation: smokeAnim 10s infinite linear;
-    opacity: 0.2;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,140,0,0.1) 10%, rgba(0,0,0,0.5) 100%);
+    animation: smokeAnim 15s infinite linear;
+    opacity: 0.4;
 }
 
 @keyframes smokeAnim {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-100%); }
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(5deg); }
 }
-
-/* Additional smoke particles */
-.smoke::after {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background: #333;
-    border-radius: 50%;
-    animation: particle 20s infinite linear;
-    opacity: 0.1;
-    box-shadow: 0 0 20px #333;
-}
-
-/* More particles via JS or duplicate */
 
 /* Lasers */
 .lasers {
@@ -131,53 +160,60 @@ button:hover {
     position: absolute;
     height: 2px;
     background: linear-gradient(to right, transparent, #ff4500, transparent);
-    box-shadow: 0 0 10px #ff4500;
-    animation: laserScan 5s infinite linear;
+    box-shadow: 0 0 15px #ff4500, 0 0 30px #ff8c00;
+    animation: laserScan 4s infinite linear;
 }
 
 .laser1 {
-    top: 20%;
-    left: -100%;
-    width: 300%;
-    transform: rotate(15deg);
+    top: 15%;
+    left: -200%;
+    width: 400%;
+    transform: rotate(10deg);
+    animation-duration: 6s;
 }
 
 .laser2 {
-    top: 50%;
-    left: -100%;
-    width: 300%;
-    transform: rotate(-10deg);
+    top: 40%;
+    left: -200%;
+    width: 400%;
+    transform: rotate(-15deg);
+    animation-duration: 5s;
     animation-delay: 1s;
 }
 
 .laser3 {
-    top: 80%;
-    left: -100%;
-    width: 300%;
+    top: 60%;
+    left: -200%;
+    width: 400%;
     transform: rotate(5deg);
+    animation-duration: 7s;
     animation-delay: 2s;
 }
 
+.laser4 {
+    top: 75%;
+    left: -200%;
+    width: 400%;
+    transform: rotate(20deg);
+    animation-duration: 4s;
+    animation-delay: 0.5s;
+}
+
+.laser5 {
+    top: 90%;
+    left: -200%;
+    width: 400%;
+    transform: rotate(-5deg);
+    animation-duration: 8s;
+    animation-delay: 3s;
+}
+
 @keyframes laserScan {
-    0% { left: -100%; }
-    100% { left: 100%; }
+    0% { left: -200%; }
+    100% { left: 200%; }
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .neon-title {
-        font-size: 2rem;
-    }
-    
-    .login-form {
-        padding: 1rem;
-    }
-    
-    input {
-        width: 90%;
-    }
-}
-
+/* Footer */
 .neon-footer {
     position: absolute;
     bottom: 0;
@@ -215,4 +251,23 @@ button:hover {
     margin: 0;
     color: #ff8c00;
     text-shadow: 0 0 5px #ff8c00;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .neon-title {
+        font-size: 2rem;
+    }
+    
+    .login-form {
+        padding: 1rem;
+    }
+    
+    input {
+        width: 90%;
+    }
+    
+    .neon-footer {
+        font-size: 0.8rem;
+    }
 }
