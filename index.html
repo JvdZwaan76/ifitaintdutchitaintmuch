@@ -3,7 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>If It Ain't Dutch, It Ain't Much</title>
+    <title>If It Ain't Dutch, It Ain't Much - Dutch-Themed Merchandise & Techno Events</title>
+    <meta name="description" content="Unlock the mystery of Dutch culture with exclusive merchandise, clothing inspired by windmills and tulips, and tickets to underground techno events in Amsterdam. If it ain't Dutch, it ain't much—enter the void to discover more.">
+    <meta name="keywords" content="Dutch merchandise, Dutch clothing, techno events Amsterdam, Netherlands culture, windmill apparel, tulip shirts, underground techno tickets, Dutch-themed store">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ifitaintdutchitaintmuch.com/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ifitaintdutchitaintmuch.com/">
+    <meta property="og:title" content="If It Ain't Dutch, It Ain't Much - Exclusive Dutch Merch & Techno Experiences">
+    <meta property="og:description" content="Delve into enigmatic Dutch vibes: premium clothing echoing heritage, and elusive techno event access. Mystery awaits those who enter.">
+    <meta property="og:image" content="https://ifitaintdutchitaintmuch.com/og-image.jpg"> <!-- Placeholder; add a real image URL -->
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://ifitaintdutchitaintmuch.com/">
+    <meta name="twitter:title" content="If It Ain't Dutch, It Ain't Much">
+    <meta name="twitter:description" content="Unveil hidden Dutch treasures: merchandise, apparel, and techno tickets shrouded in mystery.">
+    <meta name="twitter:image" content="https://ifitaintdutchitaintmuch.com/twitter-image.jpg"> <!-- Placeholder; add a real image URL -->
+    
+    <!-- Structured Data (JSON-LD) for Organization and Online Store -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "If It Ain't Dutch, It Ain't Much",
+      "url": "https://ifitaintdutchitaintmuch.com/",
+      "logo": "https://ifitaintdutchitaintmuch.com/logo.png", <!-- Placeholder; add real logo URL -->
+      "description": "Mysterious gateway to Dutch-inspired merchandise, cultural clothing, and exclusive techno events.",
+      "sameAs": [
+        "https://twitter.com/yourhandle",
+        "https://instagram.com/yourhandle"
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "url": "https://ifitaintdutchitaintmuch.com/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://ifitaintdutchitaintmuch.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Store",
+      "name": "If It Ain't Dutch, It Ain't Much Store",
+      "url": "https://ifitaintdutchitaintmuch.com/",
+      "description": "Exclusive online store for Dutch-themed clothing, merchandise, and tickets to techno events.",
+      "currenciesAccepted": "EUR, USD",
+      "paymentAccepted": "Credit Card, PayPal",
+      "priceRange": "$$"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Event",
+      "name": "Underground Dutch Techno Events",
+      "description": "Mysterious techno gatherings inspired by Dutch heritage—tickets available through exclusive access.",
+      "startDate": "2025-10-01",
+      "endDate": "2025-12-31",
+      "location": {
+        "@type": "Place",
+        "name": "Amsterdam Underground",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Amsterdam",
+          "addressCountry": "NL"
+        }
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://ifitaintdutchitaintmuch.com/tickets",
+        "price": "50",
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/InStock"
+      }
+    }
+    </script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
@@ -13,10 +98,11 @@
     <div class="background-gradient"></div>
     <div class="container">
         <h1 class="neon-title">If it ain't Dutch it ain't Much</h1>
+        <p class="teaser">Whispers of windmills and tulips in fabric form; echoes of Amsterdam's pulse in hidden rhythms. Unlock the vault to Dutch enigmas: apparel that tells tales, merchandise that mystifies, and passages to techno realms untold.</p>
         <div class="login-form">
             <form id="loginForm">
-                <input type="text" id="username" placeholder="Username" required>
-                <input type="password" id="password" placeholder="Password" required>
+                <input type="text" id="username" placeholder="Username" required aria-label="Enter your username">
+                <input type="password" id="password" placeholder="Password" required aria-label="Enter your password">
                 <button type="submit">Enter the Void</button>
             </form>
             <p id="message"></p>
