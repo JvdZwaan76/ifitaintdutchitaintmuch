@@ -24,29 +24,56 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     }
 });
 
-// Optimized smoke: Fewer particles, longer duration for performance
+// Optimized smoke particles for fog-like mystery
 function createSmokeParticle() {
     const particle = document.createElement('div');
+    particle.classList.add('smoke-particle');
     particle.style.position = 'absolute';
-    particle.style.width = `${Math.random() * 50 + 20}px`;
+    particle.style.width = `${Math.random() * 80 + 40}px`;
     particle.style.height = particle.style.width;
-    particle.style.background = 'radial-gradient(circle, var(--shadow-color) 20%, transparent 80%)';
+    particle.style.background = 'radial-gradient(circle, rgba(255, 149, 0, 0.1) 0%, transparent 70%)';
     particle.style.borderRadius = '50%';
-    particle.style.opacity = Math.random() * 0.2 + 0.1;
+    particle.style.opacity = Math.random() * 0.3 + 0.1;
     particle.style.left = `${Math.random() * 100}%`;
     particle.style.top = '100%';
-    particle.style.filter = 'blur(8px)';
+    particle.style.filter = 'blur(12px)';
+    particle.style.pointerEvents = 'none';
     document.querySelector('.smoke').appendChild(particle);
 
     const anim = particle.animate([
-        { transform: 'translateY(0) scale(1)', opacity: 0.15 },
-        { transform: `translateY(-${window.innerHeight * 1.5}px) scale(${Math.random() + 1.5})`, opacity: 0 }
+        { transform: 'translateY(0) scale(1)', opacity: 0.2 },
+        { transform: `translateY(-${window.innerHeight + 200}px) translateX(${Math.random() * 100 - 50}px) scale(${Math.random() * 1.5 + 1})`, opacity: 0 }
     ], {
-        duration: Math.random() * 20000 + 10000,
-        easing: 'linear'
+        duration: Math.random() * 15000 + 10000,
+        easing: 'ease-out'
     });
 
     anim.onfinish = () => particle.remove();
 }
 
-setInterval(createSmokeParticle, 1000); // Reduced frequency for better perf
+setInterval(createSmokeParticle, 500); // Slightly more for denser fog, but still fast
+
+// Canvas for subtle starry/mysterious background (fast, lightweight)
+const canvas = document.getElementById('background-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < 200; i++) {
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.1})`;
+        ctx.beginPath();
+        ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 1 + 0.5, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+drawStars();
+
+// Resize canvas on window resize
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    drawStars();
+});
