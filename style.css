@@ -1,9 +1,19 @@
+:root {
+    --primary-color: #FF9500; /* Soft neon orange */
+    --accent-color: #00BFFF; /* Neon blue for accents */
+    --bg-color: #000; /* Dark background */
+    --text-color: #FFF;
+    --shadow-color: rgba(255, 149, 0, 0.5);
+    --font-title: 'Rajdhani', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
 body {
     margin: 0;
     padding: 0;
-    background: #000;
-    color: #fff;
-    font-family: 'Courier New', monospace;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -11,141 +21,121 @@ body {
     align-items: center;
     height: 100vh;
     position: relative;
+    font-size: 16px; /* Base for rem */
 }
 
-.background-matrix {
+.background-gradient {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: repeating-linear-gradient(to bottom, rgba(0,255,0,0.05) 0, rgba(0,255,0,0.05) 1px, transparent 1px, transparent 20px);
-    opacity: 0.3;
-    animation: matrixRain 10s linear infinite;
+    background: radial-gradient(circle at center, rgba(0, 191, 255, 0.05), transparent 70%);
+    opacity: 0.8;
     z-index: 0;
+    animation: subtlePulse 20s infinite ease-in-out;
 }
 
-@keyframes matrixRain {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-100%); }
+@keyframes subtlePulse {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 0.4; }
 }
 
 .container {
     text-align: center;
     z-index: 2;
+    max-width: 90%;
+    padding: 1rem;
 }
 
 .neon-title {
-    font-size: 3rem;
-    color: #ff8c00;
-    text-shadow: 0 0 5px #ff8c00, 0 0 10px #ff8c00, 0 0 20px #ff8c00, 0 0 40px #ff4500, 0 0 80px #ff4500;
-    animation: flicker 1.5s infinite alternate, glitch 3s infinite;
+    font-family: var(--font-title);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px var(--shadow-color), 0 0 20px var(--shadow-color);
     margin-bottom: 2rem;
+    letter-spacing: 0.1em;
+    animation: glow 3s infinite alternate ease-in-out;
 }
 
-@keyframes glitch {
-    0% { text-shadow: 0.05em 0 0 #ff4500, -0.03em -0.04em 0 #ff8c00, 0.04em 0.03em 0 #fff; }
-    14% { text-shadow: 0.05em 0 0 #ff4500, -0.03em -0.04em 0 #ff8c00, 0.04em 0.03em 0 #fff; }
-    15% { text-shadow: -0.05em -0.025em 0 #ff4500, 0.025em 0.035em 0 #ff8c00, -0.04em -0.04em 0 #fff; }
-    49% { text-shadow: -0.05em -0.025em 0 #ff4500, 0.025em 0.035em 0 #ff8c00, -0.04em -0.04em 0 #fff; }
-    50% { text-shadow: 0.025em 0.035em 0 #ff4500, 0.05em 0 0 #ff8c00, 0 -0.04em 0 #fff; }
-    99% { text-shadow: 0.025em 0.035em 0 #ff4500, 0.05em 0 0 #ff8c00, 0 -0.04em 0 #fff; }
-    100% { text-shadow: -0.025em 0 0 #ff4500, -0.025em -0.035em 0 #ff8c00, -0.04em 0.05em 0 #fff; }
-}
-
-@keyframes flicker {
-    0%, 18%, 22%, 25%, 53%, 57%, 100% {
-        text-shadow: 0 0 4px #ff8c00, 0 0 11px #ff8c00, 0 0 19px #ff8c00, 0 0 40px #ff4500, 0 0 80px #ff4500;
-    }
-    20%, 24%, 55% {
-        text-shadow: none;
-    }
+@keyframes glow {
+    0% { text-shadow: 0 0 10px var(--shadow-color), 0 0 20px var(--shadow-color); }
+    100% { text-shadow: 0 0 15px var(--shadow-color), 0 0 30px var(--shadow-color); }
 }
 
 .login-form {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.6);
     padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(255, 140, 0, 0.5), 0 0 40px rgba(255, 69, 0, 0.3);
-    animation: pulse 2s infinite;
+    border-radius: 15px;
+    box-shadow: 0 0 20px var(--shadow-color);
+    max-width: 400px;
+    width: 100%;
+    transition: box-shadow 0.3s ease;
 }
 
-@keyframes pulse {
-    0% { box-shadow: 0 0 20px rgba(255, 140, 0, 0.5), 0 0 40px rgba(255, 69, 0, 0.3); }
-    50% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.7), 0 0 60px rgba(255, 69, 0, 0.5); }
-    100% { box-shadow: 0 0 20px rgba(255, 140, 0, 0.5), 0 0 40px rgba(255, 69, 0, 0.3); }
+.login-form:hover {
+    box-shadow: 0 0 30px var(--shadow-color);
 }
 
 input {
     display: block;
     margin: 1rem auto;
-    padding: 0.5rem;
-    width: 80%;
-    max-width: 300px;
-    background: #111;
-    border: 1px solid #ff8c00;
-    color: #fff;
-    box-shadow: 0 0 10px #ff8c00;
-    transition: box-shadow 0.3s;
+    padding: 0.75rem;
+    width: 100%;
+    background: rgba(17, 17, 17, 0.8);
+    border: 1px solid var(--primary-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 input:focus {
-    box-shadow: 0 0 20px #ff4500;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 10px var(--accent-color);
+    outline: none;
 }
 
 button {
-    padding: 0.5rem 1rem;
-    background: #ff8c00;
+    padding: 0.75rem 1.5rem;
+    background: var(--primary-color);
     border: none;
-    color: #000;
+    color: var(--bg-color);
     cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    border-radius: 5px;
     transition: background 0.3s, box-shadow 0.3s;
-    box-shadow: 0 0 10px #ff8c00;
+    box-shadow: 0 0 10px var(--shadow-color);
 }
 
 button:hover {
-    background: #ff4500;
-    box-shadow: 0 0 20px #ff4500;
+    background: var(--accent-color);
+    box-shadow: 0 0 15px var(--accent-color);
 }
 
 #message {
     margin-top: 1rem;
-    color: #ff8c00;
-    text-shadow: 0 0 5px #ff8c00;
+    color: var(--primary-color);
+    font-size: 0.9rem;
 }
 
-/* Smoke effect */
+/* Smoke effect - optimized with fewer elements */
 .smoke {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: transparent;
     overflow: hidden;
     z-index: 1;
     pointer-events: none;
-    opacity: 0.6;
+    opacity: 0.3;
 }
 
-.smoke::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,140,0,0.1) 10%, rgba(0,0,0,0.5) 100%);
-    animation: smokeAnim 15s infinite linear;
-    opacity: 0.4;
-}
-
-@keyframes smokeAnim {
-    0% { transform: translateY(0) rotate(0deg); }
-    100% { transform: translateY(-50%) rotate(5deg); }
-}
-
-/* Lasers */
+/* Lasers - CSS only, reduced number */
 .lasers {
     position: absolute;
     top: 0;
@@ -158,59 +148,38 @@ button:hover {
 
 .laser {
     position: absolute;
-    height: 2px;
-    background: linear-gradient(to right, transparent, #ff4500, transparent);
-    box-shadow: 0 0 15px #ff4500, 0 0 30px #ff8c00;
-    animation: laserScan 4s infinite linear;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--accent-color), transparent);
+    box-shadow: 0 0 8px var(--accent-color);
+    animation: laserScan 6s infinite linear;
 }
 
 .laser1 {
-    top: 15%;
-    left: -200%;
-    width: 400%;
-    transform: rotate(10deg);
-    animation-duration: 6s;
+    top: 25%;
+    left: -100%;
+    width: 200%;
+    transform: rotate(8deg);
 }
 
 .laser2 {
-    top: 40%;
-    left: -200%;
-    width: 400%;
-    transform: rotate(-15deg);
-    animation-duration: 5s;
-    animation-delay: 1s;
-}
-
-.laser3 {
-    top: 60%;
-    left: -200%;
-    width: 400%;
-    transform: rotate(5deg);
-    animation-duration: 7s;
+    top: 50%;
+    left: -100%;
+    width: 200%;
+    transform: rotate(-5deg);
     animation-delay: 2s;
 }
 
-.laser4 {
+.laser3 {
     top: 75%;
-    left: -200%;
-    width: 400%;
-    transform: rotate(20deg);
-    animation-duration: 4s;
-    animation-delay: 0.5s;
-}
-
-.laser5 {
-    top: 90%;
-    left: -200%;
-    width: 400%;
-    transform: rotate(-5deg);
-    animation-duration: 8s;
-    animation-delay: 3s;
+    left: -100%;
+    width: 200%;
+    transform: rotate(3deg);
+    animation-delay: 4s;
 }
 
 @keyframes laserScan {
-    0% { left: -200%; }
-    100% { left: 200%; }
+    0% { left: -100%; }
+    100% { left: 100%; }
 }
 
 /* Footer */
@@ -219,10 +188,10 @@ button:hover {
     bottom: 0;
     width: 100%;
     text-align: center;
-    padding: 1rem 0;
-    background: rgba(0, 0, 0, 0.8);
+    padding: 0.5rem 0;
+    background: rgba(0, 0, 0, 0.7);
     z-index: 2;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 .neon-footer ul {
@@ -233,41 +202,51 @@ button:hover {
 
 .neon-footer li {
     display: inline;
-    margin: 0 1rem;
+    margin: 0 0.75rem;
 }
 
 .neon-footer a {
-    color: #ff8c00;
+    color: var(--primary-color);
     text-decoration: none;
-    text-shadow: 0 0 5px #ff8c00;
     transition: color 0.3s;
 }
 
 .neon-footer a:hover {
-    color: #ff4500;
+    color: var(--accent-color);
 }
 
 .neon-footer p {
     margin: 0;
-    color: #ff8c00;
-    text-shadow: 0 0 5px #ff8c00;
+    color: var(--primary-color);
 }
 
-/* Responsive */
+/* Responsive Design */
 @media (max-width: 768px) {
     .neon-title {
         font-size: 2rem;
     }
     
     .login-form {
-        padding: 1rem;
+        padding: 1.5rem;
     }
     
-    input {
-        width: 90%;
+    input, button {
+        font-size: 0.9rem;
+        padding: 0.6rem;
     }
     
     .neon-footer {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
+        padding: 0.3rem 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .neon-title {
+        font-size: 1.5rem;
+    }
+    
+    .container {
+        padding: 0.5rem;
     }
 }
