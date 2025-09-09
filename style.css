@@ -64,6 +64,17 @@ body {
     100% { text-shadow: 0 0 15px var(--shadow-color), 0 0 30px var(--shadow-color); }
 }
 
+.teaser {
+    font-size: 1rem;
+    color: #ddd;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    text-align: center;
+    opacity: 0.8;
+    line-height: 1.6;
+    font-style: italic;
+}
+
 .login-form {
     background: rgba(0, 0, 0, 0.6);
     padding: 2rem;
