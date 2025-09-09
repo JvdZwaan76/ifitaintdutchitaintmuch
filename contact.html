@@ -1,16 +1,504 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - If It Ain't Dutch, It Ain't Much</title>
-    <link rel="stylesheet" href="style.css">
+    
+    <!-- Enhanced SEO Meta -->
+    <title>Contact the Dutch Mystery Portal | If It Ain't Dutch, It Ain't Much</title>
+    <meta name="description" content="Reach out to the guardians of Dutch mysteries. Get exclusive access codes, event invitations, and answers to your questions about our underground Amsterdam experiences.">
+    <meta name="keywords" content="contact Dutch mystery, Amsterdam techno events contact, exclusive access help, Dutch merchandise support, underground events inquiry">
+    <meta name="author" content="If It Ain't Dutch, It Ain't Much">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    
+    <!-- Canonical and Language -->
+    <link rel="canonical" href="https://ifitaintdutchitaintmuch.com/contact.html">
+    <link rel="alternate" hreflang="en" href="https://ifitaintdutchitaintmuch.com/contact.html">
+    <link rel="alternate" hreflang="nl" href="https://ifitaintdutchitaintmuch.com/nl/contact.html">
+    
+    <!-- Enhanced Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="If It Ain't Dutch, It Ain't Much">
+    <meta property="og:url" content="https://ifitaintdutchitaintmuch.com/contact.html">
+    <meta property="og:title" content="Contact the Dutch Mystery Portal - Exclusive Access & Support">
+    <meta property="og:description" content="Connect with the keepers of Dutch secrets. Get help with exclusive access, event tickets, and mysterious merchandise inquiries.">
+    <meta property="og:image" content="https://ifitaintdutchitaintmuch.com/images/contact-portal-og.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Contact portal with mysterious Dutch-themed background">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@DutchMystery">
+    <meta name="twitter:title" content="Contact Dutch Mystery Portal">
+    <meta name="twitter:description" content="Reach the guardians of Amsterdam's underground scene and Dutch cultural mysteries.">
+    <meta name="twitter:image" content="https://ifitaintdutchitaintmuch.com/images/contact-portal-twitter.jpg">
+    
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      "name": "Contact Portal - If It Ain't Dutch, It Ain't Much",
+      "url": "https://ifitaintdutchitaintmuch.com/contact.html",
+      "description": "Contact the mysterious Dutch cultural brand for exclusive access to merchandise and underground Amsterdam techno events.",
+      "mainEntity": {
+        "@type": "Organization",
+        "name": "If It Ain't Dutch, It Ain't Much",
+        "url": "https://ifitaintdutchitaintmuch.com/",
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "telephone": "+31-20-000-0000",
+            "contactType": "customer service",
+            "email": "mystery@ifitaintdutchitaintmuch.com",
+            "availableLanguage": ["English", "Dutch"],
+            "areaServed": ["NL", "EU", "US"],
+            "hoursAvailable": {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": [
+                "Monday",
+                "Tuesday", 
+                "Wednesday",
+                "Thursday",
+                "Friday"
+              ],
+              "opens": "09:00",
+              "closes": "18:00",
+              "timeZone": "Europe/Amsterdam"
+            }
+          },
+          {
+            "@type": "ContactPoint",
+            "contactType": "sales",
+            "email": "access@ifitaintdutchitaintmuch.com",
+            "availableLanguage": ["English", "Dutch"]
+          },
+          {
+            "@type": "ContactPoint",
+            "contactType": "technical support",
+            "email": "portal@ifitaintdutchitaintmuch.com",
+            "availableLanguage": ["English"]
+          }
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Amsterdam",
+          "addressRegion": "North Holland",
+          "addressCountry": "NL",
+          "streetAddress": "Secret Location - Revealed Upon Access"
+        },
+        "sameAs": [
+          "https://instagram.com/ifitaintdutchitaintmuch",
+          "https://twitter.com/DutchMystery"
+        ]
+      }
+    }
+    </script>
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    
+    <!-- Fonts and Styles -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/enhanced-style.css">
+    
+    <!-- Additional Contact Page Styles -->
+    <style>
+        .contact-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: var(--pure-black);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .contact-portal {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 149, 0, 0.3);
+            border-radius: 25px;
+            padding: 3rem 4rem;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            animation: portalEntry 1s ease-out 0.5s both;
+        }
+        
+        .contact-title {
+            font-family: var(--font-title);
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            color: var(--primary-orange);
+            text-shadow: 0 0 20px var(--primary-orange);
+            text-align: center;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .contact-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            font-style: italic;
+        }
+        
+        .contact-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .contact-method {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 191, 255, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .contact-method:hover {
+            border-color: var(--electric-blue);
+            box-shadow: 0 10px 30px rgba(0, 191, 255, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        .contact-method-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .contact-method h3 {
+            color: var(--electric-blue);
+            margin-bottom: 0.5rem;
+            font-family: var(--font-subtitle);
+        }
+        
+        .contact-method p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-method a {
+            color: var(--primary-orange);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .contact-method a:hover {
+            color: var(--golden-yellow);
+            text-shadow: 0 0 10px var(--golden-yellow);
+        }
+        
+        .mystery-form {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 149, 0, 0.2);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            color: var(--primary-orange);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(255, 149, 0, 0.3);
+            border-radius: 8px;
+            color: var(--pure-white);
+            font-family: var(--font-body);
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--electric-blue);
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .submit-portal {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .mystery-hours {
+            background: rgba(255, 149, 0, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .mystery-hours h3 {
+            color: var(--golden-yellow);
+            margin-bottom: 1rem;
+        }
+        
+        .hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            text-align: left;
+        }
+        
+        .hours-item {
+            display: flex;
+            justify-content: space-between;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .contact-portal {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            .contact-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Contact Us</h1>
-        <p>Email: info@ifitaintdutchitaintmuch.com</p>
-        <a href="/">Back to Home</a>
+    <!-- Background Effects -->
+    <div class="background-gradient"></div>
+    <canvas id="background-canvas" aria-hidden="true"></canvas>
+    <div class="smoke" aria-hidden="true"></div>
+    <div class="lasers" aria-hidden="true">
+        <div class="laser laser1"></div>
+        <div class="laser laser2"></div>
+        <div class="laser laser3"></div>
     </div>
+    
+    <div class="contact-container">
+        <div class="contact-portal">
+            <h1 class="contact-title">Contact the Portal</h1>
+            <p class="contact-subtitle">
+                Seek answers from the guardians of Dutch mysteries.<br>
+                <em>Your message shall be received by those who dwell in the void.</em>
+            </p>
+            
+            <div class="contact-methods">
+                <div class="contact-method">
+                    <span class="contact-method-icon">📧</span>
+                    <h3>Mystery Inquiries</h3>
+                    <p>General questions about our Dutch heritage collection and portal access</p>
+                    <a href="mailto:mystery@ifitaintdutchitaintmuch.com">mystery@ifitaintdutchitaintmuch.com</a>
+                </div>
+                
+                <div class="contact-method">
+                    <span class="contact-method-icon">🎵</span>
+                    <h3>Underground Access</h3>
+                    <p>Exclusive Amsterdam techno events and VIP experience requests</p>
+                    <a href="mailto:access@ifitaintdutchitaintmuch.com">access@ifitaintdutchitaintmuch.com</a>
+                </div>
+                
+                <div class="contact-method">
+                    <span class="contact-method-icon">🛍️</span>
+                    <h3>Heritage Orders</h3>
+                    <p>Windmill apparel, tulip collections, and merchandise support</p>
+                    <a href="mailto:orders@ifitaintdutchitaintmuch.com">orders@ifitaintdutchitaintmuch.com</a>
+                </div>
+                
+                <div class="contact-method">
+                    <span class="contact-method-icon">🔧</span>
+                    <h3>Portal Support</h3>
+                    <p>Technical assistance and login troubles with the mystery portal</p>
+                    <a href="mailto:portal@ifitaintdutchitaintmuch.com">portal@ifitaintdutchitaintmuch.com</a>
+                </div>
+            </div>
+            
+            <div class="mystery-form">
+                <h3 style="color: var(--electric-blue); text-align: center; margin-bottom: 2rem;">Send a Message Through the Void</h3>
+                <form id="contactForm" action="/submit-contact" method="POST">
+                    <div class="form-group">
+                        <label for="contact-name">Your Identity *</label>
+                        <input type="text" id="contact-name" name="name" required placeholder="How shall we address you?">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-email">Portal Address *</label>
+                        <input type="email" id="contact-email" name="email" required placeholder="your@mystery.email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-subject">Nature of Inquiry</label>
+                        <select id="contact-subject" name="subject">
+                            <option value="">Choose your path...</option>
+                            <option value="portal-access">Portal Access Issues</option>
+                            <option value="merchandise">Dutch Heritage Merchandise</option>
+                            <option value="events">Underground Event Tickets</option>
+                            <option value="vip-access">VIP Experience Request</option>
+                            <option value="collaboration">Mysterious Collaboration</option>
+                            <option value="press">Media & Press Inquiry</option>
+                            <option value="other">Other Mysteries</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-message">Your Message *</label>
+                        <textarea id="contact-message" name="message" required placeholder="Whisper your secrets to the void... What mysteries do you seek to uncover?"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="newsletter" style="margin-right: 0.5rem;">
+                            Subscribe to receive notifications of exclusive events and limited releases
+                        </label>
+                    </div>
+                    
+                    <div class="submit-portal">
+                        <button type="submit" class="void-button">
+                            <span class="button-text">Send to the Void</span>
+                            <span class="button-glow"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="mystery-hours">
+                <h3>🕐 Portal Operating Hours</h3>
+                <div class="hours-grid">
+                    <div class="hours-item">
+                        <span>Monday - Friday</span>
+                        <span>09:00 - 18:00 CET</span>
+                    </div>
+                    <div class="hours-item">
+                        <span>Saturday</span>
+                        <span>10:00 - 16:00 CET</span>
+                    </div>
+                    <div class="hours-item">
+                        <span>Sunday</span>
+                        <span>Closed (Portal Recharge)</span>
+                    </div>
+                    <div class="hours-item">
+                        <span>Emergency Access</span>
+                        <span>24/7 (Email Only)</span>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;">
+                    <em>Response time: Within 24 hours during operating days.<br>
+                    Underground event inquiries may require longer for verification.</em>
+                </p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="/" class="void-button" style="display: inline-block; text-decoration: none;">
+                    <span class="button-text">Return to Portal</span>
+                    <span class="button-glow"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="neon-footer" style="position: relative;">
+        <nav aria-label="Footer Navigation">
+            <ul>
+                <li><a href="/privacy-policy.html" rel="nofollow">Privacy Policy</a></li>
+                <li><a href="/terms-of-service.html" rel="nofollow">Terms of Service</a></li>
+                <li><a href="/accessibility.html">Accessibility</a></li>
+                <li><a href="/" rel="home">Portal Home</a></li>
+            </ul>
+        </nav>
+        <p>&copy; 2025 If It Ain't Dutch, It Ain't Much. All mysteries reserved.</p>
+        <div class="social-links" aria-label="Follow Our Mysteries">
+            <a href="https://instagram.com/ifitaintdutchitaintmuch" target="_blank" rel="noopener" aria-label="Follow us on Instagram">📷</a>
+            <a href="https://soundcloud.com/dutchmystery" target="_blank" rel="noopener" aria-label="Listen to our sounds">🎵</a>
+        </div>
+    </footer>
+    
+    <script src="/js/enhanced-script.js" defer></script>
+    <script>
+        // Enhanced contact form handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            const buttonText = submitButton.querySelector('.button-text');
+            const originalText = buttonText.textContent;
+            
+            // Show loading state
+            buttonText.textContent = 'Sending to Void...';
+            submitButton.disabled = true;
+            
+            // Simulate form submission (replace with actual endpoint)
+            setTimeout(() => {
+                buttonText.textContent = '✨ Message Received';
+                setTimeout(() => {
+                    buttonText.textContent = originalText;
+                    submitButton.disabled = false;
+                    e.target.reset();
+                    
+                    // Show success message
+                    const successMsg = document.createElement('div');
+                    successMsg.style.cssText = `
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: linear-gradient(135deg, #00FF00, #00FFFF);
+                        color: black;
+                        padding: 1rem 2rem;
+                        border-radius: 10px;
+                        font-weight: bold;
+                        z-index: 10000;
+                        animation: slideIn 0.3s ease-out;
+                    `;
+                    successMsg.textContent = '🌷 Your message has been sent to the Dutch mystery guardians!';
+                    document.body.appendChild(successMsg);
+                    
+                    setTimeout(() => {
+                        successMsg.remove();
+                    }, 5000);
+                }, 2000);
+            }, 1500);
+        });
+        
+        // Add slide-in animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
