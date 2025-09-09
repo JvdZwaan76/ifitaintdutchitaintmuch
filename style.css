@@ -3,7 +3,7 @@
     --accent-color: #00BFFF; /* Neon blue for accents */
     --bg-color: #000; /* Dark background */
     --text-color: #FFF;
-    --shadow-color: rgba(255, 149, 0, 0.5);
+    --shadow-color: rgba(255, 149, 0, 0.3); /* Softer shadow for mystery */
     --font-title: 'Rajdhani', sans-serif;
     --font-body: 'Inter', sans-serif;
 }
@@ -22,6 +22,7 @@ body {
     height: 100vh;
     position: relative;
     font-size: 16px; /* Base for rem */
+    cursor: default; /* Subtle cursor for mystery */
 }
 
 .background-gradient {
@@ -30,110 +31,134 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at center, rgba(0, 191, 255, 0.05), transparent 70%);
-    opacity: 0.8;
+    background: radial-gradient(circle at center, rgba(0, 191, 255, 0.03), rgba(0, 0, 0, 0.8) 70%);
+    opacity: 1;
     z-index: 0;
-    animation: subtlePulse 20s infinite ease-in-out;
+    animation: etherealFade 30s infinite ease-in-out;
 }
 
-@keyframes subtlePulse {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 0.4; }
+@keyframes etherealFade {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+#background-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.15; /* Subtle stars for mystery */
+    pointer-events: none;
 }
 
 .container {
     text-align: center;
     z-index: 2;
     max-width: 90%;
-    padding: 1rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .neon-title {
     font-family: var(--font-title);
-    font-size: 2.5rem;
-    font-weight: 700;
+    font-size: 3rem;
+    font-weight: 300; /* Lighter for elegance */
     color: var(--primary-color);
-    text-shadow: 0 0 10px var(--shadow-color), 0 0 20px var(--shadow-color);
-    margin-bottom: 2rem;
-    letter-spacing: 0.1em;
-    animation: glow 3s infinite alternate ease-in-out;
+    text-shadow: 0 0 5px var(--shadow-color), 0 0 15px var(--shadow-color);
+    margin-bottom: 3rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    animation: glow 4s infinite alternate ease-in-out;
 }
 
 @keyframes glow {
-    0% { text-shadow: 0 0 10px var(--shadow-color), 0 0 20px var(--shadow-color); }
-    100% { text-shadow: 0 0 15px var(--shadow-color), 0 0 30px var(--shadow-color); }
+    0% { text-shadow: 0 0 5px var(--shadow-color), 0 0 15px var(--shadow-color); }
+    100% { text-shadow: 0 0 10px var(--shadow-color), 0 0 25px var(--shadow-color); }
 }
 
 .teaser {
-    font-size: 1rem;
-    color: #ddd;
-    max-width: 600px;
-    margin: 0 auto 2rem;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 700px;
+    margin: 0 auto 3rem;
     text-align: center;
-    opacity: 0.8;
-    line-height: 1.6;
+    opacity: 0.85;
+    line-height: 1.8;
     font-style: italic;
+    letter-spacing: 0.05em;
 }
 
 .login-form {
-    background: rgba(0, 0, 0, 0.6);
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 0 20px var(--shadow-color);
-    max-width: 400px;
+    background: rgba(255, 255, 255, 0.05); /* Glassmorphism for mystery */
+    backdrop-filter: blur(15px); /* Blurred glass effect */
+    padding: 3rem 4rem; /* Proper padding for air */
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    max-width: 450px;
     width: 100%;
-    transition: box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .login-form:hover {
-    box-shadow: 0 0 30px var(--shadow-color);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 48px rgba(255, 149, 0, 0.4);
 }
 
 input {
     display: block;
-    margin: 1rem auto;
-    padding: 0.75rem;
+    margin: 1.5rem auto; /* Centered with spacing */
+    padding: 1rem;
     width: 100%;
-    background: rgba(17, 17, 17, 0.8);
-    border: 1px solid var(--primary-color);
+    background: rgba(17, 17, 17, 0.6);
+    border: 1px solid rgba(255, 149, 0, 0.3);
     color: var(--text-color);
     font-family: var(--font-body);
     font-size: 1rem;
-    border-radius: 5px;
+    border-radius: 8px;
     transition: border-color 0.3s, box-shadow 0.3s;
+    text-align: center; /* Centered text for elegance */
 }
 
 input:focus {
     border-color: var(--accent-color);
-    box-shadow: 0 0 10px var(--accent-color);
+    box-shadow: 0 0 12px var(--accent-color);
     outline: none;
 }
 
 button {
-    padding: 0.75rem 1.5rem;
-    background: var(--primary-color);
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
     border: none;
     color: var(--bg-color);
     cursor: pointer;
     font-family: var(--font-body);
     font-size: 1rem;
-    border-radius: 5px;
-    transition: background 0.3s, box-shadow 0.3s;
+    border-radius: 8px;
+    transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
     box-shadow: 0 0 10px var(--shadow-color);
+    margin-top: 1rem;
 }
 
 button:hover {
-    background: var(--accent-color);
-    box-shadow: 0 0 15px var(--accent-color);
+    background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+    box-shadow: 0 0 20px var(--accent-color);
+    transform: scale(1.05);
 }
 
 #message {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     color: var(--primary-color);
     font-size: 0.9rem;
+    text-shadow: 0 0 5px var(--shadow-color);
 }
 
-/* Smoke effect - optimized with fewer elements */
+/* Smoke effect - enhanced for fog-like mystery */
 .smoke {
     position: absolute;
     top: 0;
@@ -143,10 +168,10 @@ button:hover {
     overflow: hidden;
     z-index: 1;
     pointer-events: none;
-    opacity: 0.3;
+    opacity: 0.25;
 }
 
-/* Lasers - CSS only, reduced number */
+/* Lasers - smoother, more subtle for world-class feel */
 .lasers {
     position: absolute;
     top: 0;
@@ -161,8 +186,9 @@ button:hover {
     position: absolute;
     height: 1px;
     background: linear-gradient(to right, transparent, var(--accent-color), transparent);
-    box-shadow: 0 0 8px var(--accent-color);
-    animation: laserScan 6s infinite linear;
+    box-shadow: 0 0 10px var(--accent-color);
+    animation: laserScan 8s infinite linear;
+    opacity: 0.6;
 }
 
 .laser1 {
@@ -193,16 +219,22 @@ button:hover {
     100% { left: 100%; }
 }
 
-/* Footer */
+/* Footer - elegant and subtle */
 .neon-footer {
     position: absolute;
     bottom: 0;
     width: 100%;
     text-align: center;
-    padding: 0.5rem 0;
-    background: rgba(0, 0, 0, 0.7);
+    padding: 1rem 0;
+    background: rgba(0, 0, 0, 0.5);
     z-index: 2;
     font-size: 0.8rem;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.neon-footer:hover {
+    opacity: 1;
 }
 
 .neon-footer ul {
@@ -213,17 +245,18 @@ button:hover {
 
 .neon-footer li {
     display: inline;
-    margin: 0 0.75rem;
+    margin: 0 1rem;
 }
 
 .neon-footer a {
     color: var(--primary-color);
     text-decoration: none;
-    transition: color 0.3s;
+    transition: color 0.3s, text-shadow 0.3s;
 }
 
 .neon-footer a:hover {
     color: var(--accent-color);
+    text-shadow: 0 0 5px var(--accent-color);
 }
 
 .neon-footer p {
@@ -234,30 +267,42 @@ button:hover {
 /* Responsive Design */
 @media (max-width: 768px) {
     .neon-title {
-        font-size: 2rem;
+        font-size: 2.2rem;
     }
     
     .login-form {
-        padding: 1.5rem;
+        padding: 2rem 3rem;
     }
     
     input, button {
         font-size: 0.9rem;
-        padding: 0.6rem;
+        padding: 0.8rem;
+    }
+    
+    .teaser {
+        font-size: 1rem;
     }
     
     .neon-footer {
         font-size: 0.7rem;
-        padding: 0.3rem 0;
+        padding: 0.5rem 0;
     }
 }
 
 @media (max-width: 480px) {
     .neon-title {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
+    }
+    
+    .login-form {
+        padding: 1.5rem 2rem;
     }
     
     .container {
-        padding: 0.5rem;
+        padding: 1rem;
+    }
+    
+    .teaser {
+        font-size: 0.9rem;
     }
 }
