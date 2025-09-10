@@ -92,6 +92,58 @@
             margin-right: auto;
         }
         
+        /* NEW: Lost Frequencies Section */
+        .lost-frequencies {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: clamp(1.5rem, 3vw, 2rem);
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .lost-frequencies h3 {
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+            font-family: var(--font-subtitle);
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+        }
+        
+        .lost-frequencies p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .sound-waves-404 {
+            display: flex;
+            justify-content: center;
+            gap: 0.3rem;
+            margin: 1rem 0;
+        }
+        
+        .wave-bar {
+            width: 3px;
+            background: var(--neon-cyan);
+            border-radius: 2px;
+            animation: lostWave 3s ease-in-out infinite;
+        }
+        
+        .wave-bar:nth-child(1) { height: 15px; animation-delay: 0s; }
+        .wave-bar:nth-child(2) { height: 8px; animation-delay: 0.3s; }
+        .wave-bar:nth-child(3) { height: 20px; animation-delay: 0.6s; }
+        .wave-bar:nth-child(4) { height: 5px; animation-delay: 0.9s; }
+        .wave-bar:nth-child(5) { height: 12px; animation-delay: 1.2s; }
+        .wave-bar:nth-child(6) { height: 18px; animation-delay: 1.5s; }
+        .wave-bar:nth-child(7) { height: 7px; animation-delay: 1.8s; }
+        .wave-bar:nth-child(8) { height: 14px; animation-delay: 2.1s; }
+        
+        @keyframes lostWave {
+            0%, 100% { opacity: 0.2; transform: scaleY(0.5); }
+            50% { opacity: 0.8; transform: scaleY(1.5); }
+        }
+        
         .error-actions {
             display: flex;
             flex-direction: column;
@@ -242,6 +294,14 @@
             .search-input {
                 min-width: auto;
             }
+            
+            .sound-waves-404 {
+                gap: 0.2rem;
+            }
+            
+            .wave-bar {
+                width: 2px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -255,7 +315,8 @@
             }
             
             .mystery-suggestions,
-            .void-search {
+            .void-search,
+            .lost-frequencies {
                 padding: 1rem;
             }
             
@@ -297,6 +358,11 @@
             .suggestion-links {
                 grid-template-columns: repeat(3, 1fr);
                 gap: 0.5rem;
+            }
+            
+            .lost-frequencies {
+                margin: 1rem 0;
+                padding: 1rem;
             }
         }
         
@@ -342,6 +408,23 @@
                     or maybe it's hiding in the shadows of Amsterdam's digital underground. 
                     <strong>Fear not, intrepid explorer—new mysteries await discovery.</strong>
                 </p>
+                
+                <!-- NEW: Lost Frequencies Section -->
+                <div class="lost-frequencies">
+                    <h3>Echoes in the Digital Void</h3>
+                    <p>Even in this void, the frequencies persist... scattered fragments of Amsterdam's underground pulse float through the digital ether, waiting to be discovered by those who listen closely.</p>
+                    <div class="sound-waves-404" aria-hidden="true">
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                    </div>
+                    <p><em>Sometimes being lost leads to the most profound discoveries...</em></p>
+                </div>
                 
                 <div class="error-actions">
                     <a href="/" class="void-button" style="text-decoration: none;">
@@ -413,10 +496,10 @@
                    target="_blank" 
                    rel="noopener nofollow" 
                    aria-label="Follow us on Instagram">📷</a>
-                <a href="https://soundcloud.com/dutchmystery" 
+                <a href="https://on.soundcloud.com/PZdtlNaYaIgP25MTX2" 
                    target="_blank" 
                    rel="noopener nofollow" 
-                   aria-label="Listen to our sounds">🎵</a>
+                   aria-label="Listen to our mysterious sounds">🎵</a>
             </div>
         </footer>
     </div>
