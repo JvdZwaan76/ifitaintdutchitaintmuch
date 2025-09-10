@@ -11,11 +11,11 @@ routes = [
 [env.production.vars]
 ENVIRONMENT = "production"
 
-# Your database configuration
+# Your database configuration - UPDATED with correct database ID
 [[env.production.d1_databases]]
 binding = "DB"
 database_name = "dutch-mystery-portal-db"
-database_id = "867cfe63-b036-43fa-86e9-234a6f07e2ce"
+database_id = "4cf224ed-711f-44b9-8808-f5a86d1c2516"
 
 # Development environment
 [env.development]
@@ -24,4 +24,4 @@ vars = { ENVIRONMENT = "development" }
 [[env.development.d1_databases]]
 binding = "DB"
 database_name = "dutch-mystery-portal-db"
-database_id = "867cfe63-b036-43fa-86e9-234a6f07e2ce"
+database_id = "4cf224ed-711f-44b9-8808-f5a86d1c2516"
