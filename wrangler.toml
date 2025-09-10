@@ -1,0 +1,27 @@
+name = "dutch-mystery-portal-api"
+main = "worker.js"
+compatibility_date = "2024-05-15"
+compatibility_flags = ["nodejs_compat"]
+
+# Replace with your actual domain
+routes = [
+  { pattern = "ifitaintdutchitaintmuch.com/api/*", zone_name = "ifitaintdutchitaintmuch.com" }
+]
+
+[env.production.vars]
+ENVIRONMENT = "production"
+
+# Your database configuration
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "dutch-mystery-portal-db"
+database_id = "867cfe63-b036-43fa-86e9-234a6f07e2ce"
+
+# Development environment
+[env.development]
+vars = { ENVIRONMENT = "development" }
+
+[[env.development.d1_databases]]
+binding = "DB"
+database_name = "dutch-mystery-portal-db"
+database_id = "867cfe63-b036-43fa-86e9-234a6f07e2ce"
