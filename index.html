@@ -251,7 +251,6 @@
         background: #000; 
         color: #FFF; 
         font-family: 'Inter', sans-serif; 
-        /* FIXED: Removed overflow: hidden */
         overflow-x: hidden;
         overflow-y: auto;
         position: relative;
@@ -271,10 +270,113 @@
         transition: opacity 1s ease-out;
       }
       
-      /* Ensure content is scrollable during loading */
       .loading-screen.fade-out {
         opacity: 0;
         pointer-events: none;
+      }
+
+      /* Audio Widget Styles */
+      .audio-control-widget {
+        position: relative;
+        background: linear-gradient(145deg, rgba(0, 255, 255, 0.1), rgba(0, 255, 255, 0.05));
+        backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(0, 255, 255, 0.3);
+        border-radius: 20px;
+        padding: 2rem;
+        margin: 2rem 0;
+        text-align: center;
+        transition: all 0.3s ease;
+        overflow: hidden;
+      }
+
+      .audio-control-widget::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #00FFFF, #FF9500, #00BFFF);
+        border-radius: 20px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .audio-control-widget:hover::before {
+        opacity: 0.3;
+        animation: borderGlow 2s ease-in-out infinite;
+      }
+
+      .audio-widget-title {
+        color: #00FFFF;
+        font-family: 'Orbitron', sans-serif;
+        font-size: clamp(1.2rem, 3vw, 1.5rem);
+        margin-bottom: 1rem;
+        text-shadow: 0 0 15px #00FFFF;
+      }
+
+      .audio-play-button {
+        background: linear-gradient(135deg, #00FFFF, #FF9500);
+        border: none;
+        color: #000;
+        font-family: 'Rajdhani', sans-serif;
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
+        font-weight: 700;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        position: relative;
+        overflow: hidden;
+        min-width: 200px;
+      }
+
+      .audio-play-button:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4);
+      }
+
+      .audio-play-button::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.6s ease, height 0.6s ease;
+      }
+
+      .audio-play-button:active::before {
+        width: 300px;
+        height: 300px;
+      }
+
+      .audio-player-container {
+        margin-top: 1.5rem;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease;
+        max-height: 0;
+        overflow: hidden;
+      }
+
+      .audio-player-container.active {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 200px;
+      }
+
+      .audio-description {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: clamp(0.9rem, 2vw, 1rem);
+        margin-bottom: 1rem;
+        font-style: italic;
       }
     </style>
     
@@ -343,21 +445,38 @@
                 </p>
             </header>
             
-            <!-- NEW: Mysterious Sound Teaser Section -->
-            <section class="sound-mystery" aria-labelledby="sound-heading">
-                <h2 id="sound-heading" class="sr-only">Audio Mysteries</h2>
-                <div class="sound-portal">
-                    <div class="sound-waves" aria-hidden="true">🎵</div>
-                    <p class="sound-text">
-                        <em>In the depths of Amsterdam's digital underground, frequencies whisper secrets...</em><br>
-                        <strong>The Sound Portal</strong> awaits those who seek the <span class="audio-highlight">auditory mysteries</span> 
-                        that echo through our realm. Where beats meet heritage, where electronic pulses 
-                        carry the essence of Dutch enigma.
+            <!-- Enhanced Audio Control Widget -->
+            <section class="audio-mystery" aria-labelledby="audio-heading">
+                <h2 id="audio-heading" class="sr-only">Audio Portal</h2>
+                <div class="audio-control-widget">
+                    <h3 class="audio-widget-title">🎵 Enter the Sound Portal</h3>
+                    <p class="audio-description">
+                        Immerse yourself in the frequencies of Dutch mystery.<br>
+                        <em>Where electronic pulses meet heritage, the journey begins...</em>
                     </p>
-                    <div class="sound-hint">
-                        <span class="pulse-icon" aria-hidden="true">🔊</span>
-                        <small>Listen closely... the frequencies reveal themselves to the initiated</small>
+                    
+                    <button 
+                        id="audioPlayButton" 
+                        class="audio-play-button"
+                        aria-describedby="audio-button-help"
+                        onclick="toggleAudioPlayer()">
+                        <span id="buttonText">🎧 Activate Audio Portal</span>
+                    </button>
+                    
+                    <div id="audioPlayerContainer" class="audio-player-container">
+                        <iframe 
+                            id="soundcloudPlayer"
+                            width="100%" 
+                            height="166" 
+                            scrolling="no" 
+                            frameborder="no" 
+                            allow="autoplay"
+                            style="border-radius: 10px; margin-top: 1rem;"
+                            title="Dutch Mystery Audio Portal">
+                        </iframe>
                     </div>
+                    
+                    <div id="audio-button-help" class="sr-only">Click to reveal the SoundCloud audio player for atmospheric Dutch mystery music</div>
                 </div>
             </section>
             
@@ -493,6 +612,115 @@
     
     <!-- Enhanced JavaScript -->
     <script src="/js/enhanced-script.js" defer></script>
+    
+    <!-- Audio Control JavaScript -->
+    <script>
+        let audioPlayerVisible = false;
+        let soundcloudWidget = null;
+
+        function toggleAudioPlayer() {
+            const button = document.getElementById('audioPlayButton');
+            const buttonText = document.getElementById('buttonText');
+            const container = document.getElementById('audioPlayerContainer');
+            const iframe = document.getElementById('soundcloudPlayer');
+            
+            if (!audioPlayerVisible) {
+                // Show the audio player
+                buttonText.textContent = '🎧 Audio Portal Active';
+                
+                // Load SoundCloud widget
+                const soundcloudUrl = 'https://on.soundcloud.com/I0TNXZBvD0QtfYDBzW';
+                iframe.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(soundcloudUrl)}&color=%23ff9500&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true`;
+                
+                container.classList.add('active');
+                audioPlayerVisible = true;
+                
+                // Add atmospheric effect
+                button.style.background = 'linear-gradient(135deg, #00FF00, #00FFFF)';
+                
+                // Track audio activation
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'audio_portal_activated', {
+                        'event_category': 'engagement',
+                        'event_label': 'soundcloud_widget'
+                    });
+                }
+                
+                // Announce to screen readers
+                announceToScreenReader('Audio portal activated. SoundCloud player is now available.');
+                
+            } else {
+                // Hide the audio player
+                buttonText.textContent = '🎧 Activate Audio Portal';
+                container.classList.remove('active');
+                
+                // Clear iframe to stop audio
+                setTimeout(() => {
+                    iframe.src = '';
+                }, 500);
+                
+                audioPlayerVisible = false;
+                button.style.background = 'linear-gradient(135deg, #00FFFF, #FF9500)';
+                
+                announceToScreenReader('Audio portal deactivated.');
+            }
+        }
+
+        function announceToScreenReader(message) {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.setAttribute('aria-atomic', 'true');
+            announcement.className = 'sr-only';
+            announcement.textContent = message;
+            
+            document.body.appendChild(announcement);
+            setTimeout(() => {
+                if (announcement.parentNode) {
+                    document.body.removeChild(announcement);
+                }
+            }, 1000);
+        }
+
+        // Keyboard accessibility for audio widget
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && audioPlayerVisible) {
+                toggleAudioPlayer();
+            }
+        });
+
+        // Enhanced visual feedback
+        document.addEventListener('DOMContentLoaded', function() {
+            const audioWidget = document.querySelector('.audio-control-widget');
+            const playButton = document.getElementById('audioPlayButton');
+            
+            // Add subtle pulse animation to the widget
+            if (audioWidget) {
+                setInterval(() => {
+                    if (!audioPlayerVisible) {
+                        audioWidget.style.transform = 'scale(1.02)';
+                        setTimeout(() => {
+                            audioWidget.style.transform = 'scale(1)';
+                        }, 200);
+                    }
+                }, 5000);
+            }
+            
+            // Enhanced button hover effects
+            if (playButton) {
+                playButton.addEventListener('mouseenter', () => {
+                    if (!audioPlayerVisible) {
+                        playButton.style.boxShadow = '0 15px 40px rgba(0, 255, 255, 0.6)';
+                    }
+                });
+                
+                playButton.addEventListener('mouseleave', () => {
+                    if (!audioPlayerVisible) {
+                        playButton.style.boxShadow = '';
+                    }
+                });
+            }
+        });
+    </script>
     
     <!-- Service Worker Registration with Better Error Handling -->
     <script>
