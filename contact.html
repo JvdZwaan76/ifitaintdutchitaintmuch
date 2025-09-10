@@ -90,7 +90,8 @@
         },
         "sameAs": [
           "https://instagram.com/ifitaintdutchitaintmuch",
-          "https://twitter.com/DutchMystery"
+          "https://twitter.com/DutchMystery",
+          "https://on.soundcloud.com/PZdtlNaYaIgP25MTX2"
         ]
       }
     }
@@ -106,6 +107,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/enhanced-style.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
     
     <!-- Additional Contact Page Styles - FIXED FOR SCROLLING -->
     <style>
@@ -163,6 +167,57 @@
             margin-bottom: 3rem;
             font-style: italic;
             line-height: 1.6;
+        }
+        
+        /* NEW: Audio Mysteries Section for Contact Page */
+        .audio-mysteries {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        .audio-mysteries h3 {
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+            font-family: var(--font-subtitle);
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+        }
+        
+        .audio-mysteries p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .audio-frequencies {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .frequency-bar {
+            width: 4px;
+            background: var(--neon-cyan);
+            border-radius: 2px;
+            animation: frequencyPulse 2s ease-in-out infinite;
+        }
+        
+        .frequency-bar:nth-child(1) { height: 20px; animation-delay: 0s; }
+        .frequency-bar:nth-child(2) { height: 35px; animation-delay: 0.2s; }
+        .frequency-bar:nth-child(3) { height: 15px; animation-delay: 0.4s; }
+        .frequency-bar:nth-child(4) { height: 40px; animation-delay: 0.6s; }
+        .frequency-bar:nth-child(5) { height: 25px; animation-delay: 0.8s; }
+        .frequency-bar:nth-child(6) { height: 30px; animation-delay: 1s; }
+        .frequency-bar:nth-child(7) { height: 18px; animation-delay: 1.2s; }
+        
+        @keyframes frequencyPulse {
+            0%, 100% { opacity: 0.3; transform: scaleY(1); }
+            50% { opacity: 1; transform: scaleY(1.2); }
         }
         
         .contact-methods {
@@ -347,6 +402,14 @@
                 justify-content: center;
                 gap: 1rem;
             }
+            
+            .audio-frequencies {
+                gap: 0.3rem;
+            }
+            
+            .frequency-bar {
+                width: 3px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -409,6 +472,11 @@
             .mystery-hours {
                 margin-top: 1rem;
             }
+            
+            .audio-mysteries {
+                margin-bottom: 2rem;
+                padding: 1rem;
+            }
         }
     </style>
 </head>
@@ -435,6 +503,22 @@
                     Seek answers from the guardians of Dutch mysteries.<br>
                     <em>Your message shall be received by those who dwell in the void.</em>
                 </p>
+                
+                <!-- NEW: Audio Mysteries Section -->
+                <div class="audio-mysteries">
+                    <h3>The Frequencies Await</h3>
+                    <p>Beyond our portal lies a realm where sound becomes mystery, where electronic pulses carry the essence of Dutch underground culture. The initiated know that true communication transcends mere words...</p>
+                    <div class="audio-frequencies" aria-hidden="true">
+                        <div class="frequency-bar"></div>
+                        <div class="frequency-bar"></div>
+                        <div class="frequency-bar"></div>
+                        <div class="frequency-bar"></div>
+                        <div class="frequency-bar"></div>
+                        <div class="frequency-bar"></div>
+                        <div class="frequency-bar"></div>
+                    </div>
+                    <p><em>For those who seek the deeper mysteries, the audio dimension beckons...</em></p>
+                </div>
                 
                 <div class="contact-methods">
                     <div class="contact-method">
@@ -505,6 +589,7 @@
                                 <option value="vip-access">VIP Experience Request</option>
                                 <option value="collaboration">Mysterious Collaboration</option>
                                 <option value="press">Media & Press Inquiry</option>
+                                <option value="audio-mysteries">Audio Portal Inquiries</option>
                                 <option value="other">Other Mysteries</option>
                             </select>
                             <div id="subject-help" class="sr-only">Select the topic that best describes your inquiry</div>
@@ -542,7 +627,7 @@
                 </div>
                 
                 <div class="mystery-hours">
-                    <h3>🕐 Portal Operating Hours</h3>
+                    <h3>🕰️ Portal Operating Hours</h3>
                     <div class="hours-grid">
                         <div class="hours-item">
                             <span>Monday - Friday</span>
@@ -592,10 +677,10 @@
                    target="_blank" 
                    rel="noopener nofollow" 
                    aria-label="Follow us on Instagram">📷</a>
-                <a href="https://soundcloud.com/dutchmystery" 
+                <a href="https://on.soundcloud.com/PZdtlNaYaIgP25MTX2" 
                    target="_blank" 
                    rel="noopener nofollow" 
-                   aria-label="Listen to our sounds">🎵</a>
+                   aria-label="Listen to our mysterious sounds">🎵</a>
             </div>
         </footer>
     </div>
