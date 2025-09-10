@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
     <!-- Meta Tags -->
     <title>Offline - Lost in the Digital Void | If It Ain't Dutch, It Ain't Much</title>
@@ -12,7 +12,7 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     
-    <!-- Critical CSS (inlined for offline use) -->
+    <!-- Critical CSS (inlined for offline use) - FIXED FOR SCROLLING -->
     <style>
         :root {
             --primary-orange: #FF9500;
@@ -38,15 +38,22 @@
             padding: 0;
         }
 
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
             padding: 0;
             background: var(--pure-black);
             color: var(--pure-white);
             font-family: var(--font-body);
-            overflow: hidden;
+            /* FIXED: Remove overflow: hidden to allow scrolling */
+            overflow-x: hidden; /* Only prevent horizontal scroll */
+            overflow-y: auto; /* Allow vertical scrolling */
             position: relative;
-            height: 100vh;
+            min-height: 100vh; /* Changed from height: 100vh */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -54,12 +61,15 @@
             line-height: 1.6;
         }
 
+        /* FIXED: Allow content to scroll naturally */
         .offline-container {
             text-align: center;
             z-index: 2;
             max-width: 800px;
             padding: 2rem;
             position: relative;
+            width: 100%;
+            margin: 2rem auto; /* Add margin for spacing */
         }
 
         .offline-portal {
@@ -67,20 +77,22 @@
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 149, 0, 0.3);
             border-radius: 25px;
-            padding: 3rem;
+            padding: clamp(2rem, 4vw, 3rem);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             animation: portalPulse 3s ease-in-out infinite;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .offline-icon {
-            font-size: 4rem;
+            font-size: clamp(3rem, 8vw, 4rem);
             margin-bottom: 2rem;
             animation: iconFloat 4s ease-in-out infinite;
         }
 
         .offline-title {
             font-family: var(--font-title);
-            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-size: clamp(1.8rem, 8vw, 3.5rem);
             font-weight: 900;
             color: var(--primary-orange);
             text-shadow: 0 0 20px var(--primary-orange);
@@ -91,7 +103,7 @@
         }
 
         .offline-subtitle {
-            font-size: clamp(1rem, 3vw, 1.5rem);
+            font-size: clamp(1rem, 4vw, 1.5rem);
             color: var(--electric-blue);
             margin-bottom: 2rem;
             text-shadow: 0 0 10px var(--electric-blue);
@@ -99,7 +111,7 @@
         }
 
         .offline-message {
-            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            font-size: clamp(0.9rem, 3vw, 1.2rem);
             color: rgba(255, 255, 255, 0.85);
             margin-bottom: 3rem;
             line-height: 1.8;
@@ -118,12 +130,12 @@
 
         .retry-button {
             position: relative;
-            padding: 1.2rem 3rem;
+            padding: clamp(1rem, 3vw, 1.2rem) clamp(2rem, 6vw, 3rem);
             background: var(--primary-gradient);
             border: none;
             color: var(--pure-black);
             font-family: var(--font-body);
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
             font-weight: 700;
             border-radius: 12px;
             cursor: pointer;
@@ -133,6 +145,9 @@
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
+            width: 100%;
+            max-width: 300px;
+            box-sizing: border-box;
         }
 
         .retry-button:hover {
@@ -166,6 +181,7 @@
             background: rgba(255, 0, 0, 0.1);
             border: 1px solid rgba(255, 0, 0, 0.3);
             border-radius: 10px;
+            font-size: clamp(0.9rem, 2.2vw, 1rem);
         }
 
         .connection-status.online {
@@ -179,6 +195,7 @@
             border-radius: 50%;
             background: #FF0000;
             animation: statusPulse 2s ease-in-out infinite;
+            flex-shrink: 0;
         }
 
         .connection-status.online .status-indicator {
@@ -189,7 +206,7 @@
             background: rgba(0, 191, 255, 0.1);
             border: 1px solid rgba(0, 191, 255, 0.3);
             border-radius: 15px;
-            padding: 2rem;
+            padding: clamp(1.5rem, 3vw, 2rem);
             margin-top: 2rem;
         }
 
@@ -197,6 +214,7 @@
             color: var(--neon-cyan);
             margin-bottom: 1rem;
             font-family: var(--font-subtitle);
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
         }
 
         .cached-links {
@@ -215,7 +233,8 @@
             color: var(--neon-cyan);
             text-decoration: none;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
+            font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+            text-align: center;
         }
 
         .cached-link:hover {
@@ -225,14 +244,16 @@
             text-shadow: 0 0 5px var(--electric-blue);
         }
 
+        /* FIXED: Background stars positioned correctly */
         .background-stars {
-            position: absolute;
+            position: fixed; /* Changed to fixed */
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0;
+            z-index: -1; /* Behind content */
             overflow: hidden;
+            pointer-events: none;
         }
 
         .star {
@@ -248,7 +269,7 @@
             background: rgba(255, 215, 0, 0.1);
             border: 1px solid rgba(255, 215, 0, 0.3);
             border-radius: 10px;
-            padding: 1.5rem;
+            padding: clamp(1rem, 2.5vw, 1.5rem);
             margin-top: 2rem;
             text-align: left;
         }
@@ -256,12 +277,12 @@
         .offline-tip h4 {
             color: var(--golden-yellow);
             margin-bottom: 0.5rem;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
 
         .offline-tip p {
             color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
+            font-size: clamp(0.8rem, 1.8vw, 0.9rem);
             line-height: 1.6;
         }
 
@@ -302,11 +323,20 @@
             50% { opacity: 1; }
         }
 
-        /* Responsive Design */
+        /* FIXED: Enhanced responsive design */
         @media (max-width: 768px) {
+            body {
+                align-items: flex-start; /* Allow natural positioning */
+                padding: 1rem 0;
+            }
+            
+            .offline-container {
+                padding: 1rem;
+                margin: 1rem auto;
+            }
+            
             .offline-portal {
                 padding: 2rem;
-                margin: 1rem;
             }
             
             .cached-links {
@@ -316,16 +346,75 @@
             .retry-button {
                 padding: 1rem 2rem;
                 font-size: 1rem;
+                max-width: 250px;
+            }
+            
+            .offline-actions {
+                gap: 1rem;
             }
         }
 
         @media (max-width: 480px) {
             .offline-container {
-                padding: 1rem;
+                padding: 0.5rem;
+                margin: 0.5rem auto;
             }
             
             .offline-portal {
                 padding: 1.5rem;
+                border-radius: 15px;
+            }
+            
+            .cached-content,
+            .offline-tip {
+                padding: 1rem;
+            }
+            
+            .connection-status {
+                padding: 0.8rem 1rem;
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .offline-portal {
+                padding: 1rem;
+            }
+            
+            .retry-button {
+                max-width: 200px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Landscape orientation on mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            body {
+                align-items: flex-start;
+                padding: 0.5rem 0;
+            }
+            
+            .offline-container {
+                margin: 0.5rem auto;
+            }
+            
+            .offline-title {
+                margin-bottom: 0.5rem;
+            }
+            
+            .offline-subtitle {
+                margin-bottom: 1rem;
+            }
+            
+            .offline-message {
+                margin-bottom: 1.5rem;
+            }
+            
+            .cached-links {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5rem;
             }
         }
 
@@ -350,65 +439,93 @@
                 transition-duration: 0.01ms !important;
             }
         }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            
+            .offline-portal {
+                background: white;
+                border: 1px solid black;
+                box-shadow: none;
+            }
+            
+            .offline-title,
+            .offline-subtitle {
+                color: black;
+                text-shadow: none;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" style="position: absolute; top: -40px; left: 6px; background: #000; color: #fff; padding: 8px; text-decoration: none; z-index: 10000; transition: top 0.3s; border: 2px solid #fff;" 
+       onfocu="this.style.top='6px'" onblur="this.style.top='-40px'">Skip to main content</a>
+    
     <!-- Animated background -->
     <div class="background-stars" id="stars" aria-hidden="true"></div>
     
-    <div class="offline-container">
-        <div class="offline-portal">
-            <div class="offline-icon" role="img" aria-label="Offline indicator">🌐</div>
-            
-            <h1 class="offline-title">Connection Lost</h1>
-            <h2 class="offline-subtitle">Dutch Mysteries Temporarily Unreachable</h2>
-            
-            <p class="offline-message">
-                Your journey into the Dutch void has been interrupted by connectivity issues. 
-                But fear not – some mysteries remain cached within your device, waiting to be rediscovered. 
-                <strong>The portal will automatically reconnect when your connection is restored.</strong>
-            </p>
-            
-            <div class="connection-status" id="connectionStatus">
-                <div class="status-indicator"></div>
-                <span id="statusText">No internet connection detected</span>
-            </div>
-            
-            <div class="offline-actions">
-                <button class="retry-button" onclick="retryConnection()">
-                    <span>Reconnect to Portal</span>
-                </button>
+    <!-- FIXED: Proper page structure -->
+    <div class="page-wrapper">
+        <main class="offline-container" id="main-content">
+            <div class="offline-portal">
+                <div class="offline-icon" role="img" aria-label="Offline indicator">🌐</div>
                 
-                <a href="/" class="retry-button" style="background: linear-gradient(135deg, var(--electric-blue), var(--deep-purple));">
-                    <span>Return to Cached Home</span>
-                </a>
-            </div>
-            
-            <div class="cached-content">
-                <h3>📚 Available Offline Content</h3>
-                <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 1rem;">
-                    These pages may be available from your device's cache:
+                <h1 class="offline-title">Connection Lost</h1>
+                <h2 class="offline-subtitle">Dutch Mysteries Temporarily Unreachable</h2>
+                
+                <p class="offline-message">
+                    Your journey into the Dutch void has been interrupted by connectivity issues. 
+                    But fear not — some mysteries remain cached within your device, waiting to be rediscovered. 
+                    <strong>The portal will automatically reconnect when your connection is restored.</strong>
                 </p>
                 
-                <div class="cached-links">
-                    <a href="/" class="cached-link">🏠 Portal Home</a>
-                    <a href="/contact.html" class="cached-link">📧 Contact Portal</a>
-                    <a href="/privacy-policy.html" class="cached-link">🔒 Privacy Policy</a>
-                    <a href="/terms-of-service.html" class="cached-link">📋 Terms of Service</a>
-                    <a href="/accessibility.html" class="cached-link">♿ Accessibility</a>
-                    <a href="/404.html" class="cached-link">🌀 404 Portal</a>
+                <div class="connection-status" id="connectionStatus">
+                    <div class="status-indicator" aria-hidden="true"></div>
+                    <span id="statusText">No internet connection detected</span>
+                </div>
+                
+                <div class="offline-actions">
+                    <button class="retry-button" onclick="retryConnection()" aria-describedby="retry-help">
+                        <span>Reconnect to Portal</span>
+                    </button>
+                    <div id="retry-help" class="sr-only">Attempt to reconnect to the internet and reload the page</div>
+                    
+                    <a href="/" class="retry-button" style="background: linear-gradient(135deg, var(--electric-blue), var(--deep-purple));">
+                        <span>Return to Cached Home</span>
+                    </a>
+                </div>
+                
+                <div class="cached-content">
+                    <h3>📚 Available Offline Content</h3>
+                    <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 1rem; font-size: clamp(0.8rem, 1.8vw, 0.9rem);">
+                        These pages may be available from your device's cache:
+                    </p>
+                    
+                    <div class="cached-links">
+                        <a href="/" class="cached-link">🏠 Portal Home</a>
+                        <a href="/contact.html" class="cached-link">📧 Contact Portal</a>
+                        <a href="/privacy-policy.html" class="cached-link">🔒 Privacy Policy</a>
+                        <a href="/terms-of-service.html" class="cached-link">📋 Terms of Service</a>
+                        <a href="/accessibility.html" class="cached-link">♿ Accessibility</a>
+                        <a href="/404.html" class="cached-link">🌀 404 Portal</a>
+                    </div>
+                </div>
+                
+                <div class="offline-tip">
+                    <h4>💡 Offline Tip</h4>
+                    <p>
+                        This site is designed as a Progressive Web App. When you're back online, 
+                        new content will be cached automatically for future offline access. 
+                        Add this site to your home screen for the best offline experience!
+                    </p>
                 </div>
             </div>
-            
-            <div class="offline-tip">
-                <h4>💡 Offline Tip</h4>
-                <p>
-                    This site is designed as a Progressive Web App. When you're back online, 
-                    new content will be cached automatically for future offline access. 
-                    Add this site to your home screen for the best offline experience!
-                </p>
-            </div>
-        </div>
+        </main>
     </div>
 
     <script>
@@ -419,7 +536,9 @@
         // Create animated stars background
         function createStars() {
             const starsContainer = document.getElementById('stars');
-            const starCount = 50;
+            if (!starsContainer) return;
+            
+            const starCount = window.innerWidth <= 768 ? 30 : 50; // Fewer on mobile
             
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
@@ -473,7 +592,7 @@
                     }, 1000);
                 } else {
                     if (retryAttempts >= maxRetryAttempts) {
-                        button.querySelector('span').textContent = '❌ Still offline - Check your connection';
+                        button.querySelector('span').textContent = '⌛ Still offline - Check your connection';
                         setTimeout(() => {
                             button.querySelector('span').textContent = originalText;
                             button.disabled = false;
@@ -499,29 +618,34 @@
                     console.log('🔄 Cache updated - new content available offline');
                     
                     // Show update notification
-                    const notification = document.createElement('div');
-                    notification.style.cssText = `
-                        position: fixed;
-                        top: 20px;
-                        right: 20px;
-                        background: linear-gradient(135deg, #00FF00, #00FFFF);
-                        color: black;
-                        padding: 1rem;
-                        border-radius: 10px;
-                        font-size: 0.9rem;
-                        z-index: 1000;
-                        animation: slideInRight 0.3s ease-out;
-                        max-width: 300px;
-                    `;
-                    notification.textContent = '🌷 New content cached for offline use!';
-                    
-                    document.body.appendChild(notification);
-                    
-                    setTimeout(() => {
-                        notification.remove();
-                    }, 5000);
+                    showNotification('🌷 New content cached for offline use!', 'success');
                 }
             });
+        }
+        
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? 'linear-gradient(135deg, #00FF00, #00FFFF)' : 'linear-gradient(135deg, #FF9500, #FFD700)'};
+                color: black;
+                padding: 1rem;
+                border-radius: 10px;
+                font-size: 0.9rem;
+                z-index: 1000;
+                animation: slideInRight 0.3s ease-out;
+                max-width: 300px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
         }
         
         // Initialize page
@@ -561,6 +685,15 @@
             if (event.key === 'h' || event.key === 'H') {
                 window.location.href = '/';
             }
+            if (event.key === 'Escape') {
+                // Clear any active states
+                const button = document.querySelector('.retry-button');
+                if (button.disabled) {
+                    button.disabled = false;
+                    button.style.opacity = '1';
+                    button.querySelector('span').textContent = 'Reconnect to Portal';
+                }
+            }
         });
         
         // Add CSS animation for slideInRight
@@ -574,6 +707,27 @@
                 to {
                     transform: translateX(0);
                     opacity: 1;
+                }
+            }
+            
+            .sr-only {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                padding: 0;
+                margin: -1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                white-space: nowrap;
+                border: 0;
+            }
+            
+            @media (max-width: 480px) {
+                .notification {
+                    top: 10px !important;
+                    right: 10px !important;
+                    left: 10px !important;
+                    max-width: none !important;
                 }
             }
         `;
