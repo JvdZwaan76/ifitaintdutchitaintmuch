@@ -1,6 +1,6 @@
 /**
  * Enhanced Dutch Mystery Website - Interactive JavaScript
- * Mysterious entrance portal with advanced effects and interactions
+ * FIXED VERSION - Proper scrolling support and mobile optimization
  */
 
 class DutchMysteryPortal {
@@ -12,28 +12,40 @@ class DutchMysteryPortal {
         this.floatingElements = [];
         this.mousePosition = { x: 0, y: 0 };
         this.isLoaded = false;
+        this.animationId = null;
+        this.isVisible = true;
+        this.isMobile = this.detectMobile();
+        this.performanceMode = this.isMobile;
         
-        // Configuration
+        // FIXED: Responsive configuration based on device capabilities
         this.config = {
             particles: {
-                count: 150,
-                maxSpeed: 2,
+                count: this.performanceMode ? 50 : 150, // Reduced for mobile
+                maxSpeed: this.performanceMode ? 1 : 2,
                 colors: ['#FF9500', '#00BFFF', '#00FFFF', '#FFD700'],
-                sizes: { min: 1, max: 4 }
+                sizes: { min: 1, max: this.performanceMode ? 3 : 4 }
             },
             stars: {
-                count: 200,
+                count: this.performanceMode ? 100 : 200, // Reduced for mobile
                 twinkleSpeed: 0.02,
                 colors: ['#FFFFFF', '#FFD700', '#00BFFF', '#FF9500']
             },
             floatingElements: {
-                count: 30,
-                symbols: ['🌷', '🏛️', '⚡', '🔮', '💎', '🌟'],
+                count: this.performanceMode ? 15 : 30, // Reduced for mobile
+                symbols: ['🌷', '🛍️', '⚡', '🔮', '💎', '🌟'],
                 speed: { min: 0.5, max: 2 }
             }
         };
         
         this.init();
+    }
+    
+    detectMobile() {
+        // More comprehensive mobile detection
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+               window.innerWidth <= 768 ||
+               ('ontouchstart' in window) ||
+               (navigator.maxTouchPoints > 0);
     }
     
     init() {
@@ -46,63 +58,137 @@ class DutchMysteryPortal {
         this.handleLoading();
         this.initFormEffects();
         this.initAccessibilityFeatures();
+        this.initMobileOptimizations();
     }
     
     setupEventListeners() {
-        // Mouse tracking for interactive effects
-        document.addEventListener('mousemove', (e) => {
+        // FIXED: Throttled event listeners for better performance
+        let mouseMoveThrottled = this.throttle((e) => {
             this.mousePosition.x = e.clientX;
             this.mousePosition.y = e.clientY;
-            this.updateInteractiveEffects();
-        });
-        
-        // Touch events for mobile
-        document.addEventListener('touchmove', (e) => {
-            if (e.touches[0]) {
-                this.mousePosition.x = e.touches[0].clientX;
-                this.mousePosition.y = e.touches[0].clientY;
+            if (!this.isMobile) {
                 this.updateInteractiveEffects();
             }
-        });
+        }, 16); // ~60fps
         
-        // Window resize handling
-        window.addEventListener('resize', () => {
+        // Mouse tracking for interactive effects (desktop only)
+        if (!this.isMobile) {
+            document.addEventListener('mousemove', mouseMoveThrottled);
+        }
+        
+        // Touch events for mobile (optimized)
+        if (this.isMobile) {
+            let touchMoveThrottled = this.throttle((e) => {
+                if (e.touches[0]) {
+                    this.mousePosition.x = e.touches[0].clientX;
+                    this.mousePosition.y = e.touches[0].clientY;
+                }
+            }, 32); // Lower frequency for mobile
+            
+            document.addEventListener('touchmove', touchMoveThrottled, { passive: true });
+        }
+        
+        // FIXED: Debounced resize handling
+        let resizeDebounced = this.debounce(() => {
             this.handleResize();
+        }, 250);
+        
+        window.addEventListener('resize', resizeDebounced);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                this.handleResize();
+            }, 200); // Delay for orientation change
         });
         
-        // Visibility API for performance
+        // FIXED: Improved visibility API for performance
         document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                this.pauseAnimations();
-            } else {
+            this.isVisible = !document.hidden;
+            if (this.isVisible) {
                 this.resumeAnimations();
+            } else {
+                this.pauseAnimations();
             }
         });
         
         // Keyboard accessibility
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && e.target.classList.contains('feature-card')) {
+                e.preventDefault();
                 e.target.click();
             }
+            
+            // ESC to dismiss any active modals or states
+            if (e.key === 'Escape') {
+                this.resetInteractiveStates();
+            }
         });
+        
+        // FIXED: Handle scroll events for parallax effects
+        let scrollThrottled = this.throttle(() => {
+            this.handleScroll();
+        }, 16);
+        
+        window.addEventListener('scroll', scrollThrottled, { passive: true });
     }
     
+    // FIXED: Proper canvas initialization with mobile considerations
     initCanvas() {
         this.canvas = document.getElementById('background-canvas');
         if (!this.canvas) return;
         
         this.ctx = this.canvas.getContext('2d');
+        
+        // Optimize canvas for mobile
+        if (this.isMobile) {
+            this.ctx.imageSmoothingEnabled = false; // Better performance
+        }
+        
         this.handleResize();
+    }
+    
+    // FIXED: Improved resize handling
+    handleResize() {
+        if (!this.canvas || !this.ctx) return;
         
-        // Enable high DPI displays
+        // Get actual viewport dimensions
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        
+        // Handle high DPI displays
         const devicePixelRatio = window.devicePixelRatio || 1;
-        const rect = this.canvas.getBoundingClientRect();
+        const backingStoreRatio = this.ctx.webkitBackingStorePixelRatio ||
+                                  this.ctx.mozBackingStorePixelRatio ||
+                                  this.ctx.msBackingStorePixelRatio ||
+                                  this.ctx.oBackingStorePixelRatio ||
+                                  this.ctx.backingStorePixelRatio || 1;
         
-        this.canvas.width = rect.width * devicePixelRatio;
-        this.canvas.height = rect.height * devicePixelRatio;
-        this.ctx.scale(devicePixelRatio, devicePixelRatio);
-        this.canvas.style.width = rect.width + 'px';
-        this.canvas.style.height = rect.height + 'px';
+        const ratio = devicePixelRatio / backingStoreRatio;
+        
+        // FIXED: Proper canvas sizing
+        this.canvas.width = width * ratio;
+        this.canvas.height = height * ratio;
+        this.canvas.style.width = width + 'px';
+        this.canvas.style.height = height + 'px';
+        
+        // Scale context for high DPI
+        this.ctx.scale(ratio, ratio);
+        
+        // Update particle and star positions for new dimensions
+        this.redistributeElements();
+    }
+    
+    redistributeElements() {
+        // Redistribute particles within new canvas bounds
+        this.particles.forEach(particle => {
+            if (particle.x > window.innerWidth) particle.x = window.innerWidth;
+            if (particle.y > window.innerHeight) particle.y = window.innerHeight;
+        });
+        
+        // Redistribute stars
+        this.stars.forEach(star => {
+            if (star.x > window.innerWidth) star.x = window.innerWidth;
+            if (star.y > window.innerHeight) star.y = window.innerHeight;
+        });
     }
     
     createParticles() {
@@ -145,19 +231,23 @@ class DutchMysteryPortal {
         const container = document.querySelector('.floating-elements');
         if (!container) return;
         
+        // Clear existing elements
+        container.innerHTML = '';
+        
         for (let i = 0; i < this.config.floatingElements.count; i++) {
             const element = document.createElement('div');
             element.className = 'floating-element';
             element.textContent = this.config.floatingElements.symbols[Math.floor(Math.random() * this.config.floatingElements.symbols.length)];
             element.style.cssText = `
                 position: absolute;
-                font-size: ${Math.random() * 20 + 15}px;
+                font-size: ${Math.random() * (this.isMobile ? 15 : 20) + (this.isMobile ? 10 : 15)}px;
                 opacity: ${Math.random() * 0.3 + 0.1};
                 pointer-events: none;
                 z-index: 1;
                 left: ${Math.random() * 100}%;
                 top: ${Math.random() * 100}%;
                 animation: floatMystery ${Math.random() * 10 + 15}s infinite linear;
+                will-change: transform;
             `;
             
             container.appendChild(element);
@@ -182,6 +272,62 @@ class DutchMysteryPortal {
         }
     }
     
+    // FIXED: Optimized animation loop with performance monitoring
+    startAnimationLoop() {
+        let lastTime = 0;
+        let frameCount = 0;
+        let fps = 60;
+        
+        const animate = (currentTime) => {
+            if (!this.isVisible) {
+                this.animationId = requestAnimationFrame(animate);
+                return;
+            }
+            
+            const deltaTime = currentTime - lastTime;
+            
+            // FIXED: Adaptive frame rate for mobile
+            const targetFrameTime = this.isMobile ? 33.33 : 16.67; // 30fps mobile, 60fps desktop
+            
+            if (deltaTime >= targetFrameTime) {
+                frameCount++;
+                
+                // Calculate FPS every second
+                if (frameCount % 60 === 0) {
+                    fps = Math.round(1000 / deltaTime);
+                    
+                    // FIXED: Adaptive quality based on performance
+                    if (fps < 25 && !this.performanceMode) {
+                        this.enablePerformanceMode();
+                    } else if (fps > 50 && this.performanceMode && !this.isMobile) {
+                        this.disablePerformanceMode();
+                    }
+                }
+                
+                if (this.ctx) {
+                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                    
+                    this.updateStars();
+                    this.updateParticles();
+                    
+                    this.drawStars();
+                    this.drawParticles();
+                    
+                    // FIXED: Only draw connections on desktop
+                    if (!this.isMobile && !this.performanceMode) {
+                        this.drawConnections();
+                    }
+                }
+                
+                lastTime = currentTime;
+            }
+            
+            this.animationId = requestAnimationFrame(animate);
+        };
+        
+        this.animationId = requestAnimationFrame(animate);
+    }
+    
     updateParticles() {
         if (!this.ctx) return;
         
@@ -190,15 +336,17 @@ class DutchMysteryPortal {
             particle.x += particle.vx;
             particle.y += particle.vy;
             
-            // Mouse interaction
-            const dx = this.mousePosition.x - particle.x;
-            const dy = this.mousePosition.y - particle.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance < 100) {
-                const force = (100 - distance) / 100;
-                particle.vx += dx * force * 0.01;
-                particle.vy += dy * force * 0.01;
+            // FIXED: Only apply mouse interaction on desktop
+            if (!this.isMobile) {
+                const dx = this.mousePosition.x - particle.x;
+                const dy = this.mousePosition.y - particle.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < 100) {
+                    const force = (100 - distance) / 100;
+                    particle.vx += dx * force * 0.01;
+                    particle.vy += dy * force * 0.01;
+                }
             }
             
             // Boundary wrapping
@@ -234,8 +382,12 @@ class DutchMysteryPortal {
             this.ctx.save();
             this.ctx.globalAlpha = particle.opacity;
             this.ctx.fillStyle = particle.color;
-            this.ctx.shadowBlur = 10;
-            this.ctx.shadowColor = particle.color;
+            
+            // FIXED: Conditional glow effects for performance
+            if (!this.performanceMode) {
+                this.ctx.shadowBlur = 10;
+                this.ctx.shadowColor = particle.color;
+            }
             
             this.ctx.beginPath();
             this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
@@ -251,8 +403,12 @@ class DutchMysteryPortal {
             this.ctx.save();
             this.ctx.globalAlpha = star.twinkle * 0.8;
             this.ctx.fillStyle = star.color;
-            this.ctx.shadowBlur = 5;
-            this.ctx.shadowColor = star.color;
+            
+            // FIXED: Conditional glow effects for performance
+            if (!this.performanceMode) {
+                this.ctx.shadowBlur = 5;
+                this.ctx.shadowColor = star.color;
+            }
             
             this.ctx.beginPath();
             this.ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
@@ -262,9 +418,9 @@ class DutchMysteryPortal {
     }
     
     drawConnections() {
-        if (!this.ctx) return;
+        if (!this.ctx || this.performanceMode) return;
         
-        // Draw connections between nearby particles
+        // Draw connections between nearby particles (desktop only)
         for (let i = 0; i < this.particles.length; i++) {
             for (let j = i + 1; j < this.particles.length; j++) {
                 const dx = this.particles[i].x - this.particles[j].x;
@@ -286,29 +442,39 @@ class DutchMysteryPortal {
         }
     }
     
+    // FIXED: Scroll handling for parallax effects
+    handleScroll() {
+        if (this.isMobile) return; // Skip on mobile for performance
+        
+        const scrollY = window.pageYOffset;
+        const scrollPercent = scrollY / (document.body.scrollHeight - window.innerHeight);
+        
+        // Apply subtle parallax to background elements
+        const backgroundGradient = document.querySelector('.background-gradient');
+        if (backgroundGradient) {
+            backgroundGradient.style.transform = `translateY(${scrollY * 0.3}px)`;
+        }
+        
+        // Adjust particle behavior based on scroll
+        this.particles.forEach(particle => {
+            particle.vy += scrollPercent * 0.1;
+        });
+    }
+    
     updateInteractiveEffects() {
+        if (this.isMobile) return; // Skip on mobile
+        
         // Update cursor glow effect
         const cursor = document.querySelector('.cursor-glow') || this.createCursorGlow();
         if (cursor) {
             cursor.style.left = this.mousePosition.x - 50 + 'px';
             cursor.style.top = this.mousePosition.y - 50 + 'px';
         }
-        
-        // Update particle attraction
-        this.particles.forEach(particle => {
-            const dx = this.mousePosition.x - particle.x;
-            const dy = this.mousePosition.y - particle.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance < 150) {
-                const attraction = (150 - distance) / 150 * 0.05;
-                particle.vx += dx * attraction * 0.01;
-                particle.vy += dy * attraction * 0.01;
-            }
-        });
     }
     
     createCursorGlow() {
+        if (this.isMobile) return null; // Don't create on mobile
+        
         const cursor = document.createElement('div');
         cursor.className = 'cursor-glow';
         cursor.style.cssText = `
@@ -321,6 +487,7 @@ class DutchMysteryPortal {
             z-index: 1;
             opacity: 0;
             transition: opacity 0.3s ease;
+            will-change: transform;
         `;
         
         document.body.appendChild(cursor);
@@ -332,36 +499,7 @@ class DutchMysteryPortal {
         return cursor;
     }
     
-    startAnimationLoop() {
-        const animate = () => {
-            if (this.ctx) {
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                
-                this.updateStars();
-                this.updateParticles();
-                
-                this.drawStars();
-                this.drawParticles();
-                this.drawConnections();
-            }
-            
-            requestAnimationFrame(animate);
-        };
-        
-        animate();
-    }
-    
-    handleResize() {
-        if (!this.canvas) return;
-        
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-        
-        // Redistribute particles and stars
-        this.createParticles();
-        this.createStars();
-    }
-    
+    // FIXED: Enhanced loading with mobile considerations
     handleLoading() {
         window.addEventListener('load', () => {
             setTimeout(() => {
@@ -374,12 +512,12 @@ class DutchMysteryPortal {
                         this.triggerEntryAnimations();
                     }, 1000);
                 }
-            }, 2000); // Extended loading for mystery effect
+            }, this.isMobile ? 1000 : 2000); // Faster loading on mobile
         });
     }
     
     triggerEntryAnimations() {
-        // Stagger element animations
+        // FIXED: Stagger element animations with mobile considerations
         const elements = [
             '.neon-title',
             '.teaser',
@@ -393,7 +531,7 @@ class DutchMysteryPortal {
             if (element) {
                 setTimeout(() => {
                     element.style.animation = `fadeInUp 1s ease-out forwards`;
-                }, index * 200);
+                }, index * (this.isMobile ? 100 : 200)); // Faster on mobile
             }
         });
         
@@ -411,6 +549,7 @@ class DutchMysteryPortal {
         }
     }
     
+    // FIXED: Enhanced form effects with mobile optimization
     initFormEffects() {
         const form = document.getElementById('loginForm');
         const message = document.getElementById('message');
@@ -436,7 +575,7 @@ class DutchMysteryPortal {
             button.style.opacity = '0.7';
             
             try {
-                // Simulate API call with enhanced feedback
+                // Enhanced login simulation
                 const response = await this.simulateLogin(username, password);
                 
                 if (response.success) {
@@ -467,11 +606,15 @@ class DutchMysteryPortal {
         const inputs = form.querySelectorAll('input');
         inputs.forEach(input => {
             input.addEventListener('focus', (e) => {
-                this.createInputParticles(e.target);
+                if (!this.isMobile) {
+                    this.createInputParticles(e.target);
+                }
             });
             
             input.addEventListener('blur', (e) => {
-                this.removeInputParticles(e.target);
+                if (!this.isMobile) {
+                    this.removeInputParticles(e.target);
+                }
             });
             
             // Real-time validation feedback
@@ -487,68 +630,81 @@ class DutchMysteryPortal {
                 this.triggerFeaturePreview(card);
             });
             
-            card.addEventListener('mouseenter', () => {
-                this.createCardGlow(card);
+            // FIXED: Only add hover effects on desktop
+            if (!this.isMobile) {
+                card.addEventListener('mouseenter', () => {
+                    this.createCardGlow(card);
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    this.removeCardGlow(card);
+                });
+            }
+        });
+    }
+    
+    // FIXED: Mobile-specific optimizations
+    initMobileOptimizations() {
+        if (!this.isMobile) return;
+        
+        // Prevent zoom on input focus (iOS)
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                const viewport = document.querySelector('meta[name="viewport"]');
+                if (viewport) {
+                    viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0';
+                }
             });
             
-            card.addEventListener('mouseleave', () => {
-                this.removeCardGlow(card);
+            input.addEventListener('blur', () => {
+                const viewport = document.querySelector('meta[name="viewport"]');
+                if (viewport) {
+                    viewport.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover';
+                }
             });
         });
+        
+        // Handle iOS Safari viewport issues
+        if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+            const setViewportHeight = () => {
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            };
+            
+            setViewportHeight();
+            window.addEventListener('resize', setViewportHeight);
+            window.addEventListener('orientationchange', () => {
+                setTimeout(setViewportHeight, 200);
+            });
+        }
+        
+        // Optimize touch events
+        document.addEventListener('touchstart', () => {}, { passive: true });
+        document.addEventListener('touchmove', () => {}, { passive: true });
+        document.addEventListener('touchend', () => {}, { passive: true });
     }
     
     simulateLogin(username, password) {
         return new Promise((resolve) => {
             setTimeout(() => {
-                // Check if there's an existing login API
-                fetch('/functions/api/login.js')
-                    .then(response => {
-                        if (response.ok) {
-                            // Use existing login API
-                            return fetch('/api/login', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ username, password })
-                            }).then(res => res.json());
-                        } else {
-                            throw new Error('No existing API found');
-                        }
-                    })
-                    .catch(() => {
-                        // Fallback to simulation if no API exists
-                        console.log('🔄 Using simulated login (no API endpoint found)');
-                        
-                        // Enhanced login simulation with different responses
-                        const validCombos = [
-                            { username: 'dutch', password: 'mystery' },
-                            { username: 'amsterdam', password: 'techno' },
-                            { username: 'windmill', password: 'tulip' },
-                            { username: 'void', password: 'enter' },
-                            { username: 'portal', password: 'access' },
-                            { username: 'mystery', password: 'dutch' }
-                        ];
-                        
-                        const isValid = validCombos.some(combo => 
-                            combo.username === username.toLowerCase() && 
-                            combo.password === password.toLowerCase()
-                        );
-                        
-                        return { 
-                            success: isValid,
-                            message: isValid ? 'Welcome to the Dutch mystery' : 'Invalid credentials'
-                        };
-                    })
-                    .then(result => {
-                        resolve(result);
-                    })
-                    .catch(error => {
-                        console.error('Login error:', error);
-                        resolve({ 
-                            success: false,
-                            message: 'Connection error - try again'
-                        });
-                    });
-            }, Math.random() * 1000 + 500); // Shorter delay for better UX
+                const validCombos = [
+                    { username: 'dutch', password: 'mystery' },
+                    { username: 'amsterdam', password: 'techno' },
+                    { username: 'windmill', password: 'tulip' },
+                    { username: 'void', password: 'enter' }
+                ];
+                
+                const isValid = validCombos.some(combo => 
+                    combo.username === username.toLowerCase() && 
+                    combo.password === password.toLowerCase()
+                );
+                
+                resolve({ 
+                    success: isValid,
+                    message: isValid ? 'Welcome to the Dutch mystery' : 'Invalid credentials'
+                });
+            }, Math.random() * 1000 + 500); // Faster response for mobile
         });
     }
     
@@ -562,7 +718,7 @@ class DutchMysteryPortal {
         // Auto-hide after delay
         setTimeout(() => {
             message.classList.remove('show');
-        }, 5000);
+        }, this.isMobile ? 3000 : 5000); // Shorter on mobile
         
         // Accessibility announcement
         this.announceToScreenReader(text);
@@ -572,23 +728,26 @@ class DutchMysteryPortal {
         // Create success particle burst
         this.createParticleBurst(window.innerWidth / 2, window.innerHeight / 2, '#00FF00');
         
-        // Flash screen effect
-        const flash = document.createElement('div');
-        flash.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #00FF00, #00FFFF);
-            opacity: 0;
-            pointer-events: none;
-            z-index: 9998;
-            animation: flashSuccess 0.5s ease-out;
-        `;
-        
-        document.body.appendChild(flash);
-        setTimeout(() => flash.remove(), 500);
+        // FIXED: Lighter effects on mobile
+        if (!this.isMobile) {
+            // Flash screen effect (desktop only)
+            const flash = document.createElement('div');
+            flash.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(45deg, #00FF00, #00FFFF);
+                opacity: 0;
+                pointer-events: none;
+                z-index: 9998;
+                animation: flashSuccess 0.5s ease-out;
+            `;
+            
+            document.body.appendChild(flash);
+            setTimeout(() => flash.remove(), 500);
+        }
         
         // Add success animation styles
         if (!document.getElementById('success-styles')) {
@@ -606,11 +765,19 @@ class DutchMysteryPortal {
     }
     
     triggerErrorEffects() {
-        // Screen shake effect
-        document.body.style.animation = 'screenShake 0.5s ease-in-out';
-        setTimeout(() => {
-            document.body.style.animation = '';
-        }, 500);
+        // FIXED: Reduced effects on mobile
+        if (this.isMobile) {
+            // Simple vibration on mobile if supported
+            if (navigator.vibrate) {
+                navigator.vibrate([200, 100, 200]);
+            }
+        } else {
+            // Screen shake effect (desktop only)
+            document.body.style.animation = 'screenShake 0.5s ease-in-out';
+            setTimeout(() => {
+                document.body.style.animation = '';
+            }, 500);
+        }
         
         // Add error animation styles
         if (!document.getElementById('error-styles')) {
@@ -628,8 +795,10 @@ class DutchMysteryPortal {
     }
     
     createParticleBurst(x, y, color) {
+        if (this.performanceMode) return; // Skip on low-performance devices
+        
         const burstParticles = [];
-        const particleCount = 20;
+        const particleCount = this.isMobile ? 10 : 20; // Fewer on mobile
         
         for (let i = 0; i < particleCount; i++) {
             const angle = (Math.PI * 2 / particleCount) * i;
@@ -643,7 +812,7 @@ class DutchMysteryPortal {
                 size: Math.random() * 4 + 2,
                 color: color,
                 opacity: 1,
-                life: 60
+                life: this.isMobile ? 30 : 60 // Shorter on mobile
             });
         }
         
@@ -655,15 +824,18 @@ class DutchMysteryPortal {
                 particle.y += particle.vy;
                 particle.vx *= 0.98;
                 particle.vy *= 0.98;
-                particle.opacity -= 0.02;
+                particle.opacity -= this.isMobile ? 0.04 : 0.02;
                 particle.life--;
                 
                 if (particle.life > 0) {
                     this.ctx.save();
                     this.ctx.globalAlpha = particle.opacity;
                     this.ctx.fillStyle = particle.color;
-                    this.ctx.shadowBlur = 10;
-                    this.ctx.shadowColor = particle.color;
+                    
+                    if (!this.performanceMode) {
+                        this.ctx.shadowBlur = 10;
+                        this.ctx.shadowColor = particle.color;
+                    }
                     
                     this.ctx.beginPath();
                     this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
@@ -682,7 +854,28 @@ class DutchMysteryPortal {
         animateBurst();
     }
     
+    // Performance management methods
+    enablePerformanceMode() {
+        this.performanceMode = true;
+        this.config.particles.count = Math.floor(this.config.particles.count * 0.5);
+        this.config.stars.count = Math.floor(this.config.stars.count * 0.5);
+        this.particles = this.particles.slice(0, this.config.particles.count);
+        this.stars = this.stars.slice(0, this.config.stars.count);
+        console.log('🔋 Performance mode enabled');
+    }
+    
+    disablePerformanceMode() {
+        this.performanceMode = false;
+        this.config.particles.count = this.isMobile ? 50 : 150;
+        this.config.stars.count = this.isMobile ? 100 : 200;
+        this.createParticles();
+        this.createStars();
+        console.log('⚡ Performance mode disabled');
+    }
+    
     createInputParticles(input) {
+        if (this.isMobile || this.performanceMode) return;
+        
         const rect = input.getBoundingClientRect();
         const particles = [];
         
@@ -745,7 +938,7 @@ class DutchMysteryPortal {
     }
     
     createCardGlow(card) {
-        if (card._glowElement) return;
+        if (card._glowElement || this.isMobile) return;
         
         const glow = document.createElement('div');
         glow.style.cssText = `
@@ -759,6 +952,7 @@ class DutchMysteryPortal {
             z-index: -1;
             opacity: 0;
             transition: opacity 0.3s ease;
+            will-change: opacity;
         `;
         
         card.style.position = 'relative';
@@ -792,12 +986,14 @@ class DutchMysteryPortal {
         
         this.showMessage(messages[feature] || 'Mystery feature revealed...', 'info');
         
-        // Add special effect
-        this.createParticleBurst(
-            card.getBoundingClientRect().left + card.offsetWidth / 2,
-            card.getBoundingClientRect().top + card.offsetHeight / 2,
-            '#FFD700'
-        );
+        // Add special effect (desktop only)
+        if (!this.isMobile) {
+            this.createParticleBurst(
+                card.getBoundingClientRect().left + card.offsetWidth / 2,
+                card.getBoundingClientRect().top + card.offsetHeight / 2,
+                '#FFD700'
+            );
+        }
     }
     
     initAccessibilityFeatures() {
@@ -808,39 +1004,29 @@ class DutchMysteryPortal {
             card.setAttribute('role', 'button');
         });
         
-        // Skip link for accessibility
-        const skipLink = document.createElement('a');
-        skipLink.href = '#main-content';
-        skipLink.className = 'skip-link sr-only';
-        skipLink.textContent = 'Skip to main content';
-        skipLink.style.cssText = `
-            position: fixed;
-            top: -40px;
-            left: 6px;
-            background: #000;
-            color: #fff;
-            padding: 8px;
-            text-decoration: none;
-            z-index: 10000;
-            transition: top 0.3s;
-        `;
-        
-        skipLink.addEventListener('focus', () => {
-            skipLink.style.top = '6px';
-            skipLink.classList.remove('sr-only');
-        });
-        
-        skipLink.addEventListener('blur', () => {
-            skipLink.style.top = '-40px';
-            skipLink.classList.add('sr-only');
-        });
-        
-        document.body.insertBefore(skipLink, document.body.firstChild);
-        
-        // Add main content ID
-        const container = document.querySelector('.container');
-        if (container) {
-            container.id = 'main-content';
+        // Enhanced skip link
+        const skipLink = document.querySelector('.skip-link');
+        if (skipLink) {
+            skipLink.style.cssText += `
+                position: fixed;
+                top: -40px;
+                left: 6px;
+                background: #000;
+                color: #fff;
+                padding: 8px;
+                text-decoration: none;
+                z-index: 10000;
+                transition: top 0.3s;
+                border: 2px solid #fff;
+            `;
+            
+            skipLink.addEventListener('focus', () => {
+                skipLink.style.top = '6px';
+            });
+            
+            skipLink.addEventListener('blur', () => {
+                skipLink.style.top = '-40px';
+            });
         }
     }
     
@@ -854,30 +1040,80 @@ class DutchMysteryPortal {
         document.body.appendChild(announcement);
         
         setTimeout(() => {
-            document.body.removeChild(announcement);
+            if (announcement.parentNode) {
+                document.body.removeChild(announcement);
+            }
         }, 1000);
     }
     
     pauseAnimations() {
-        // Reduce animation intensity when tab is not visible
-        this.config.particles.count = Math.floor(this.config.particles.count * 0.5);
-        this.particles = this.particles.slice(0, this.config.particles.count);
+        if (this.animationId) {
+            cancelAnimationFrame(this.animationId);
+            this.animationId = null;
+        }
     }
     
     resumeAnimations() {
-        // Restore full animation intensity
-        this.config.particles.count = 150;
-        this.createParticles();
+        if (!this.animationId) {
+            this.startAnimationLoop();
+        }
+    }
+    
+    resetInteractiveStates() {
+        // Reset any active interactive states
+        const message = document.getElementById('message');
+        if (message) {
+            message.classList.remove('show');
+        }
+        
+        // Clear any temporary effects
+        const tempElements = document.querySelectorAll('.cursor-glow, [id*="success-"], [id*="error-"]');
+        tempElements.forEach(el => el.remove());
+    }
+    
+    // Utility functions
+    throttle(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    }
+    
+    debounce(func, wait, immediate) {
+        let timeout;
+        return function() {
+            const context = this, args = arguments;
+            const later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            const callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
     }
 }
 
-// Enhanced Smoke Particle System
+// Enhanced Smoke Particle System with mobile optimization
 class SmokeSystem {
     constructor() {
         this.container = document.querySelector('.smoke');
         this.particles = [];
-        this.maxParticles = 25;
+        this.maxParticles = this.detectMobile() ? 10 : 25; // Reduced for mobile
+        this.isMobile = this.detectMobile();
         this.init();
+    }
+    
+    detectMobile() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+               window.innerWidth <= 768;
     }
     
     init() {
@@ -886,11 +1122,12 @@ class SmokeSystem {
         this.createParticles();
         setInterval(() => {
             this.createParticle();
-        }, 800);
+        }, this.isMobile ? 1500 : 800); // Slower on mobile
     }
     
     createParticles() {
-        for (let i = 0; i < 5; i++) {
+        const initialCount = this.isMobile ? 2 : 5;
+        for (let i = 0; i < initialCount; i++) {
             setTimeout(() => {
                 this.createParticle();
             }, i * 200);
@@ -903,11 +1140,11 @@ class SmokeSystem {
         const particle = document.createElement('div');
         particle.className = 'smoke-particle';
         
-        const size = Math.random() * 120 + 60;
+        const size = Math.random() * (this.isMobile ? 80 : 120) + (this.isMobile ? 40 : 60);
         const startX = Math.random() * 100;
         const endX = startX + (Math.random() - 0.5) * 40;
         const opacity = Math.random() * 0.4 + 0.1;
-        const duration = Math.random() * 20000 + 15000;
+        const duration = Math.random() * (this.isMobile ? 15000 : 20000) + (this.isMobile ? 10000 : 15000);
         
         particle.style.cssText = `
             position: absolute;
@@ -920,6 +1157,7 @@ class SmokeSystem {
             pointer-events: none;
             filter: blur(${Math.random() * 15 + 10}px);
             z-index: 1;
+            will-change: transform;
         `;
         
         this.container.appendChild(particle);
@@ -954,7 +1192,7 @@ class SmokeSystem {
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize main portal system
-    const portal = new DutchMysteryPortal();
+    window.DutchMysteryPortal = new DutchMysteryPortal();
     
     // Initialize smoke system
     const smokeSystem = new SmokeSystem();
@@ -968,7 +1206,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if ('performance' in window) {
         window.addEventListener('load', () => {
             const loadTime = performance.now();
-            if (loadTime > 3000) {
+            if (loadTime > 5000) {
                 console.warn('Portal loading slowly. Consider reducing effects for better performance.');
             }
         });
@@ -1013,8 +1251,26 @@ document.addEventListener('DOMContentLoaded', () => {
             text-decoration: none !important;
             border: 2px solid #fff !important;
         }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .cursor-glow {
+                display: none !important;
+            }
+        }
+        
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            .floating-element {
+                animation: none !important;
+            }
+            
+            .smoke-particle {
+                animation: none !important;
+            }
+        }
     `;
     document.head.appendChild(dynamicStyles);
     
-    console.log('🌷 Dutch Mystery Portal initialized. Enter if you dare...');
+    console.log('🌷 Dutch Mystery Portal initialized with mobile optimizations. Enter if you dare...');
 });
