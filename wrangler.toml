@@ -3,21 +3,19 @@ main = "worker.js"
 compatibility_date = "2024-05-15"
 compatibility_flags = ["nodejs_compat"]
 
-# Replace with your actual domain
-routes = [
-  { pattern = "ifitaintdutchitaintmuch.com/api/*", zone_name = "ifitaintdutchitaintmuch.com" }
-]
+# Comment out routes temporarily for testing
+# routes = [
+#   { pattern = "ifitaintdutchitaintmuch.com/api/*", zone_name = "ifitaintdutchitaintmuch.com" }
+# ]
 
 [env.production.vars]
 ENVIRONMENT = "production"
 
-# Your database configuration - UPDATED with correct database ID
 [[env.production.d1_databases]]
 binding = "DB"
 database_name = "dutch-mystery-portal-db"
 database_id = "4cf224ed-711f-44b9-8808-f5a86d1c2516"
 
-# Development environment
 [env.development]
 vars = { ENVIRONMENT = "development" }
 
