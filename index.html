@@ -368,7 +368,7 @@
                     <div class="loading-spinner"></div>
                 </div>
                 
-                <h2 id="access-request-heading" class="access-cta-title">🔑 Request Portal Access</h2>
+                <h2 id="access-request-heading" class="access-cta-title">🔒 Request Portal Access</h2>
                 <p class="access-cta-subtitle">
                     Join the initiated. Submit your request to unlock exclusive Dutch mysteries, 
                     premium merchandise, and underground Amsterdam experiences.
@@ -722,7 +722,7 @@
                         referrer: document.referrer || 'direct'
                     };
 
-                    const response = await fetch('/api/access-request', {
+                    const response = await fetch('https://dutch-mystery-portal-api.agiajasper.workers.dev/api/access-request', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
