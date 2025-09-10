@@ -3,9 +3,9 @@
  * Enables Progressive Web App functionality, offline support, and caching
  */
 
-const CACHE_NAME = 'dutch-mystery-v1.2.0';
-const STATIC_CACHE_NAME = 'dutch-static-v1.2.0';
-const DYNAMIC_CACHE_NAME = 'dutch-dynamic-v1.2.0';
+const CACHE_NAME = 'dutch-mystery-v1.2.1'; // Incremented version to force update
+const STATIC_CACHE_NAME = 'dutch-static-v1.2.1';
+const DYNAMIC_CACHE_NAME = 'dutch-dynamic-v1.2.1';
 
 // Files to cache immediately (critical resources)
 const STATIC_FILES = [
@@ -55,13 +55,22 @@ self.addEventListener('install', (event) => {
   console.log('🌷 Dutch Mystery Service Worker: Installing...');
   
   event.waitUntil(
-    Promise.all([
-      // Cache static files
-      caches.open(STATIC_CACHE_NAME).then((cache) => {
-        return cache.addAll(STATIC_FILES);
-      }),
-      // self.skipWaiting() // Commented out to prevent immediate activation and potential reload loops
-    ])
+    caches.open(STATIC_CACHE_NAME).then((cache) => {
+      return Promise.all(
+        STATIC_FILES.map((url) => {
+          return fetch(url).then((response) => {
+            if (!response.ok) {
+              console.warn(`Failed to cache ${url}: Status ${response.status}`);
+              return Promise.resolve(); // Continue without aborting
+            }
+            return cache.put(url, response);
+          }).catch((err) => {
+            console.warn(`Failed to fetch and cache ${url}:`, err);
+            return Promise.resolve(); // Continue without aborting
+          });
+        })
+      );
+    })
   );
 });
 
@@ -86,7 +95,6 @@ self.addEventListener('activate', (event) => {
             })
         );
       }),
-      // self.clients.claim() // Commented out to prevent immediate claim and potential reload loops
     ])
   );
 });
