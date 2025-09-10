@@ -3,7 +3,7 @@ main = "worker.js"
 compatibility_date = "2024-05-15"
 compatibility_flags = ["nodejs_compat"]
 
-# Comment out routes temporarily for testing
+# Comment out routes until we test basic functionality
 # routes = [
 #   { pattern = "ifitaintdutchitaintmuch.com/api/*", zone_name = "ifitaintdutchitaintmuch.com" }
 # ]
