@@ -88,6 +88,61 @@
             font-size: clamp(1.1rem, 2.5vw, 1.3rem);
         }
         
+        /* NEW: Privacy & Sound Section */
+        .privacy-sound {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: clamp(1.5rem, 3vw, 2rem);
+            margin: 2rem 0;
+        }
+        
+        .privacy-sound h3 {
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+            font-family: var(--font-subtitle);
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .privacy-sound p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .encrypted-waves {
+            display: flex;
+            justify-content: center;
+            gap: 0.3rem;
+            margin: 1rem 0;
+        }
+        
+        .encrypted-bar {
+            width: 3px;
+            background: var(--neon-cyan);
+            border-radius: 2px;
+            animation: encryptedPulse 3s ease-in-out infinite;
+        }
+        
+        .encrypted-bar:nth-child(1) { height: 10px; animation-delay: 0s; }
+        .encrypted-bar:nth-child(2) { height: 18px; animation-delay: 0.3s; }
+        .encrypted-bar:nth-child(3) { height: 6px; animation-delay: 0.6s; }
+        .encrypted-bar:nth-child(4) { height: 22px; animation-delay: 0.9s; }
+        .encrypted-bar:nth-child(5) { height: 14px; animation-delay: 1.2s; }
+        .encrypted-bar:nth-child(6) { height: 20px; animation-delay: 1.5s; }
+        .encrypted-bar:nth-child(7) { height: 8px; animation-delay: 1.8s; }
+        .encrypted-bar:nth-child(8) { height: 16px; animation-delay: 2.1s; }
+        .encrypted-bar:nth-child(9) { height: 12px; animation-delay: 2.4s; }
+        
+        @keyframes encryptedPulse {
+            0%, 100% { opacity: 0.3; transform: scaleY(0.7); }
+            50% { opacity: 0.9; transform: scaleY(1.4); }
+        }
+        
         .privacy-toc {
             background: rgba(0, 191, 255, 0.1);
             border-radius: 10px;
@@ -265,6 +320,14 @@
             .privacy-toc ul {
                 padding-left: 0;
             }
+            
+            .encrypted-waves {
+                gap: 0.2rem;
+            }
+            
+            .encrypted-bar {
+                width: 2px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -285,7 +348,8 @@
             .privacy-intro,
             .privacy-toc,
             .contact-privacy,
-            .highlight-box {
+            .highlight-box,
+            .privacy-sound {
                 padding: 1rem;
             }
             
@@ -314,6 +378,11 @@
             .privacy-intro,
             .privacy-toc {
                 margin-bottom: 2rem;
+            }
+            
+            .privacy-sound {
+                margin: 1rem 0;
+                padding: 1rem;
             }
         }
         
@@ -366,6 +435,24 @@
                     </p>
                 </div>
                 
+                <!-- NEW: Privacy & Sound Section -->
+                <div class="privacy-sound">
+                    <h3>🔊 Your Audio Privacy Matters</h3>
+                    <p>In our digital realm where frequencies carry meaning and sound shapes experience, we recognize that your audio preferences and listening patterns are deeply personal. Whether you explore our underground music connections or simply navigate our portal, your audio interactions remain confidential.</p>
+                    <div class="encrypted-waves" aria-hidden="true">
+                        <div class="encrypted-bar"></div>
+                        <div class="encrypted-bar"></div>
+                        <div class="encrypted-bar"></div>
+                        <div class="encrypted-bar"></div>
+                        <div class="encrypted-bar"></div>
+                        <div class="encrypted-bar"></div>
+                        <div class="encrypted-bar"></div>
+                        <div class="encrypted-bar"></div>
+                        <div class="encrypted-bar"></div>
+                    </div>
+                    <p><em>Your digital frequencies are encrypted, your listening patterns protected, your audio journey respected.</em></p>
+                </div>
+                
                 <div class="privacy-toc">
                     <h3>📋 Table of Contents</h3>
                     <ul>
@@ -395,6 +482,7 @@
                         <li><strong>Contact Details:</strong> Email, phone number (for event notifications)</li>
                         <li><strong>Payment Information:</strong> Billing address, payment method details (processed securely)</li>
                         <li><strong>Event Preferences:</strong> Music tastes, accessibility requirements</li>
+                        <li><strong>Audio Interactions:</strong> Sound preferences, volume settings, audio accessibility needs</li>
                     </ul>
                     
                     <h3>Automatically Collected Information</h3>
@@ -403,11 +491,12 @@
                         <li><strong>Usage Analytics:</strong> Page views, session duration, interaction patterns</li>
                         <li><strong>Location Data:</strong> General location for event recommendations (with consent)</li>
                         <li><strong>Cookies & Tracking:</strong> Site preferences, authentication tokens</li>
+                        <li><strong>Audio Settings:</strong> Volume preferences, sound accessibility configurations</li>
                     </ul>
                     
                     <div class="highlight-box info">
                         <h4>🛡️ Security First</h4>
-                        <p>All sensitive information is encrypted using industry-standard protocols. We never store your full payment card details on our servers.</p>
+                        <p>All sensitive information is encrypted using industry-standard protocols. We never store your full payment card details on our servers, and audio interaction data is anonymized.</p>
                     </div>
                 </div>
                 
@@ -421,6 +510,7 @@
                         <li><strong>Event Access:</strong> Verifying eligibility for exclusive underground events</li>
                         <li><strong>Communication:</strong> Sending order updates, event notifications, and mystery reveals</li>
                         <li><strong>Personalization:</strong> Customizing your experience based on preferences</li>
+                        <li><strong>Audio Experience:</strong> Optimizing sound and music recommendations</li>
                     </ul>
                     
                     <h3>Secondary Uses</h3>
@@ -447,6 +537,7 @@
                         <li><strong>Service Providers:</strong> Payment processors, email services, analytics providers</li>
                         <li><strong>Event Partners:</strong> Venue information for ticket verification (minimal data only)</li>
                         <li><strong>Shipping Partners:</strong> Address information for merchandise delivery</li>
+                        <li><strong>Audio Platforms:</strong> Anonymous interaction data for music recommendations (no personal identifiers)</li>
                         <li><strong>Legal Requirements:</strong> When required by law or legal process</li>
                     </ul>
                     
@@ -456,6 +547,7 @@
                         <li>Industry research and analysis</li>
                         <li>Marketing insights (no personal identifiers)</li>
                         <li>Service improvement</li>
+                        <li>Audio experience optimization</li>
                     </ul>
                     
                     <div class="highlight-box warning">
@@ -474,6 +566,7 @@
                         <li><strong>Data Centers:</strong> Secure, monitored facilities with physical security</li>
                         <li><strong>Regular Audits:</strong> Security assessments and vulnerability testing</li>
                         <li><strong>Employee Training:</strong> Privacy and security awareness programs</li>
+                        <li><strong>Audio Data Protection:</strong> Encrypted storage for all audio-related preferences</li>
                     </ul>
                     
                     <h3>Organizational Measures</h3>
@@ -485,7 +578,7 @@
                     </ul>
                     
                     <div class="highlight-box info">
-                        <h4>🔐 Breach Notification</h4>
+                        <h4>🔍 Breach Notification</h4>
                         <p>In the unlikely event of a data breach, we will notify affected users within 72 hours as required by GDPR and other applicable laws.</p>
                     </div>
                 </div>
@@ -499,6 +592,7 @@
                         <li><strong>Analytics Cookies:</strong> Google Analytics for site improvement (anonymized)</li>
                         <li><strong>Preference Cookies:</strong> Remembering your settings and choices</li>
                         <li><strong>Marketing Cookies:</strong> Personalizing advertisements (with consent)</li>
+                        <li><strong>Audio Cookies:</strong> Storing volume and sound preferences</li>
                     </ul>
                     
                     <h3>Managing Cookies</h3>
@@ -526,6 +620,7 @@
                         <li><strong>Deletion:</strong> Request removal of your personal data</li>
                         <li><strong>Opt-out:</strong> Unsubscribe from marketing communications</li>
                         <li><strong>Data Portability:</strong> Receive your data in a portable format</li>
+                        <li><strong>Audio Privacy Control:</strong> Manage audio-related data collection</li>
                     </ul>
                     
                     <h3>EU/EEA Residents (GDPR)</h3>
@@ -547,7 +642,6 @@
                     </ul>
                 </div>
                 
-                <!-- Additional abbreviated sections for space -->
                 <div class="privacy-section" id="gdpr-compliance">
                     <h2>7. GDPR Compliance</h2>
                     
@@ -555,7 +649,7 @@
                     <ul>
                         <li><strong>Contract Performance:</strong> Processing orders and providing services</li>
                         <li><strong>Legitimate Interest:</strong> Site analytics, fraud prevention, customer support</li>
-                        <li><strong>Consent:</strong> Marketing communications, non-essential cookies</li>
+                        <li><strong>Consent:</strong> Marketing communications, non-essential cookies, audio personalization</li>
                         <li><strong>Legal Obligation:</strong> Tax records, legal compliance</li>
                     </ul>
                     
@@ -587,7 +681,7 @@
                 </div>
                 
                 <div class="contact-privacy">
-                    <h3>🔐 Privacy Questions?</h3>
+                    <h3>🔍 Privacy Questions?</h3>
                     <p>
                         If you have any questions about this privacy policy or how we handle your data, 
                         please don't hesitate to contact us. We're committed to transparency and protecting your privacy.
@@ -619,6 +713,16 @@
                 </ul>
             </nav>
             <p>&copy; 2025 If It Ain't Dutch, It Ain't Much. Your privacy is our mystery to protect.</p>
+            <div class="social-links" aria-label="Follow Our Mysteries">
+                <a href="https://instagram.com/ifitaintdutchitaintmuch" 
+                   target="_blank" 
+                   rel="noopener nofollow" 
+                   aria-label="Follow us on Instagram">📷</a>
+                <a href="https://on.soundcloud.com/PZdtlNaYaIgP25MTX2" 
+                   target="_blank" 
+                   rel="noopener nofollow" 
+                   aria-label="Listen to our mysterious sounds">🎵</a>
+            </div>
         </footer>
     </div>
     
