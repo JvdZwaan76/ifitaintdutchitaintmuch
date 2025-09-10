@@ -60,8 +60,7 @@ self.addEventListener('install', (event) => {
       caches.open(STATIC_CACHE_NAME).then((cache) => {
         return cache.addAll(STATIC_FILES);
       }),
-      // Skip waiting to activate immediately
-      self.skipWaiting()
+      // self.skipWaiting() // Commented out to prevent immediate activation and potential reload loops
     ])
   );
 });
@@ -87,8 +86,7 @@ self.addEventListener('activate', (event) => {
             })
         );
       }),
-      // Claim all clients immediately
-      self.clients.claim()
+      // self.clients.claim() // Commented out to prevent immediate claim and potential reload loops
     ])
   );
 });
