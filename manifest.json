@@ -103,13 +103,6 @@
       "type": "image/png", 
       "form_factor": "wide",
       "label": "Heritage Collection Store"
-    },
-    {
-      "src": "/images/screenshot-events-narrow.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow", 
-      "label": "Underground Events Access"
     }
   ],
   
