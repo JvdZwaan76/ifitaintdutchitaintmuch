@@ -1,6 +1,6 @@
 /**
  * Enhanced Dutch Mystery Website - Interactive JavaScript
- * FIXED VERSION - Proper scrolling support and mobile optimization
+ * FIXED VERSION - Proper scrolling support, mobile optimization, and authentication integration
  */
 
 class DutchMysteryPortal {
@@ -32,7 +32,7 @@ class DutchMysteryPortal {
             },
             floatingElements: {
                 count: this.performanceMode ? 15 : 30, // Reduced for mobile
-                symbols: ['🌷', '🛍️', '⚡', '🔮', '💎', '🌟'],
+                symbols: ['🌷', '🛠️', '⚡', '🔮', '💎', '🌟'],
                 speed: { min: 0.5, max: 2 }
             }
         };
@@ -521,6 +521,8 @@ class DutchMysteryPortal {
         const elements = [
             '.neon-title',
             '.teaser',
+            '.audio-mystery',
+            '.access-request-section',
             '.login-form',
             '.features-preview',
             '.neon-footer'
@@ -549,7 +551,7 @@ class DutchMysteryPortal {
         }
     }
     
-    // FIXED: Enhanced form effects with mobile optimization
+    // FIXED: Enhanced form effects with mobile optimization and authentication
     initFormEffects() {
         const form = document.getElementById('loginForm');
         const message = document.getElementById('message');
@@ -581,6 +583,11 @@ class DutchMysteryPortal {
                 if (response.success) {
                     this.showMessage('✨ Access Granted. Welcome to the mystery...', 'success');
                     this.triggerSuccessEffects();
+                    
+                    // Store authentication status for blog access
+                    sessionStorage.setItem('dutchPortalAuth', 'authenticated');
+                    sessionStorage.setItem('dutchPortalUser', username);
+                    sessionStorage.setItem('dutchPortalTime', Date.now().toString());
                     
                     // Simulate redirect after success
                     setTimeout(() => {
@@ -979,7 +986,7 @@ class DutchMysteryPortal {
     triggerFeaturePreview(card) {
         const feature = card.dataset.feature;
         const messages = {
-            merchandise: '🛍️ Heritage Collection: Exclusive Dutch-inspired apparel awaits beyond the portal...',
+            merchandise: '🛠️ Heritage Collection: Exclusive Dutch-inspired apparel awaits beyond the portal...',
             events: '🎵 Underground Access: Secret Amsterdam techno experiences for the initiated...',
             culture: '🔮 Cultural Secrets: Hidden treasures of Dutch heritage revealed to explorers...'
         };
@@ -1189,6 +1196,61 @@ class SmokeSystem {
     }
 }
 
+// Audio player functionality for The Frequency Awakens
+let audioPlayerVisible = false;
+
+function toggleAudioPlayer() {
+    const button = document.getElementById('audioPlayButton');
+    const buttonText = document.getElementById('buttonText');
+    const container = document.getElementById('audioPlayerContainer');
+    const iframe = document.getElementById('soundcloudPlayer');
+    
+    if (!button || !buttonText || !container || !iframe) return;
+    
+    if (!audioPlayerVisible) {
+        buttonText.textContent = 'TRANSMISSION ACTIVE';
+        
+        // Updated SoundCloud URL for Redwood Forest Renegade
+        const soundcloudUrl = 'https://soundcloud.com/gerard-geary-689669043/redwood-forest-renegade';
+        iframe.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(soundcloudUrl)}&color=%2300ffff&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true`;
+        
+        container.classList.add('active');
+        audioPlayerVisible = true;
+        button.style.background = 'linear-gradient(135deg, #00FF00, #00FFFF)';
+        button.style.borderColor = '#00FF00';
+        
+        // Enhanced visual feedback
+        const iconElement = button.querySelector('.transmission-icon');
+        if (iconElement) {
+            iconElement.textContent = '🌲';
+        }
+        
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'redwood_transmission_activated', {
+                'event_category': 'engagement',
+                'event_label': 'redwood_forest_renegade'
+            });
+        }
+        
+    } else {
+        buttonText.textContent = 'INTERCEPT TRANSMISSION';
+        container.classList.remove('active');
+        
+        setTimeout(() => {
+            iframe.src = '';
+        }, 500);
+        
+        audioPlayerVisible = false;
+        button.style.background = 'linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(255, 149, 0, 0.2))';
+        button.style.borderColor = '#00FFFF';
+        
+        const iconElement = button.querySelector('.transmission-icon');
+        if (iconElement) {
+            iconElement.textContent = '📡';
+        }
+    }
+}
+
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize main portal system
@@ -1269,8 +1331,45 @@ document.addEventListener('DOMContentLoaded', () => {
                 animation: none !important;
             }
         }
+        
+        /* Notification styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: bold;
+            z-index: 10000;
+            max-width: 300px;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        
+        @media (max-width: 480px) {
+            .notification {
+                top: 10px !important;
+                right: 10px !important;
+                left: 10px !important;
+                max-width: none !important;
+            }
+        }
     `;
     document.head.appendChild(dynamicStyles);
     
-    console.log('🌷 Dutch Mystery Portal initialized with mobile optimizations. Enter if you dare...');
+    console.log('🌷 Dutch Mystery Portal initialized with authentication integration. Enter if you dare...');
 });
+
+// Make toggleAudioPlayer available globally
+window.toggleAudioPlayer = toggleAudioPlayer;
