@@ -2,19 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
     <!-- SEO Meta -->
-    <title>Lost in the Dutch Void - 404 | If It Ain't Dutch, It Ain't Much</title>
-    <meta name="description" content="You've wandered into the mysterious depths of the Dutch void. Find your way back to exclusive merchandise and underground Amsterdam techno experiences.">
-    <meta name="robots" content="noindex, follow">
+    <title>404 - Lost in the Dutch Void | If It Ain't Dutch, It Ain't Much</title>
+    <meta name="description" content="You've wandered into an uncharted realm of the Dutch mystery portal. The page you seek has vanished into the void, but new paths await discovery.">
+    <meta name="robots" content="noindex, nofollow">
     
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="If It Ain't Dutch, It Ain't Much">
-    <meta property="og:title" content="Lost in the Dutch Void - 404 Error">
-    <meta property="og:description" content="This page has been swallowed by the mysterious Dutch void. Find your way back to the portal.">
-    <meta property="og:image" content="https://ifitaintdutchitaintmuch.com/images/404-void.jpg">
+    <!-- Canonical -->
+    <link rel="canonical" href="https://ifitaintdutchitaintmuch.com/404.html">
     
     <!-- Fonts and Styles -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -25,491 +21,512 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     
-    <!-- Additional 404 Styles -->
+    <!-- 404 Specific Styles - FIXED FOR SCROLLING -->
     <style>
-        .void-container {
-            min-height: 100vh;
+        /* FIXED: Remove problematic overflow and height constraints */
+        body {
+            overflow-x: hidden; /* Only prevent horizontal scroll */
+            overflow-y: auto; /* Allow vertical scrolling */
+            min-height: 100vh; /* Changed from height: 100vh */
+        }
+        
+        .error-container {
+            min-height: 100vh; /* Changed from height constraint */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
+            padding: 2rem;
+            background: var(--pure-black);
             position: relative;
             z-index: 2;
-            padding: 2rem;
-        }
-        
-        .void-404 {
-            font-family: var(--font-title);
-            font-size: clamp(4rem, 15vw, 12rem);
-            font-weight: 900;
-            background: linear-gradient(45deg, var(--primary-orange), var(--electric-blue), var(--neon-cyan));
-            background-size: 400% 400%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px var(--primary-orange);
-            margin-bottom: 1rem;
-            animation: gradientShift 3s ease-in-out infinite, glitchEffect 0.1s linear infinite;
-            position: relative;
-        }
-        
-        .void-404::before,
-        .void-404::after {
-            content: '404';
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, var(--primary-orange), var(--electric-blue));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            opacity: 0;
+            box-sizing: border-box;
         }
         
-        .void-404::before {
-            animation: glitchBefore 0.15s linear infinite;
-        }
-        
-        .void-404::after {
-            animation: glitchAfter 0.15s linear infinite;
-        }
-        
-        .void-title {
-            font-family: var(--font-title);
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            color: var(--primary-orange);
-            text-shadow: 0 0 20px var(--primary-orange);
-            margin-bottom: 2rem;
-            animation: titleFlicker 2s ease-in-out infinite;
-        }
-        
-        .void-message {
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            color: rgba(255, 255, 255, 0.8);
-            max-width: 600px;
-            margin: 0 auto 3rem;
-            line-height: 1.8;
-            animation: messageFloat 4s ease-in-out infinite;
-        }
-        
-        .void-navigation {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 3rem 0;
+        .error-portal {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 149, 0, 0.3);
+            border-radius: 25px;
+            padding: clamp(2rem, 4vw, 4rem);
             max-width: 800px;
             width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            animation: portalEntry 1s ease-out 0.5s both;
+            text-align: center;
+            margin: 2rem auto;
+            box-sizing: border-box;
         }
         
-        .void-nav-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 149, 0, 0.3);
-            border-radius: 15px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-        
-        .void-nav-card:hover {
-            border-color: var(--electric-blue);
-            box-shadow: 0 10px 30px rgba(0, 191, 255, 0.3);
-            transform: translateY(-5px) scale(1.02);
-        }
-        
-        .nav-card-icon {
-            font-size: 2.5rem;
+        .error-code {
+            font-family: var(--font-title);
+            font-size: clamp(4rem, 12vw, 8rem);
+            font-weight: 900;
+            color: var(--primary-orange);
+            text-shadow: 
+                0 0 20px var(--primary-orange),
+                0 0 40px rgba(255, 149, 0, 0.6);
             margin-bottom: 1rem;
-            display: block;
-            animation: iconBounce 2s ease-in-out infinite;
+            animation: codeGlow 3s ease-in-out infinite alternate;
+            line-height: 1;
         }
         
-        .nav-card-title {
+        .error-title {
+            font-family: var(--font-title);
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
             color: var(--electric-blue);
-            font-family: var(--font-subtitle);
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+            text-shadow: 0 0 15px var(--electric-blue);
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
         
-        .nav-card-desc {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
+        .error-message {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .error-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+        
+        .mystery-suggestions {
+            background: rgba(0, 191, 255, 0.1);
+            border: 1px solid rgba(0, 191, 255, 0.3);
+            border-radius: 15px;
+            padding: clamp(1.5rem, 3vw, 2rem);
+            margin-top: 2rem;
+            text-align: left;
+        }
+        
+        .mystery-suggestions h3 {
+            color: var(--neon-cyan);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-family: var(--font-subtitle);
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+        }
+        
+        .suggestion-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .suggestion-link {
+            display: block;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 191, 255, 0.2);
+            border-radius: 8px;
+            color: var(--neon-cyan);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+        
+        .suggestion-link:hover {
+            border-color: var(--electric-blue);
+            background: rgba(0, 191, 255, 0.1);
+            transform: translateY(-2px);
+            text-shadow: 0 0 5px var(--electric-blue);
         }
         
         .void-search {
-            margin: 2rem 0;
-            max-width: 500px;
-            width: 100%;
+            background: rgba(107, 70, 193, 0.1);
+            border: 1px solid rgba(107, 70, 193, 0.3);
+            border-radius: 15px;
+            padding: clamp(1.5rem, 3vw, 2rem);
+            margin-top: 2rem;
+        }
+        
+        .void-search h3 {
+            color: var(--deep-purple);
+            margin-bottom: 1rem;
+            text-align: center;
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
         }
         
         .search-form {
-            position: relative;
             display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         
         .search-input {
             flex: 1;
-            padding: 1rem 1.5rem;
+            min-width: 200px;
+            padding: 1rem;
             background: rgba(0, 0, 0, 0.6);
-            border: 2px solid rgba(255, 149, 0, 0.3);
-            border-radius: 25px 0 0 25px;
+            border: 2px solid rgba(107, 70, 193, 0.3);
+            border-radius: 8px;
             color: var(--pure-white);
             font-family: var(--font-body);
-            font-size: 1rem;
-            outline: none;
             transition: all 0.3s ease;
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
         
         .search-input:focus {
-            border-color: var(--electric-blue);
-            box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
+            outline: none;
+            border-color: var(--deep-purple);
+            box-shadow: 0 0 15px rgba(107, 70, 193, 0.3);
         }
         
-        .search-button {
-            padding: 1rem 2rem;
-            background: var(--primary-gradient);
-            border: none;
-            border-radius: 0 25px 25px 0;
-            color: var(--pure-black);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
         }
         
-        .search-button:hover {
-            background: linear-gradient(135deg, var(--electric-blue), var(--primary-orange));
-            box-shadow: 0 5px 15px rgba(255, 149, 0, 0.4);
-        }
-        
-        .mystery-suggestions {
-            margin-top: 3rem;
-            padding: 2rem;
-            background: rgba(107, 70, 193, 0.1);
-            border-radius: 15px;
-            border: 1px solid rgba(107, 70, 193, 0.3);
-        }
-        
-        .suggestions-title {
-            color: var(--deep-purple);
-            font-family: var(--font-subtitle);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        
-        .suggestions-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
-        }
-        
-        .suggestion-tag {
-            background: rgba(255, 149, 0, 0.1);
-            border: 1px solid rgba(255, 149, 0, 0.3);
-            border-radius: 20px;
-            padding: 0.5rem 1rem;
-            color: var(--primary-orange);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-        
-        .suggestion-tag:hover {
-            background: rgba(255, 149, 0, 0.2);
-            border-color: var(--primary-orange);
-            color: var(--golden-yellow);
-            transform: scale(1.05);
-        }
-        
-        .void-particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-        
-        .void-particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--primary-orange);
-            border-radius: 50%;
-            animation: voidFloat 6s linear infinite;
-        }
-        
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        
-        @keyframes glitchEffect {
-            0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-2px); }
-            40% { transform: translateX(2px); }
-            60% { transform: translateX(-1px); }
-            80% { transform: translateX(1px); }
-        }
-        
-        @keyframes glitchBefore {
-            0%, 100% { opacity: 0; transform: translateX(0); }
-            10% { opacity: 1; transform: translateX(-2px); }
-            20% { opacity: 0; transform: translateX(2px); }
-        }
-        
-        @keyframes glitchAfter {
-            0%, 100% { opacity: 0; transform: translateX(0); }
-            30% { opacity: 1; transform: translateX(2px); }
-            40% { opacity: 0; transform: translateX(-2px); }
-        }
-        
-        @keyframes titleFlicker {
-            0%, 100% { opacity: 1; text-shadow: 0 0 20px var(--primary-orange); }
-            50% { opacity: 0.8; text-shadow: 0 0 30px var(--primary-orange), 0 0 40px var(--electric-blue); }
-        }
-        
-        @keyframes messageFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-        
-        @keyframes iconBounce {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-5px) scale(1.1); }
-        }
-        
-        @keyframes voidFloat {
-            0% {
-                transform: translateY(100vh) translateX(0) rotate(0deg);
-                opacity: 0;
+        /* Animations */
+        @keyframes codeGlow {
+            0% { 
+                text-shadow: 
+                    0 0 20px var(--primary-orange),
+                    0 0 40px rgba(255, 149, 0, 0.6);
             }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% {
-                transform: translateY(-100px) translateX(50px) rotate(360deg);
-                opacity: 0;
+            100% { 
+                text-shadow: 
+                    0 0 30px var(--primary-orange),
+                    0 0 60px rgba(255, 149, 0, 0.8),
+                    0 0 80px rgba(255, 149, 0, 0.4);
             }
         }
         
+        @keyframes portalEntry {
+            0% { 
+                opacity: 0; 
+                transform: scale(0.8) translateY(50px);
+                filter: blur(20px);
+            }
+            100% { 
+                opacity: 1; 
+                transform: scale(1) translateY(0);
+                filter: blur(0);
+            }
+        }
+        
+        /* FIXED: Enhanced responsive design */
         @media (max-width: 768px) {
-            .void-navigation {
+            .error-container {
+                padding: 1rem;
+                justify-content: flex-start;
+                padding-top: 2rem;
+            }
+            
+            .error-portal {
+                padding: 2rem;
+                margin: 1rem auto;
+            }
+            
+            .suggestion-links {
                 grid-template-columns: 1fr;
-                gap: 1rem;
             }
             
             .search-form {
                 flex-direction: column;
+                align-items: stretch;
             }
             
             .search-input {
-                border-radius: 25px;
+                min-width: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .error-container {
+                padding: 0.5rem;
+            }
+            
+            .error-portal {
+                padding: 1.5rem;
+                border-radius: 15px;
+            }
+            
+            .mystery-suggestions,
+            .void-search {
+                padding: 1rem;
+            }
+            
+            .error-actions {
+                gap: 1rem;
+            }
+        }
+        
+        @media (max-width: 320px) {
+            .error-portal {
+                padding: 1rem;
+            }
+            
+            .error-code {
+                font-size: clamp(3rem, 15vw, 6rem);
+            }
+        }
+        
+        /* Landscape orientation on mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .error-container {
+                justify-content: flex-start;
+                padding: 1rem 2rem;
+            }
+            
+            .error-code {
+                font-size: clamp(2rem, 8vw, 4rem);
+                margin-bottom: 0.5rem;
+            }
+            
+            .error-title {
                 margin-bottom: 1rem;
             }
             
-            .search-button {
-                border-radius: 25px;
+            .error-message {
+                margin-bottom: 2rem;
+            }
+            
+            .suggestion-links {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5rem;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            .error-portal {
+                background: white;
+                border: 1px solid black;
+                box-shadow: none;
+            }
+            
+            .error-code,
+            .error-title {
+                color: black;
+                text-shadow: none;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Background Effects -->
-    <div class="background-gradient"></div>
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link" tabindex="1">Skip to main content</a>
+    
+    <!-- Background Effects (Fixed positioning) -->
+    <div class="background-gradient" aria-hidden="true"></div>
     <canvas id="background-canvas" aria-hidden="true"></canvas>
     <div class="smoke" aria-hidden="true"></div>
     <div class="lasers" aria-hidden="true">
-        <div class="laser laser1"></div>
-        <div class="laser laser2"></div>
-        <div class="laser laser3"></div>
+        <div class="laser laser1" aria-hidden="true"></div>
+        <div class="laser laser2" aria-hidden="true"></div>
+        <div class="laser laser3" aria-hidden="true"></div>
     </div>
     
-    <!-- Void Particles -->
-    <div class="void-particles" id="voidParticles"></div>
-    
-    <div class="void-container">
-        <div class="void-404">404</div>
-        <h1 class="void-title">Lost in the Dutch Void</h1>
-        <p class="void-message">
-            The page you sought has been consumed by the mysterious depths of the Dutch void. 
-            <br><br>
-            Fear not, brave explorer – the portal remains open, and countless mysteries await your discovery. 
-            Let us guide you back to the realm of windmills, tulips, and underground rhythms.
-        </p>
-        
-        <nav class="void-navigation" aria-label="Return Navigation">
-            <a href="/" class="void-nav-card">
-                <span class="nav-card-icon">🌀</span>
-                <h3 class="nav-card-title">Portal Entrance</h3>
-                <p class="nav-card-desc">Return to the main mystery portal and unlock Dutch secrets</p>
-            </a>
-            
-            <a href="/store/" class="void-nav-card">
-                <span class="nav-card-icon">🏛️</span>
-                <h3 class="nav-card-title">Heritage Store</h3>
-                <p class="nav-card-desc">Explore exclusive Dutch-inspired merchandise and apparel</p>
-            </a>
-            
-            <a href="/events/" class="void-nav-card">
-                <span class="nav-card-icon">🎵</span>
-                <h3 class="nav-card-title">Underground Events</h3>
-                <p class="nav-card-desc">Access secret Amsterdam techno gatherings</p>
-            </a>
-            
-            <a href="/contact.html" class="void-nav-card">
-                <span class="nav-card-icon">📧</span>
-                <h3 class="nav-card-title">Contact Portal</h3>
-                <p class="nav-card-desc">Reach the guardians for guidance and support</p>
-            </a>
-        </nav>
-        
-        <div class="void-search">
-            <h3 style="color: var(--electric-blue); margin-bottom: 1rem; text-align: center;">Search the Void</h3>
-            <form class="search-form" action="/search" method="GET" role="search">
-                <input type="search" name="q" class="search-input" placeholder="What mysteries do you seek?" aria-label="Search the site">
-                <button type="submit" class="search-button" aria-label="Search">🔍</button>
-            </form>
-        </div>
-        
-        <div class="mystery-suggestions">
-            <h3 class="suggestions-title">🔮 Perhaps You Were Looking For...</h3>
-            <div class="suggestions-list">
-                <a href="/collection/windmill-apparel/" class="suggestion-tag">Windmill Collection</a>
-                <a href="/collection/tulip-collection/" class="suggestion-tag">Tulip Mysteries</a>
-                <a href="/events/amsterdam-techno/" class="suggestion-tag">Amsterdam Techno</a>
-                <a href="/guide/portal-access/" class="suggestion-tag">Access Guide</a>
-                <a href="/about/dutch-culture/" class="suggestion-tag">Dutch Heritage</a>
-                <a href="/blog/" class="suggestion-tag">Mystery Blog</a>
-                <a href="/help/" class="suggestion-tag">Help Center</a>
-                <a href="/account/dashboard/" class="suggestion-tag">Member Portal</a>
+    <!-- FIXED: Proper page structure -->
+    <div class="page-wrapper">
+        <main class="error-container" id="main-content">
+            <div class="error-portal">
+                <div class="error-code" role="img" aria-label="Error 404">404</div>
+                <h1 class="error-title">Lost in the Void</h1>
+                
+                <p class="error-message">
+                    The mysterious path you sought has vanished into the Dutch void. Perhaps it was never meant to be found, 
+                    or maybe it's hiding in the shadows of Amsterdam's digital underground. 
+                    <strong>Fear not, intrepid explorer—new mysteries await discovery.</strong>
+                </p>
+                
+                <div class="error-actions">
+                    <a href="/" class="void-button" style="text-decoration: none;">
+                        <span class="button-text">Return to Portal</span>
+                        <span class="button-glow" aria-hidden="true"></span>
+                    </a>
+                    
+                    <button onclick="history.back()" class="void-button" style="background: linear-gradient(135deg, var(--electric-blue), var(--deep-purple));">
+                        <span class="button-text">Retrace Your Steps</span>
+                        <span class="button-glow" aria-hidden="true"></span>
+                    </button>
+                </div>
+                
+                <div class="mystery-suggestions">
+                    <h3>🔮 Explore These Mysteries</h3>
+                    <div class="suggestion-links">
+                        <a href="/" class="suggestion-link">🏠 Portal Home</a>
+                        <a href="/contact.html" class="suggestion-link">📧 Contact Guardians</a>
+                        <a href="/accessibility.html" class="suggestion-link">♿ Accessibility</a>
+                        <a href="/privacy-policy.html" class="suggestion-link">🔒 Privacy Secrets</a>
+                        <a href="/terms-of-service.html" class="suggestion-link">📋 Terms Portal</a>
+                        <a href="/sitemap.xml" class="suggestion-link">🗺️ Site Map</a>
+                    </div>
+                </div>
+                
+                <div class="void-search">
+                    <h3>🔍 Search the Void</h3>
+                    <p style="text-align: center; color: rgba(255, 255, 255, 0.7); margin-bottom: 1rem; font-size: clamp(0.9rem, 2vw, 1rem);">
+                        Perhaps you can find what you seek by searching our mysteries...
+                    </p>
+                    <div class="search-form">
+                        <input type="text" 
+                               class="search-input" 
+                               placeholder="Search for Dutch mysteries..."
+                               id="voidSearch"
+                               aria-label="Search the portal for content">
+                        <button type="button" 
+                                class="void-button" 
+                                onclick="performSearch()"
+                                style="flex-shrink: 0;">
+                            <span class="button-text">Seek</span>
+                            <span class="button-glow" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem; color: rgba(255, 255, 255, 0.6);">
+                    <p style="font-style: italic; font-size: clamp(0.8rem, 1.8vw, 0.9rem);">
+                        "Not all who wander are lost, but this page certainly is."
+                    </p>
+                </div>
             </div>
-        </div>
+        </main>
         
-        <div style="margin-top: 3rem; padding: 2rem; background: rgba(255, 0, 0, 0.1); border-radius: 15px; border: 1px solid rgba(255, 0, 0, 0.3);">
-            <h3 style="color: #FF6B6B; text-align: center; margin-bottom: 1rem;">⚠️ Report a Broken Link</h3>
-            <p style="text-align: center; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">
-                If you arrived here through a link from our site, please help us fix it.<br>
-                <a href="/contact.html?subject=broken-link&url=" style="color: var(--primary-orange); text-decoration: underline;">
-                    Report this broken link
-                </a>
-            </p>
-        </div>
+        <!-- Footer -->
+        <footer class="neon-footer" role="contentinfo">
+            <nav aria-label="Footer Navigation">
+                <ul>
+                    <li><a href="/" rel="home">Portal Home</a></li>
+                    <li><a href="/privacy-policy.html" rel="nofollow">Privacy Policy</a></li>
+                    <li><a href="/terms-of-service.html" rel="nofollow">Terms of Service</a></li>
+                    <li><a href="/contact.html">Contact Us</a></li>
+                    <li><a href="/accessibility.html">Accessibility</a></li>
+                </ul>
+            </nav>
+            <p>&copy; 2025 If It Ain't Dutch, It Ain't Much. Even our errors are mysterious.</p>
+            <div class="social-links" aria-label="Follow Our Mysteries">
+                <a href="https://instagram.com/ifitaintdutchitaintmuch" 
+                   target="_blank" 
+                   rel="noopener nofollow" 
+                   aria-label="Follow us on Instagram">📷</a>
+                <a href="https://soundcloud.com/dutchmystery" 
+                   target="_blank" 
+                   rel="noopener nofollow" 
+                   aria-label="Listen to our sounds">🎵</a>
+            </div>
+        </footer>
     </div>
-    
-    <!-- Footer -->
-    <footer class="neon-footer" style="position: relative; margin-top: 2rem;">
-        <nav aria-label="Footer Navigation">
-            <ul>
-                <li><a href="/sitemap.xml" rel="nofollow">Site Map</a></li>
-                <li><a href="/help/" rel="help">Help Center</a></li>
-                <li><a href="/contact.html">Contact Support</a></li>
-                <li><a href="/" rel="home">Return Home</a></li>
-            </ul>
-        </nav>
-        <p>&copy; 2025 If It Ain't Dutch, It Ain't Much. Even lost pages hold mysteries.</p>
-    </footer>
     
     <script src="/js/enhanced-script.js" defer></script>
     <script>
-        // Create floating void particles
-        function createVoidParticles() {
-            const container = document.getElementById('voidParticles');
-            const particleCount = 20;
+        // Enhanced 404 page functionality
+        function performSearch() {
+            const searchInput = document.getElementById('voidSearch');
+            const query = searchInput.value.trim();
             
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'void-particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
-                container.appendChild(particle);
-                
-                // Random colors
-                const colors = ['#FF9500', '#00BFFF', '#00FFFF', '#FFD700'];
-                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.boxShadow = `0 0 10px ${particle.style.background}`;
+            if (!query) {
+                showNotification('The void requires a search term...', 'warning');
+                return;
             }
+            
+            // Simulate search (replace with actual search endpoint)
+            showNotification('Searching the Dutch mysteries...', 'info');
+            
+            setTimeout(() => {
+                // For now, redirect to homepage with search parameter
+                window.location.href = `/?search=${encodeURIComponent(query)}`;
+            }, 1500);
         }
         
-        // Enhanced search functionality
-        document.querySelector('.search-form').addEventListener('submit', function(e) {
-            const query = e.target.querySelector('.search-input').value.trim();
-            if (!query) {
+        // Handle Enter key in search
+        document.getElementById('voidSearch')?.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
                 e.preventDefault();
-                
-                // Show mystery message
-                const input = e.target.querySelector('.search-input');
-                const originalPlaceholder = input.placeholder;
-                input.placeholder = '🌀 The void requires keywords to search...';
-                input.style.borderColor = '#FF0000';
-                
-                setTimeout(() => {
-                    input.placeholder = originalPlaceholder;
-                    input.style.borderColor = '';
-                }, 2000);
+                performSearch();
             }
         });
+        
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'warning' ? 'linear-gradient(135deg, #FFD700, #FF9500)' : 
+                           type === 'info' ? 'linear-gradient(135deg, #00BFFF, #0066CC)' : 
+                           'linear-gradient(135deg, #00FF00, #00FFFF)'};
+                color: black;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                font-weight: bold;
+                z-index: 10000;
+                animation: slideIn 0.3s ease-out;
+                max-width: 300px;
+                font-size: 0.9rem;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-in forwards';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Add notification animations
+        if (!document.getElementById('notification-styles')) {
+            const style = document.createElement('style');
+            style.id = 'notification-styles';
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+                
+                @media (max-width: 480px) {
+                    .notification {
+                        top: 10px !important;
+                        right: 10px !important;
+                        left: 10px !important;
+                        max-width: none !important;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
         
         // Track 404 errors for analytics
         if (typeof gtag !== 'undefined') {
-            gtag('event', 'exception', {
-                'description': `404 Error: ${window.location.pathname}`,
-                'fatal': false,
-                'page_title': 'Lost in Dutch Void - 404',
-                'page_location': window.location.href
+            gtag('event', 'page_not_found', {
+                'page_location': window.location.href,
+                'page_referrer': document.referrer
             });
         }
         
-        // Auto-populate broken link report
-        document.addEventListener('DOMContentLoaded', function() {
-            const reportLink = document.querySelector('a[href*="broken-link"]');
-            if (reportLink && document.referrer) {
-                reportLink.href += `&referrer=${encodeURIComponent(document.referrer)}&missing=${encodeURIComponent(window.location.pathname)}`;
-            }
-        });
-        
-        // Create particles after page load
-        window.addEventListener('load', createVoidParticles);
-        
-        console.log('🌀 404: You have discovered a hidden layer of the Dutch void...');
+        console.log('🌀 404 Portal loaded - The void acknowledges your presence');
     </script>
     
-    <!-- Schema markup for 404 page -->
+    <!-- Schema Markup for Error Page -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "404 - Page Not Found",
-      "description": "The requested page could not be found on If It Ain't Dutch, It Ain't Much website.",
+      "name": "404 Error - Page Not Found",
+      "description": "The requested page could not be found on the Dutch mystery portal.",
       "url": "https://ifitaintdutchitaintmuch.com/404.html",
-      "mainEntity": {
-        "@type": "Thing",
-        "name": "Page Not Found Error",
-        "description": "HTTP 404 error page with navigation options"
-      },
-      "breadcrumb": {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://ifitaintdutchitaintmuch.com/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "404 Error",
-            "item": "https://ifitaintdutchitaintmuch.com/404.html"
-          }
-        ]
+      "author": {
+        "@type": "Organization",
+        "name": "If It Ain't Dutch, It Ain't Much"
       }
     }
     </script>
