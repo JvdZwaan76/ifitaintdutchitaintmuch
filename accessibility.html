@@ -88,6 +88,58 @@
             font-size: clamp(1.1rem, 2.5vw, 1.3rem);
         }
         
+        /* NEW: Audio Accessibility Section */
+        .audio-accessibility {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: clamp(1.5rem, 3vw, 2rem);
+            margin: 2rem 0;
+        }
+        
+        .audio-accessibility h3 {
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+            font-family: var(--font-subtitle);
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .audio-accessibility p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .inclusive-waves {
+            display: flex;
+            justify-content: center;
+            gap: 0.4rem;
+            margin: 1rem 0;
+        }
+        
+        .inclusive-bar {
+            width: 4px;
+            background: var(--neon-cyan);
+            border-radius: 2px;
+            animation: inclusiveWave 2s ease-in-out infinite;
+        }
+        
+        .inclusive-bar:nth-child(1) { height: 12px; animation-delay: 0s; }
+        .inclusive-bar:nth-child(2) { height: 20px; animation-delay: 0.2s; }
+        .inclusive-bar:nth-child(3) { height: 8px; animation-delay: 0.4s; }
+        .inclusive-bar:nth-child(4) { height: 25px; animation-delay: 0.6s; }
+        .inclusive-bar:nth-child(5) { height: 15px; animation-delay: 0.8s; }
+        .inclusive-bar:nth-child(6) { height: 18px; animation-delay: 1s; }
+        
+        @keyframes inclusiveWave {
+            0%, 100% { opacity: 0.4; transform: scaleY(1); }
+            50% { opacity: 1; transform: scaleY(1.3); }
+        }
+        
         .quick-access {
             background: rgba(255, 215, 0, 0.1);
             border: 1px solid rgba(255, 215, 0, 0.3);
@@ -444,6 +496,14 @@
             table {
                 font-size: 0.8rem;
             }
+            
+            .inclusive-waves {
+                gap: 0.3rem;
+            }
+            
+            .inclusive-bar {
+                width: 3px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -463,7 +523,8 @@
             
             .quick-access,
             .feedback-form,
-            .contact-accessibility {
+            .contact-accessibility,
+            .audio-accessibility {
                 padding: 1rem;
             }
         }
@@ -497,6 +558,11 @@
                 grid-template-columns: repeat(2, 1fr);
                 gap: 1rem;
             }
+            
+            .audio-accessibility {
+                margin: 1rem 0;
+                padding: 1rem;
+            }
         }
     </style>
 </head>
@@ -524,6 +590,21 @@
                     <p>
                         <strong>We continuously work to improve the accessibility and usability of our portal for everyone.</strong>
                     </p>
+                </div>
+                
+                <!-- NEW: Audio Accessibility Section -->
+                <div class="audio-accessibility">
+                    <h3>🎧 Inclusive Audio Experiences</h3>
+                    <p>We recognize that sound and music are central to our underground culture, yet we're committed to making these experiences accessible to all users, including those with hearing differences.</p>
+                    <div class="inclusive-waves" aria-hidden="true">
+                        <div class="inclusive-bar"></div>
+                        <div class="inclusive-bar"></div>
+                        <div class="inclusive-bar"></div>
+                        <div class="inclusive-bar"></div>
+                        <div class="inclusive-bar"></div>
+                        <div class="inclusive-bar"></div>
+                    </div>
+                    <p>Our audio content includes visual representations, descriptive text, and alternative formats. The frequencies of inclusion resonate through every aspect of our portal.</p>
                 </div>
                 
                 <div class="quick-access">
@@ -701,7 +782,6 @@
                     </div>
                 </div>
                 
-                <!-- Additional sections abbreviated for space - continue pattern -->
                 <div class="accessibility-section" id="feedback-support">
                     <h2>4. Feedback & Support</h2>
                     
@@ -727,6 +807,7 @@
                                     <option value="positive">Positive Feedback</option>
                                     <option value="question">Accessibility Question</option>
                                     <option value="accommodation">Event Accommodation Request</option>
+                                    <option value="audio-accessibility">Audio Content Accessibility</option>
                                 </select>
                             </div>
                             
@@ -792,6 +873,16 @@
                 </ul>
             </nav>
             <p>&copy; 2025 If It Ain't Dutch, It Ain't Much. Accessible mysteries for everyone.</p>
+            <div class="social-links" aria-label="Follow Our Mysteries">
+                <a href="https://instagram.com/ifitaintdutchitaintmuch" 
+                   target="_blank" 
+                   rel="noopener nofollow" 
+                   aria-label="Follow us on Instagram">📷</a>
+                <a href="https://on.soundcloud.com/PZdtlNaYaIgP25MTX2" 
+                   target="_blank" 
+                   rel="noopener nofollow" 
+                   aria-label="Listen to our mysterious sounds">🎵</a>
+            </div>
         </footer>
     </div>
     
