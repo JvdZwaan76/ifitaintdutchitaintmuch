@@ -50,6 +50,13 @@
     <!-- Enhanced Font Loading -->
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="/css/enhanced-style.css">
     
@@ -271,6 +278,232 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* Enhanced Audio Control Widget */
+        .audio-control-widget {
+            background: linear-gradient(145deg, rgba(0, 255, 255, 0.1), rgba(0, 255, 255, 0.05));
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: clamp(2rem, 4vw, 2.5rem);
+            margin: 2rem auto;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            max-width: 600px;
+            animation: mysteriousGlow 4s ease-in-out infinite alternate;
+        }
+
+        .audio-control-widget::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00FFFF, #FF9500, #00FFFF);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            animation: borderTransmission 3s ease-in-out infinite;
+        }
+
+        .audio-control-widget:hover::before {
+            opacity: 0.4;
+        }
+
+        .audio-widget-title {
+            font-family: var(--font-title);
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            color: var(--neon-cyan);
+            text-shadow: 0 0 15px var(--neon-cyan);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            animation: titleTransmission 3s ease-in-out infinite;
+        }
+
+        .audio-description {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            margin-bottom: 2rem;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .mystery-frequencies {
+            display: flex;
+            justify-content: center;
+            gap: 0.3rem;
+            margin: 1.5rem 0;
+            height: 40px;
+            align-items: end;
+        }
+
+        .freq-bar {
+            width: 4px;
+            background: linear-gradient(to top, var(--neon-cyan), var(--electric-blue));
+            border-radius: 2px;
+            animation: mysteriousFreq 2s ease-in-out infinite;
+            box-shadow: 0 0 8px var(--neon-cyan);
+        }
+
+        .freq-bar:nth-child(1) { height: 20px; animation-delay: 0s; }
+        .freq-bar:nth-child(2) { height: 35px; animation-delay: 0.2s; }
+        .freq-bar:nth-child(3) { height: 15px; animation-delay: 0.4s; }
+        .freq-bar:nth-child(4) { height: 40px; animation-delay: 0.6s; }
+        .freq-bar:nth-child(5) { height: 25px; animation-delay: 0.8s; }
+        .freq-bar:nth-child(6) { height: 30px; animation-delay: 1s; }
+        .freq-bar:nth-child(7) { height: 18px; animation-delay: 1.2s; }
+
+        .mystery-transmission-button {
+            position: relative;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(255, 149, 0, 0.2));
+            border: 2px solid var(--neon-cyan);
+            color: var(--pure-white);
+            font-family: var(--font-title);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-weight: 700;
+            padding: clamp(1rem, 2.5vw, 1.3rem) clamp(1.5rem, 4vw, 2.5rem);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin: 1rem 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            min-height: 60px;
+            backdrop-filter: blur(10px);
+        }
+
+        .mystery-transmission-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.4), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .mystery-transmission-button:hover::before {
+            left: 100%;
+        }
+
+        .mystery-transmission-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 
+                0 10px 30px rgba(0, 255, 255, 0.4),
+                0 0 25px var(--neon-cyan);
+            border-color: var(--golden-yellow);
+        }
+
+        .transmission-icon {
+            font-size: 1.5em;
+            animation: transmissionPulse 2s ease-in-out infinite;
+        }
+
+        .transmission-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .signal-waves {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 2px;
+        }
+
+        .wave {
+            width: 3px;
+            height: 8px;
+            background: var(--neon-cyan);
+            border-radius: 2px;
+            animation: waveSignal 1.5s ease-in-out infinite;
+        }
+
+        .wave:nth-child(1) { animation-delay: 0s; }
+        .wave:nth-child(2) { animation-delay: 0.3s; }
+        .wave:nth-child(3) { animation-delay: 0.6s; }
+
+        .audio-player-container {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .audio-player-container.active {
+            opacity: 1;
+            max-height: 200px;
+            margin-top: 1rem;
+        }
+
+        @keyframes mysteriousGlow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(0, 255, 255, 0.5), 0 0 40px rgba(255, 149, 0, 0.3);
+            }
+        }
+
+        @keyframes borderTransmission {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes titleTransmission {
+            0%, 100% { 
+                text-shadow: 0 0 15px var(--neon-cyan);
+            }
+            50% { 
+                text-shadow: 0 0 25px var(--neon-cyan), 0 0 35px var(--electric-blue);
+            }
+        }
+
+        @keyframes mysteriousFreq {
+            0%, 100% { 
+                transform: scaleY(0.7);
+                opacity: 0.6;
+            }
+            50% { 
+                transform: scaleY(1.3);
+                opacity: 1;
+            }
+        }
+
+        @keyframes transmissionPulse {
+            0%, 100% { 
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            50% { 
+                transform: scale(1.2) rotate(10deg);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes waveSignal {
+            0%, 100% { 
+                height: 8px;
+                opacity: 0.4;
+            }
+            50% { 
+                height: 16px;
+                opacity: 1;
+            }
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .form-row.two-column {
@@ -331,18 +564,34 @@
             <section class="audio-mystery" aria-labelledby="audio-heading">
                 <h2 id="audio-heading" class="sr-only">Audio Portal</h2>
                 <div class="audio-control-widget">
-                    <h3 class="audio-widget-title">🎵 Enter the Sound Portal</h3>
+                    <h3 class="audio-widget-title">🎛️ The Frequency Awakens</h3>
                     <p class="audio-description">
-                        Immerse yourself in the frequencies of Dutch mystery.<br>
-                        <em>Where electronic pulses meet heritage, the journey begins...</em>
+                        Deep within the digital void, ancient frequencies stir...<br>
+                        <em>Where redwood whispers meet electronic mysteries, consciousness expands...</em>
                     </p>
+                    
+                    <div class="mystery-frequencies" aria-hidden="true">
+                        <div class="freq-bar"></div>
+                        <div class="freq-bar"></div>
+                        <div class="freq-bar"></div>
+                        <div class="freq-bar"></div>
+                        <div class="freq-bar"></div>
+                        <div class="freq-bar"></div>
+                        <div class="freq-bar"></div>
+                    </div>
                     
                     <button 
                         id="audioPlayButton" 
-                        class="audio-play-button"
+                        class="mystery-transmission-button"
                         aria-describedby="audio-button-help"
                         onclick="toggleAudioPlayer()">
-                        <span id="buttonText">🎧 Activate Audio Portal</span>
+                        <span class="transmission-icon">📡</span>
+                        <span id="buttonText" class="transmission-text">INTERCEPT TRANSMISSION</span>
+                        <div class="signal-waves" aria-hidden="true">
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                        </div>
                     </button>
                     
                     <div id="audioPlayerContainer" class="audio-player-container">
@@ -354,11 +603,11 @@
                             frameborder="no" 
                             allow="autoplay"
                             style="border-radius: 10px; margin-top: 1rem;"
-                            title="Dutch Mystery Audio Portal">
+                            title="Dutch Mystery Audio Transmission">
                         </iframe>
                     </div>
                     
-                    <div id="audio-button-help" class="sr-only">Click to reveal the SoundCloud audio player for atmospheric Dutch mystery music</div>
+                    <div id="audio-button-help" class="sr-only">Click to intercept the mysterious redwood forest transmission</div>
                 </div>
             </section>
 
@@ -568,6 +817,10 @@
                    target="_blank" 
                    rel="noopener nofollow" 
                    aria-label="Listen to our mysterious sounds">🎵</a>
+                <!-- Discreet Admin Access -->
+                <a href="/admin" 
+                   class="admin-access-link"
+                   aria-label="Portal Management">⚙️</a>
             </div>
         </footer>
     </div>
@@ -813,7 +1066,7 @@
             }
         }
 
-        // Audio player functionality (keeping existing)
+        // Audio player functionality (enhanced with new track)
         let audioPlayerVisible = false;
 
         function toggleAudioPlayer() {
@@ -823,24 +1076,29 @@
             const iframe = document.getElementById('soundcloudPlayer');
             
             if (!audioPlayerVisible) {
-                buttonText.textContent = '🎧 Audio Portal Active';
+                buttonText.textContent = 'TRANSMISSION ACTIVE';
                 
-                const soundcloudUrl = 'https://on.soundcloud.com/I0TNXZBvD0QtfYDBzW';
-                iframe.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(soundcloudUrl)}&color=%23ff9500&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true`;
+                // Updated SoundCloud URL for Redwood Forest Renegade
+                const soundcloudUrl = 'https://soundcloud.com/gerard-geary-689669043/redwood-forest-renegade';
+                iframe.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(soundcloudUrl)}&color=%2300ffff&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true`;
                 
                 container.classList.add('active');
                 audioPlayerVisible = true;
                 button.style.background = 'linear-gradient(135deg, #00FF00, #00FFFF)';
+                button.style.borderColor = '#00FF00';
+                
+                // Enhanced visual feedback
+                button.querySelector('.transmission-icon').textContent = '🌲';
                 
                 if (typeof gtag !== 'undefined') {
-                    gtag('event', 'audio_portal_activated', {
+                    gtag('event', 'redwood_transmission_activated', {
                         'event_category': 'engagement',
-                        'event_label': 'soundcloud_widget'
+                        'event_label': 'redwood_forest_renegade'
                     });
                 }
                 
             } else {
-                buttonText.textContent = '🎧 Activate Audio Portal';
+                buttonText.textContent = 'INTERCEPT TRANSMISSION';
                 container.classList.remove('active');
                 
                 setTimeout(() => {
@@ -848,7 +1106,9 @@
                 }, 500);
                 
                 audioPlayerVisible = false;
-                button.style.background = 'linear-gradient(135deg, #00FFFF, #FF9500)';
+                button.style.background = 'linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(255, 149, 0, 0.2))';
+                button.style.borderColor = '#00FFFF';
+                button.querySelector('.transmission-icon').textContent = '📡';
             }
         }
 
