@@ -1370,6 +1370,3 @@ document.addEventListener('DOMContentLoaded', () => {
     
     console.log('🌷 Dutch Mystery Portal initialized with authentication integration. Enter if you dare...');
 });
-
-// Make toggleAudioPlayer available globally
-window.toggleAudioPlayer = toggleAudioPlayer;
