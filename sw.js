@@ -3,11 +3,11 @@
  * Enables Progressive Web App functionality, offline support, and caching
  */
 
-const CACHE_NAME = 'dutch-mystery-v1.2.1'; // Incremented version to force update
-const STATIC_CACHE_NAME = 'dutch-static-v1.2.1';
-const DYNAMIC_CACHE_NAME = 'dutch-dynamic-v1.2.1';
+const CACHE_NAME = 'dutch-mystery-v1.3.0'; // Incremented version to force reinstall
+const STATIC_CACHE_NAME = 'dutch-static-v1.3.0';
+const DYNAMIC_CACHE_NAME = 'dutch-dynamic-v1.3.0';
 
-// Files to cache immediately (critical resources)
+// Files to cache immediately (critical resources) - Removed fonts to avoid cross-origin issues; they'll cache at runtime
 const STATIC_FILES = [
   '/',
   '/css/enhanced-style.css',
@@ -21,19 +21,20 @@ const STATIC_FILES = [
   '/images/apple-touch-icon.png',
   // Add critical images
   '/images/og-dutch-mystery.jpg',
-  '/images/logo-dutch-mystery.png',
-  // Fonts (add actual font files)
-  'https://fonts.gstatic.com/s/orbitron/v31/yMJMMIlzdpvBhQQL_SC3X9yhF25-T1nyGy6BoWgz.woff2',
-  'https://fonts.gstatic.com/s/rajdhani/v21/LDIxapCSOBg7S-QT7p4JMeJqU6kI.woff2',
-  'https://fonts.gstatic.com/s/inter/v18/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7SUc.woff2'
+  '/images/logo-dutch-mystery.png'
 ];
 
-// Runtime caching strategies for different content types
+// Runtime caching strategies for different content types - Added fonts strategy
 const RUNTIME_CACHING = {
   images: {
     strategy: 'CacheFirst',
     maxEntries: 100,
     maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+  },
+  fonts: {
+    strategy: 'CacheFirst',
+    maxEntries: 10,
+    maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days for fonts
   },
   api: {
     strategy: 'NetworkFirst',
@@ -50,7 +51,7 @@ const RUNTIME_CACHING = {
   }
 };
 
-// Install event - cache critical resources
+// Install event - cache critical resources individually with error handling
 self.addEventListener('install', (event) => {
   console.log('🌷 Dutch Mystery Service Worker: Installing...');
   
@@ -58,7 +59,7 @@ self.addEventListener('install', (event) => {
     caches.open(STATIC_CACHE_NAME).then((cache) => {
       return Promise.all(
         STATIC_FILES.map((url) => {
-          return fetch(url).then((response) => {
+          return fetch(url, { mode: url.startsWith('http') ? 'cors' : 'same-origin' }).then((response) => {
             if (!response.ok) {
               console.warn(`Failed to cache ${url}: Status ${response.status}`);
               return Promise.resolve(); // Continue without aborting
@@ -243,8 +244,8 @@ async function handleFontRequest(request) {
       return cachedResponse;
     }
     
-    // Try network
-    const response = await fetch(request);
+    // Try network with CORS for external fonts
+    const response = await fetch(request, { mode: 'cors' });
     
     // Cache successful font responses for a long time
     if (response.status === 200) {
