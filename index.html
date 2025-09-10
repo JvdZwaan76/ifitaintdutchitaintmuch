@@ -208,7 +208,7 @@
     <meta name="apple-mobile-web-app-title" content="Dutch Mystery">
     
     <!-- Enhanced Favicon Set -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
@@ -430,6 +430,22 @@
     
     <!-- Enhanced JavaScript -->
     <script src="/js/enhanced-script.js" defer></script>
+    
+    <!-- Temporary: Use minimal service worker until all assets are created -->
+    <script>
+      // Register service worker with error handling
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw-minimal.js')
+            .then(registration => {
+              console.log('✅ Minimal SW registered successfully');
+            })
+            .catch(error => {
+              console.log('ℹ️ SW registration failed (this is OK for now):', error);
+            });
+        });
+      }
+    </script>
     
     <!-- Schema Markup for Local Business (if applicable) -->
     <script type="application/ld+json">
