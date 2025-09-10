@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
     <!-- SEO Meta -->
-    <title>Terms of Service - Portal Rules | If It Ain't Dutch, It Ain't Much</title>
-    <meta name="description" content="Terms of service for accessing Dutch mysteries, exclusive merchandise, and underground Amsterdam techno events. Read the portal rules and conditions.">
-    <meta name="keywords" content="terms of service, Dutch mystery terms, portal rules, underground events terms, merchandise conditions">
+    <title>Terms of Service - Portal Guidelines | If It Ain't Dutch, It Ain't Much</title>
+    <meta name="description" content="Terms of service and usage guidelines for the Dutch mystery portal, exclusive merchandise access, and underground Amsterdam techno events.">
+    <meta name="keywords" content="terms of service, usage guidelines, Dutch portal terms, legal agreement, service conditions">
     <meta name="robots" content="index, follow">
     
     <!-- Canonical -->
@@ -16,8 +16,8 @@
     <!-- Open Graph -->
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="If It Ain't Dutch, It Ain't Much">
-    <meta property="og:title" content="Terms of Service - Portal Access Rules">
-    <meta property="og:description" content="Official terms and conditions for accessing the Dutch mystery portal and exclusive experiences.">
+    <meta property="og:title" content="Terms of Service - Portal Usage Guidelines">
+    <meta property="og:description" content="Legal terms and conditions for accessing Dutch mysteries and exclusive experiences.">
     <meta property="og:url" content="https://ifitaintdutchitaintmuch.com/terms-of-service.html">
     
     <!-- Fonts and Styles -->
@@ -29,14 +29,23 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     
-    <!-- Terms of Service Specific Styles -->
+    <!-- Terms of Service Specific Styles - FIXED FOR SCROLLING -->
     <style>
+        /* FIXED: Remove problematic overflow and height constraints */
+        body {
+            overflow-x: hidden; /* Only prevent horizontal scroll */
+            overflow-y: auto; /* Allow vertical scrolling */
+            min-height: 100vh; /* Changed from height: 100vh */
+        }
+        
         .terms-container {
-            min-height: 100vh;
-            padding: 4rem 2rem 2rem;
+            min-height: 100vh; /* Changed from height constraint */
+            padding: 2rem; /* Reduced for mobile */
             background: var(--pure-black);
             position: relative;
             z-index: 2;
+            width: 100%;
+            box-sizing: border-box;
         }
         
         .terms-content {
@@ -44,40 +53,88 @@
             margin: 0 auto;
             background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
             backdrop-filter: blur(15px);
-            border: 1px solid rgba(0, 191, 255, 0.3);
+            border: 1px solid rgba(255, 149, 0, 0.2);
             border-radius: 20px;
-            padding: 3rem;
+            padding: clamp(2rem, 4vw, 3rem);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
         }
         
         .terms-title {
             font-family: var(--font-title);
-            font-size: clamp(2rem, 5vw, 3rem);
-            color: var(--electric-blue);
-            text-shadow: 0 0 15px var(--electric-blue);
+            font-size: clamp(1.8rem, 6vw, 3rem);
+            color: var(--primary-orange);
+            text-shadow: 0 0 15px var(--primary-orange);
             text-align: center;
             margin-bottom: 2rem;
             text-transform: uppercase;
         }
         
         .terms-intro {
-            background: rgba(0, 191, 255, 0.1);
+            background: rgba(255, 149, 0, 0.1);
             border-radius: 10px;
-            padding: 2rem;
+            padding: clamp(1.5rem, 3vw, 2rem);
             margin-bottom: 3rem;
-            border-left: 4px solid var(--electric-blue);
+            border-left: 4px solid var(--primary-orange);
         }
         
         .terms-intro h2 {
-            color: var(--neon-cyan);
+            color: var(--electric-blue);
             margin-bottom: 1rem;
             font-family: var(--font-subtitle);
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+        }
+        
+        .terms-toc {
+            background: rgba(0, 191, 255, 0.1);
+            border-radius: 10px;
+            padding: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: 3rem;
+            border: 1px solid rgba(0, 191, 255, 0.3);
+        }
+        
+        .terms-toc h3 {
+            color: var(--electric-blue);
+            margin-bottom: 1rem;
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+        }
+        
+        .terms-toc ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .terms-toc li {
+            margin: 0.5rem 0;
+        }
+        
+        .terms-toc a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+        
+        .terms-toc a:hover {
+            color: var(--golden-yellow);
+            text-shadow: 0 0 5px var(--golden-yellow);
+        }
+        
+        .terms-toc a:before {
+            content: "⚖️";
+            font-size: 0.9rem;
         }
         
         .terms-section {
             margin: 3rem 0;
             padding: 2rem 0;
-            border-bottom: 1px solid rgba(0, 191, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 149, 0, 0.2);
         }
         
         .terms-section:last-of-type {
@@ -87,23 +144,24 @@
         .terms-section h2 {
             color: var(--electric-blue);
             font-family: var(--font-subtitle);
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 2.8vw, 1.5rem);
             margin-bottom: 1.5rem;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid rgba(0, 191, 255, 0.3);
         }
         
         .terms-section h3 {
-            color: var(--neon-cyan);
+            color: var(--primary-orange);
             font-family: var(--font-subtitle);
             margin: 2rem 0 1rem;
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2.2vw, 1.2rem);
         }
         
         .terms-section p {
             line-height: 1.8;
             margin-bottom: 1.5rem;
             color: rgba(255, 255, 255, 0.85);
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
         
         .terms-section ul,
@@ -115,600 +173,491 @@
         .terms-section li {
             margin: 0.5rem 0;
             color: rgba(255, 255, 255, 0.8);
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
         
-        .important-notice {
-            background: rgba(255, 149, 0, 0.1);
-            border: 2px solid rgba(255, 149, 0, 0.4);
-            border-radius: 10px;
-            padding: 2rem;
-            margin: 2rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .important-notice::before {
-            content: "⚠️";
-            font-size: 2rem;
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            animation: warningPulse 2s ease-in-out infinite;
-        }
-        
-        .important-notice h4 {
-            color: var(--primary-orange);
-            margin-bottom: 1rem;
-            font-family: var(--font-subtitle);
-        }
-        
-        .mystery-box {
-            background: rgba(107, 70, 193, 0.1);
-            border: 1px solid rgba(107, 70, 193, 0.3);
+        .legal-notice {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
             border-radius: 8px;
-            padding: 1.5rem;
+            padding: clamp(1rem, 2.5vw, 1.5rem);
             margin: 2rem 0;
-            position: relative;
         }
         
-        .mystery-box::before {
-            content: "🔮";
-            position: absolute;
-            top: -10px;
-            left: 20px;
-            background: var(--pure-black);
-            padding: 0 10px;
-            font-size: 1.5rem;
-        }
-        
-        .mystery-box h4 {
-            color: var(--deep-purple);
+        .legal-notice h4 {
+            color: #FF6B6B;
             margin-bottom: 0.5rem;
-            margin-top: 0.5rem;
+            font-size: clamp(1rem, 2.2vw, 1.1rem);
         }
         
-        .contact-terms {
-            background: rgba(255, 149, 0, 0.1);
+        .legal-notice p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0;
+        }
+        
+        .highlight-box {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            padding: clamp(1rem, 2.5vw, 1.5rem);
+            margin: 2rem 0;
+        }
+        
+        .highlight-box.info {
+            background: rgba(0, 191, 255, 0.1);
+            border-color: rgba(0, 191, 255, 0.3);
+        }
+        
+        .highlight-box h4 {
+            color: var(--golden-yellow);
+            margin-bottom: 0.5rem;
+            font-size: clamp(1rem, 2.2vw, 1.1rem);
+        }
+        
+        .highlight-box.info h4 {
+            color: var(--neon-cyan);
+        }
+        
+        .contact-legal {
+            background: rgba(107, 70, 193, 0.1);
             border-radius: 15px;
-            padding: 2rem;
+            padding: clamp(1.5rem, 3vw, 2rem);
             margin-top: 3rem;
             text-align: center;
-            border: 1px solid rgba(255, 149, 0, 0.3);
+            border: 1px solid rgba(107, 70, 193, 0.3);
         }
         
-        .contact-terms h3 {
-            color: var(--primary-orange);
+        .contact-legal h3 {
+            color: var(--deep-purple);
             margin-bottom: 1rem;
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
         }
         
-        .contact-terms a {
-            color: var(--electric-blue);
+        .contact-legal a {
+            color: var(--primary-orange);
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
+            word-break: break-all;
         }
         
-        .contact-terms a:hover {
-            color: var(--neon-cyan);
-            text-shadow: 0 0 5px var(--neon-cyan);
+        .contact-legal a:hover {
+            color: var(--golden-yellow);
+            text-shadow: 0 0 5px var(--golden-yellow);
         }
         
-        .effective-date {
+        .last-updated {
             text-align: center;
             color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
+            font-size: clamp(0.8rem, 1.6vw, 0.9rem);
             margin-top: 2rem;
             padding-top: 2rem;
-            border-top: 1px solid rgba(0, 191, 255, 0.2);
+            border-top: 1px solid rgba(255, 149, 0, 0.2);
         }
         
-        @keyframes warningPulse {
-            0%, 100% { opacity: 0.7; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.1); }
-        }
-        
+        /* FIXED: Enhanced responsive design */
         @media (max-width: 768px) {
             .terms-container {
-                padding: 2rem 1rem;
+                padding: 1rem;
             }
             
             .terms-content {
                 padding: 2rem;
+                margin-top: 1rem;
+                border-radius: 15px;
+            }
+            
+            .terms-section ul,
+            .terms-section ol {
+                margin-left: 1.5rem;
+            }
+            
+            .terms-toc ul {
+                padding-left: 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .terms-container {
+                padding: 0.5rem;
+            }
+            
+            .terms-content {
+                padding: 1.5rem;
+                border-radius: 15px;
+            }
+            
+            .terms-section {
+                margin: 2rem 0;
+                padding: 1rem 0;
+            }
+            
+            .terms-intro,
+            .terms-toc,
+            .contact-legal,
+            .highlight-box,
+            .legal-notice {
+                padding: 1rem;
+            }
+            
+            .terms-section ul,
+            .terms-section ol {
+                margin-left: 1rem;
+            }
+        }
+        
+        @media (max-width: 320px) {
+            .terms-content {
+                padding: 1rem;
+            }
+        }
+        
+        /* Landscape orientation on mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .terms-container {
+                padding: 1rem 2rem;
+            }
+            
+            .terms-title {
+                margin-bottom: 1rem;
+            }
+            
+            .terms-intro,
+            .terms-toc {
+                margin-bottom: 2rem;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            .terms-content {
+                background: white;
+                border: 1px solid black;
+                box-shadow: none;
+            }
+            
+            .terms-title,
+            .terms-section h2,
+            .terms-section h3 {
+                color: black;
+                text-shadow: none;
+            }
+            
+            .highlight-box,
+            .legal-notice {
+                border: 1px solid black;
+                background: #f0f0f0;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link" tabindex="1">Skip to main content</a>
+    
     <!-- Background Effects -->
-    <div class="background-gradient"></div>
+    <div class="background-gradient" aria-hidden="true"></div>
     <canvas id="background-canvas" aria-hidden="true"></canvas>
     <div class="smoke" aria-hidden="true"></div>
-    <div class="lasers" aria-hidden="true">
-        <div class="laser laser1"></div>
-        <div class="laser laser2"></div>
-        <div class="laser laser3"></div>
-    </div>
     
-    <div class="terms-container">
-        <div class="terms-content">
-            <h1 class="terms-title">Terms of Service</h1>
-            
-            <div class="terms-intro">
-                <h2>⚔️ Portal Access Agreement</h2>
-                <p>
-                    Welcome, seeker of Dutch mysteries. By entering our portal and accessing the realm of "If It Ain't Dutch, It Ain't Much," 
-                    you agree to abide by these sacred terms. These conditions govern your access to our exclusive merchandise, 
-                    underground events, and mysterious experiences.
-                </p>
-                <p>
-                    <strong>By continuing beyond this point, you accept the full weight of these terms.</strong>
-                </p>
-            </div>
-            
-            <div class="important-notice">
-                <h4>🚨 Critical Notice</h4>
-                <p>
-                    These terms include important limitations on our liability and your rights. Please read carefully. 
-                    Some underground events and exclusive merchandise may have additional specific terms that will be 
-                    presented at the time of access or purchase.
-                </p>
-            </div>
-            
-            <div class="terms-section" id="definitions">
-                <h2>1. Definitions & Portal Entities</h2>
+    <!-- FIXED: Proper page structure -->
+    <div class="page-wrapper">
+        <main class="terms-container" id="main-content">
+            <div class="terms-content">
+                <h1 class="terms-title">Terms of Service</h1>
                 
-                <p>Throughout these terms, the following definitions apply:</p>
-                <ul>
-                    <li><strong>"Portal" or "Service"</strong> - The If It Ain't Dutch, It Ain't Much website, platform, and all associated services</li>
-                    <li><strong>"We," "Us," "Our"</strong> - If It Ain't Dutch, It Ain't Much and its guardians</li>
-                    <li><strong>"User," "You," "Your"</strong> - Any individual accessing or using our portal</li>
-                    <li><strong>"Dutch Mysteries"</strong> - Our exclusive merchandise, events, experiences, and cultural content</li>
-                    <li><strong>"Underground Events"</strong> - Private, invitation-only techno gatherings and cultural experiences</li>
-                    <li><strong>"Heritage Collection"</strong> - Our Dutch-inspired merchandise and apparel lines</li>
-                </ul>
+                <div class="terms-intro">
+                    <h2>⚖️ Portal Usage Agreement</h2>
+                    <p>
+                        Welcome to the mysterious realm of "If It Ain't Dutch, It Ain't Much." By accessing our portal, 
+                        exploring our mysteries, purchasing our exclusive merchandise, or attending our underground events, 
+                        you agree to be bound by these terms of service.
+                    </p>
+                    <p>
+                        <strong>Please read these terms carefully before using our services. Your continued use constitutes acceptance of these conditions.</strong>
+                    </p>
+                </div>
                 
-                <div class="mystery-box">
-                    <h4>Portal Jurisdiction</h4>
-                    <p>These terms are governed by the laws of the Netherlands, befitting our Dutch heritage and Amsterdam operations.</p>
+                <div class="terms-toc">
+                    <h3>📜 Terms Overview</h3>
+                    <ul>
+                        <li><a href="#acceptance-of-terms">Acceptance of Terms</a></li>
+                        <li><a href="#service-description">Service Description</a></li>
+                        <li><a href="#user-accounts">User Accounts & Access</a></li>
+                        <li><a href="#prohibited-conduct">Prohibited Conduct</a></li>
+                        <li><a href="#intellectual-property">Intellectual Property</a></li>
+                        <li><a href="#purchases-payments">Purchases & Payments</a></li>
+                        <li><a href="#event-terms">Event Terms & Conditions</a></li>
+                        <li><a href="#privacy-data">Privacy & Data Protection</a></li>
+                        <li><a href="#disclaimers">Disclaimers & Limitations</a></li>
+                        <li><a href="#termination">Termination</a></li>
+                        <li><a href="#governing-law">Governing Law</a></li>
+                        <li><a href="#contact-legal">Contact Information</a></li>
+                    </ul>
+                </div>
+                
+                <div class="terms-section" id="acceptance-of-terms">
+                    <h2>1. Acceptance of Terms</h2>
+                    
+                    <p>By accessing, browsing, or using the "If It Ain't Dutch, It Ain't Much" website, services, or purchasing any products, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service and our Privacy Policy.</p>
+                    
+                    <h3>Agreement Scope</h3>
+                    <ul>
+                        <li><strong>Website Usage:</strong> All interactions with our portal and digital services</li>
+                        <li><strong>Merchandise Purchases:</strong> All transactions for Dutch heritage products</li>
+                        <li><strong>Event Attendance:</strong> Participation in underground Amsterdam techno events</li>
+                        <li><strong>Communications:</strong> All correspondence and customer service interactions</li>
+                    </ul>
+                    
+                    <div class="legal-notice">
+                        <h4>⚠️ Legal Notice</h4>
+                        <p>If you do not agree to these terms, you must immediately cease using our services and leave the portal. Continued use after any modifications to these terms constitutes acceptance of the updated agreement.</p>
+                    </div>
+                </div>
+                
+                <div class="terms-section" id="service-description">
+                    <h2>2. Service Description</h2>
+                    
+                    <p>"If It Ain't Dutch, It Ain't Much" provides:</p>
+                    
+                    <h3>Digital Services</h3>
+                    <ul>
+                        <li><strong>Mystery Portal:</strong> Access to exclusive Dutch-themed content and experiences</li>
+                        <li><strong>Account Management:</strong> Personal dashboards for tracking orders and preferences</li>
+                        <li><strong>Community Features:</strong> Interaction with fellow Dutch mystery enthusiasts</li>
+                        <li><strong>Newsletter & Updates:</strong> Information about new products and events</li>
+                    </ul>
+                    
+                    <h3>Physical Products</h3>
+                    <ul>
+                        <li><strong>Heritage Apparel:</strong> Windmill and tulip-inspired clothing and accessories</li>
+                        <li><strong>Collectibles:</strong> Limited edition Dutch cultural artifacts</li>
+                        <li><strong>Mystery Items:</strong> Surprise products revealed upon purchase</li>
+                    </ul>
+                    
+                    <h3>Event Services</h3>
+                    <ul>
+                        <li><strong>Underground Techno Events:</strong> Exclusive Amsterdam electronic music experiences</li>
+                        <li><strong>VIP Access:</strong> Premium event experiences and backstage access</li>
+                        <li><strong>Cultural Tours:</strong> Guided explorations of Dutch mysteries</li>
+                    </ul>
+                    
+                    <div class="highlight-box info">
+                        <h4>🔮 Service Evolution</h4>
+                        <p>Our services may evolve, expand, or change over time. We reserve the right to modify, suspend, or discontinue any service with appropriate notice to users.</p>
+                    </div>
+                </div>
+                
+                <div class="terms-section" id="user-accounts">
+                    <h2>3. User Accounts & Access</h2>
+                    
+                    <h3>Account Creation</h3>
+                    <p>To access certain features, you must create an account by providing:</p>
+                    <ul>
+                        <li>Valid email address</li>
+                        <li>Secure password meeting our requirements</li>
+                        <li>Accurate personal information</li>
+                        <li>Agreement to these terms</li>
+                    </ul>
+                    
+                    <h3>Account Responsibilities</h3>
+                    <ul>
+                        <li><strong>Security:</strong> Maintain confidentiality of login credentials</li>
+                        <li><strong>Accuracy:</strong> Keep account information current and truthful</li>
+                        <li><strong>Unauthorized Use:</strong> Immediately report suspected security breaches</li>
+                        <li><strong>Age Requirements:</strong> Must be 18+ or have parental consent</li>
+                    </ul>
+                    
+                    <h3>Access Levels</h3>
+                    <ul>
+                        <li><strong>Basic Access:</strong> Standard portal browsing and shopping</li>
+                        <li><strong>Premium Access:</strong> Exclusive content and early product releases</li>
+                        <li><strong>VIP Access:</strong> Underground events and special experiences</li>
+                    </ul>
+                </div>
+                
+                <div class="terms-section" id="prohibited-conduct">
+                    <h2>4. Prohibited Conduct</h2>
+                    
+                    <p>Users must not engage in any of the following prohibited activities:</p>
+                    
+                    <h3>Technical Violations</h3>
+                    <ul>
+                        <li>Hacking, cracking, or attempting to breach security measures</li>
+                        <li>Using automated tools to access or scrape our services</li>
+                        <li>Attempting to reverse engineer our software or systems</li>
+                        <li>Uploading viruses, malware, or malicious code</li>
+                    </ul>
+                    
+                    <h3>Content Violations</h3>
+                    <ul>
+                        <li>Posting illegal, harmful, or offensive content</li>
+                        <li>Impersonating other users or entities</li>
+                        <li>Violating intellectual property rights</li>
+                        <li>Sharing false or misleading information</li>
+                    </ul>
+                    
+                    <h3>Commercial Violations</h3>
+                    <ul>
+                        <li>Reselling event tickets without authorization</li>
+                        <li>Using our services for unauthorized commercial purposes</li>
+                        <li>Circumventing payment systems or fees</li>
+                        <li>Creating multiple accounts to abuse promotions</li>
+                    </ul>
+                    
+                    <div class="legal-notice">
+                        <h4>⚖️ Enforcement</h4>
+                        <p>Violation of these terms may result in account suspension, termination, legal action, or being permanently banned from all our services and events.</p>
+                    </div>
+                </div>
+                
+                <div class="terms-section" id="intellectual-property">
+                    <h2>5. Intellectual Property</h2>
+                    
+                    <h3>Our Intellectual Property</h3>
+                    <p>All content, designs, logos, trademarks, and intellectual property on our platform are owned by "If It Ain't Dutch, It Ain't Much" or our licensors, including:</p>
+                    <ul>
+                        <li>Website design, graphics, and user interface</li>
+                        <li>Product designs and artwork</li>
+                        <li>Brand names, logos, and slogans</li>
+                        <li>Written content, images, and multimedia</li>
+                        <li>Software, code, and technical implementations</li>
+                    </ul>
+                    
+                    <h3>User-Generated Content</h3>
+                    <p>By submitting content to our platform, you grant us:</p>
+                    <ul>
+                        <li>Non-exclusive right to use, modify, and display your content</li>
+                        <li>Permission to use content for marketing and promotional purposes</li>
+                        <li>Right to remove content that violates our guidelines</li>
+                    </ul>
+                    
+                    <h3>Permitted Use</h3>
+                    <ul>
+                        <li>Personal, non-commercial use of our content</li>
+                        <li>Sharing our content with proper attribution</li>
+                        <li>Fair use for educational or review purposes</li>
+                    </ul>
+                </div>
+                
+                <div class="terms-section" id="purchases-payments">
+                    <h2>6. Purchases & Payments</h2>
+                    
+                    <h3>Payment Terms</h3>
+                    <ul>
+                        <li><strong>Accepted Methods:</strong> Credit cards, PayPal, Apple Pay, Google Pay</li>
+                        <li><strong>Currency:</strong> Prices displayed in EUR, USD, or GBP</li>
+                        <li><strong>Processing:</strong> Payments processed securely through encrypted systems</li>
+                        <li><strong>Authorization:</strong> Payment authorization required before order fulfillment</li>
+                    </ul>
+                    
+                    <h3>Pricing & Availability</h3>
+                    <ul>
+                        <li>Prices subject to change without notice</li>
+                        <li>Limited edition items available while supplies last</li>
+                        <li>Promotional pricing may have restrictions</li>
+                        <li>Tax calculations based on shipping address</li>
+                    </ul>
+                    
+                    <h3>Refund Policy</h3>
+                    <ul>
+                        <li><strong>Merchandise:</strong> 30-day return policy for unused items</li>
+                        <li><strong>Event Tickets:</strong> Refunds available up to 48 hours before event</li>
+                        <li><strong>Digital Content:</strong> No refunds unless required by law</li>
+                        <li><strong>Processing Time:</strong> 5-10 business days for approved refunds</li>
+                    </ul>
+                </div>
+                
+                <div class="terms-section" id="event-terms">
+                    <h2>7. Event Terms & Conditions</h2>
+                    
+                    <h3>Event Access</h3>
+                    <ul>
+                        <li>Valid ticket required for entry to all events</li>
+                        <li>Age restrictions may apply (18+ for most events)</li>
+                        <li>Government-issued ID required for verification</li>
+                        <li>Right to refuse entry for safety or security reasons</li>
+                    </ul>
+                    
+                    <h3>Event Conduct</h3>
+                    <ul>
+                        <li>Respect for other attendees and venue staff</li>
+                        <li>Compliance with venue rules and local laws</li>
+                        <li>No recording or photography without permission</li>
+                        <li>Responsible alcohol consumption where permitted</li>
+                    </ul>
+                    
+                    <h3>Event Changes</h3>
+                    <ul>
+                        <li>Events may be postponed, relocated, or cancelled</li>
+                        <li>Lineup changes may occur without notice</li>
+                        <li>Weather-related cancellations covered by refund policy</li>
+                        <li>Force majeure events may affect event availability</li>
+                    </ul>
+                </div>
+                
+                <div class="terms-section" id="disclaimers">
+                    <h2>8. Disclaimers & Limitations</h2>
+                    
+                    <h3>Service Disclaimers</h3>
+                    <p>Our services are provided "as is" without warranties of any kind. We disclaim:</p>
+                    <ul>
+                        <li>Warranties of merchantability or fitness for particular purpose</li>
+                        <li>Guarantees of uninterrupted or error-free service</li>
+                        <li>Responsibility for third-party content or services</li>
+                        <li>Liability for user-generated content</li>
+                    </ul>
+                    
+                    <h3>Limitation of Liability</h3>
+                    <p>To the maximum extent permitted by law, our liability is limited to:</p>
+                    <ul>
+                        <li>The amount paid for specific products or services</li>
+                        <li>Direct damages only (no consequential or punitive damages)</li>
+                        <li>Replacement or refund at our discretion</li>
+                    </ul>
+                    
+                    <div class="legal-notice">
+                        <h4>⚖️ Jurisdiction Note</h4>
+                        <p>Some jurisdictions do not allow certain warranty disclaimers or liability limitations. In such cases, our disclaimers and limitations apply to the fullest extent permitted by applicable law.</p>
+                    </div>
+                </div>
+                
+                <div class="contact-legal">
+                    <h3>⚖️ Legal Questions?</h3>
+                    <p>
+                        If you have questions about these terms of service or need legal clarification, 
+                        please contact our legal team. We're committed to transparent and fair business practices.
+                    </p>
+                    <p>
+                        <strong>Legal Contact:</strong> <a href="mailto:legal@ifitaintdutchitaintmuch.com">legal@ifitaintdutchitaintmuch.com</a><br>
+                        <strong>Business Address:</strong> Amsterdam, Netherlands<br>
+                        <strong>Response Time:</strong> Within 5 business days
+                    </p>
+                </div>
+                
+                <div class="last-updated">
+                    <p>
+                        <strong>Last Updated:</strong> September 9, 2025<br>
+                        <strong>Effective Date:</strong> September 9, 2025<br>
+                        <strong>Version:</strong> 2.1
+                    </p>
                 </div>
             </div>
-            
-            <div class="terms-section" id="acceptance">
-                <h2>2. Acceptance of Terms</h2>
-                
-                <p>By accessing our portal, creating an account, making a purchase, or using any of our services, you:</p>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="neon-footer" role="contentinfo">
+            <nav aria-label="Footer Navigation">
                 <ul>
-                    <li>Acknowledge that you have read and understood these terms</li>
-                    <li>Agree to be legally bound by these conditions</li>
-                    <li>Confirm that you are at least 18 years of age</li>
-                    <li>Represent that you have the legal capacity to enter into this agreement</li>
-                    <li>Accept responsibility for all activities under your account</li>
+                    <li><a href="/" rel="home">Portal Home</a></li>
+                    <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="/contact.html">Contact Us</a></li>
+                    <li><a href="/accessibility.html">Accessibility</a></li>
                 </ul>
-                
-                <p>If you do not agree to these terms, you must not access or use our services.</p>
-                
-                <h3>Age Requirements</h3>
-                <ul>
-                    <li><strong>General Access:</strong> 18+ years (legal adult status required)</li>
-                    <li><strong>Underground Events:</strong> 21+ years (due to venue requirements and content)</li>
-                    <li><strong>Alcohol-Related Events:</strong> Legal drinking age in your jurisdiction</li>
-                </ul>
-            </div>
-            
-            <div class="terms-section" id="user-accounts">
-                <h2>3. User Accounts & Portal Access</h2>
-                
-                <h3>Account Creation</h3>
-                <p>To access exclusive features, you may create an account. You agree to:</p>
-                <ul>
-                    <li>Provide accurate, current, and complete information</li>
-                    <li>Maintain the security of your login credentials</li>
-                    <li>Notify us immediately of any unauthorized use</li>
-                    <li>Accept responsibility for all activities under your account</li>
-                    <li>Use only one account per person (no duplicate accounts)</li>
-                </ul>
-                
-                <h3>Account Termination</h3>
-                <p>We reserve the right to suspend or terminate accounts for:</p>
-                <ul>
-                    <li>Violation of these terms</li>
-                    <li>Fraudulent or illegal activity</li>
-                    <li>Abuse of other users or our services</li>
-                    <li>Prolonged inactivity (2+ years)</li>
-                    <li>At our discretion for operational reasons</li>
-                </ul>
-                
-                <div class="mystery-box">
-                    <h4>Portal Security</h4>
-                    <p>Your account contains access to exclusive events and merchandise. Protect your credentials as you would guard the secrets of the Dutch void.</p>
-                </div>
-            </div>
-            
-            <div class="terms-section" id="services-products">
-                <h2>4. Services & Products</h2>
-                
-                <h3>Heritage Collection (Merchandise)</h3>
-                <ul>
-                    <li><strong>Product Descriptions:</strong> We strive for accuracy but cannot guarantee all details</li>
-                    <li><strong>Availability:</strong> Limited quantities, first-come-first-served basis</li>
-                    <li><strong>Pricing:</strong> Subject to change without notice</li>
-                    <li><strong>Quality:</strong> Premium materials and craftsmanship standards</li>
-                    <li><strong>Exclusivity:</strong> Some items are limited editions and cannot be restocked</li>
-                </ul>
-                
-                <h3>Underground Events</h3>
-                <ul>
-                    <li><strong>Access:</strong> By invitation or exclusive purchase only</li>
-                    <li><strong>Location:</strong> Revealed closer to event date (security reasons)</li>
-                    <li><strong>Capacity:</strong> Strictly limited for intimate experiences</li>
-                    <li><strong>Age Restrictions:</strong> 21+ for most events</li>
-                    <li><strong>Dress Code:</strong> May apply (specified per event)</li>
-                    <li><strong>Recording:</strong> Prohibited without explicit permission</li>
-                </ul>
-                
-                <h3>Digital Services</h3>
-                <ul>
-                    <li><strong>Portal Access:</strong> 99.9% uptime goal (not guaranteed)</li>
-                    <li><strong>Content Updates:</strong> Regular mystery reveals and new collections</li>
-                    <li><strong>Notifications:</strong> Event alerts and exclusive access opportunities</li>
-                </ul>
-            </div>
-            
-            <div class="terms-section" id="purchases-payments">
-                <h2>5. Purchases & Payment Terms</h2>
-                
-                <h3>Payment Processing</h3>
-                <ul>
-                    <li><strong>Accepted Methods:</strong> Credit cards, PayPal, Apple Pay, Google Pay, select cryptocurrencies</li>
-                    <li><strong>Currency:</strong> Prices displayed in EUR, USD, or local currency</li>
-                    <li><strong>Authorization:</strong> Payment methods are verified at time of purchase</li>
-                    <li><strong>Security:</strong> All transactions encrypted and PCI-DSS compliant</li>
-                </ul>
-                
-                <h3>Pricing & Fees</h3>
-                <ul>
-                    <li>All prices include applicable VAT/taxes where required</li>
-                    <li>Shipping costs calculated at checkout</li>
-                    <li>Currency conversion fees may apply (charged by your bank)</li>
-                    <li>No hidden fees or surprise charges</li>
-                </ul>
-                
-                <h3>Order Confirmation</h3>
-                <p>Orders are confirmed when:</p>
-                <ol>
-                    <li>Payment is successfully processed</li>
-                    <li>Inventory is confirmed available</li>
-                    <li>You receive our confirmation email</li>
-                    <li>For events: Access credentials are generated</li>
-                </ol>
-                
-                <div class="important-notice">
-                    <h4>Exclusive Event Pricing</h4>
-                    <p>Underground event tickets are priced based on exclusivity and experience value. Prices reflect the unique, limited nature of these experiences and include premium amenities.</p>
-                </div>
-            </div>
-            
-            <div class="terms-section" id="shipping-delivery">
-                <h2>6. Shipping & Delivery</h2>
-                
-                <h3>Physical Products</h3>
-                <ul>
-                    <li><strong>Processing Time:</strong> 2-5 business days</li>
-                    <li><strong>Shipping Methods:</strong> Standard, Express, Premium (white-glove)</li>
-                    <li><strong>International Shipping:</strong> Available to most countries</li>
-                    <li><strong>Customs & Duties:</strong> Buyer responsibility for international orders</li>
-                    <li><strong>Tracking:</strong> Provided for all shipments</li>
-                </ul>
-                
-                <h3>Digital Delivery</h3>
-                <ul>
-                    <li><strong>Event Tickets:</strong> Digital credentials sent via email</li>
-                    <li><strong>Access Codes:</strong> Delivered instantly upon payment confirmation</li>
-                    <li><strong>Digital Content:</strong> Available in your account dashboard</li>
-                </ul>
-                
-                <h3>Delivery Issues</h3>
-                <p>Contact us immediately if you experience:</p>
-                <ul>
-                    <li>Non-delivery within expected timeframe</li>
-                    <li>Damaged or incorrect items</li>
-                    <li>Missing event access credentials</li>
-                    <li>Any delivery-related concerns</li>
-                </ul>
-            </div>
-            
-            <div class="terms-section" id="returns-refunds">
-                <h2>7. Returns, Refunds & Cancellations</h2>
-                
-                <h3>Physical Merchandise</h3>
-                <ul>
-                    <li><strong>Return Window:</strong> 30 days from delivery</li>
-                    <li><strong>Condition:</strong> Items must be unused, with original tags</li>
-                    <li><strong>Process:</strong> Contact support for return authorization</li>
-                    <li><strong>Return Shipping:</strong> Customer responsibility (unless defective)</li>
-                    <li><strong>Refund Processing:</strong> 5-10 business days after receipt</li>
-                </ul>
-                
-                <h3>Limited Edition Items</h3>
-                <ul>
-                    <li>Returns accepted only for defects or damage</li>
-                    <li>No returns for change of mind</li>
-                    <li>Authenticity guaranteed</li>
-                </ul>
-                
-                <h3>Event Tickets</h3>
-                <ul>
-                    <li><strong>Cancellation Window:</strong> 48 hours before event</li>
-                    <li><strong>Refund Fee:</strong> 15% administrative fee applies</li>
-                    <li><strong>No-Show Policy:</strong> No refunds for missed events</li>
-                    <li><strong>Event Cancellation:</strong> Full refunds if we cancel</li>
-                    <li><strong>Transfer Policy:</strong> Limited transfers allowed (subject to approval)</li>
-                </ul>
-                
-                <div class="mystery-box">
-                    <h4>Exclusive Experience Policy</h4>
-                    <p>Due to the unique nature of our underground events and limited capacity, refund policies are strictly enforced. Plan accordingly.</p>
-                </div>
-            </div>
-            
-            <div class="terms-section" id="user-conduct">
-                <h2>8. User Conduct & Community Standards</h2>
-                
-                <h3>Prohibited Activities</h3>
-                <p>Users may not:</p>
-                <ul>
-                    <li>Violate any laws or regulations</li>
-                    <li>Infringe on intellectual property rights</li>
-                    <li>Harass, threaten, or abuse other users</li>
-                    <li>Share false or misleading information</li>
-                    <li>Attempt to hack, manipulate, or damage our systems</li>
-                    <li>Resell tickets or merchandise without authorization</li>
-                    <li>Record or photograph events without permission</li>
-                    <li>Share exclusive event locations or access details</li>
-                </ul>
-                
-                <h3>Community Guidelines</h3>
-                <ul>
-                    <li><strong>Respect:</strong> Treat all community members with dignity</li>
-                    <li><strong>Privacy:</strong> Respect others' privacy and personal boundaries</li>
-                    <li><strong>Authenticity:</strong> Be genuine in your interactions</li>
-                    <li><strong>Inclusivity:</strong> Welcome all who share our passion for Dutch culture</li>
-                </ul>
-                
-                <h3>Consequences</h3>
-                <p>Violations may result in:</p>
-                <ul>
-                    <li>Warning or account suspension</li>
-                    <li>Permanent account termination</li>
-                    <li>Removal from events</li>
-                    <li>Legal action if warranted</li>
-                </ul>
-            </div>
-            
-            <div class="terms-section" id="intellectual-property">
-                <h2>9. Intellectual Property Rights</h2>
-                
-                <h3>Our Content</h3>
-                <p>All content on our portal is protected, including:</p>
-                <ul>
-                    <li>Brand names, logos, and trademarks</li>
-                    <li>Website design and user interface</li>
-                    <li>Product descriptions and imagery</li>
-                    <li>Event concepts and experiences</li>
-                    <li>Written content and blog posts</li>
-                    <li>Video and audio content</li>
-                </ul>
-                
-                <h3>User-Generated Content</h3>
-                <p>When you submit content (reviews, photos, etc.), you grant us:</p>
-                <ul>
-                    <li>Non-exclusive license to use, modify, and display</li>
-                    <li>Rights to use in marketing and promotional materials</li>
-                    <li>Permission to share across our platforms</li>
-                </ul>
-                
-                <h3>Respect for IP</h3>
-                <p>We respect intellectual property rights. If you believe your rights have been infringed, contact us with:</p>
-                <ul>
-                    <li>Description of the copyrighted work</li>
-                    <li>Location of the infringing material</li>
-                    <li>Your contact information</li>
-                    <li>Good faith statement of unauthorized use</li>
-                </ul>
-            </div>
-            
-            <div class="terms-section" id="disclaimers-limitations">
-                <h2>10. Disclaimers & Limitation of Liability</h2>
-                
-                <h3>Service Disclaimers</h3>
-                <p>Our services are provided "as is" without warranties of any kind. We disclaim:</p>
-                <ul>
-                    <li>Implied warranties of merchantability</li>
-                    <li>Fitness for a particular purpose</li>
-                    <li>Non-infringement of third-party rights</li>
-                    <li>Continuous, uninterrupted service availability</li>
-                </ul>
-                
-                <h3>Event Disclaimers</h3>
-                <ul>
-                    <li><strong>Safety:</strong> Attend events at your own risk</li>
-                    <li><strong>Content:</strong> Events may include mature themes</li>
-                    <li><strong>Weather:</strong> Outdoor events subject to conditions</li>
-                    <li><strong>Third Parties:</strong> Not responsible for venue or performer issues</li>
-                </ul>
-                
-                <h3>Limitation of Liability</h3>
-                <p>Our total liability to you is limited to:</p>
-                <ul>
-                    <li>The amount you paid for the specific service or product</li>
-                    <li>€500 maximum in any case</li>
-                    <li>No liability for indirect, consequential, or punitive damages</li>
-                </ul>
-                
-                <div class="important-notice">
-                    <h4>Underground Event Risks</h4>
-                    <p>Underground events involve inherent risks. By attending, you assume responsibility for your safety and well-being. We recommend appropriate insurance coverage.</p>
-                </div>
-            </div>
-            
-            <div class="terms-section" id="privacy-data">
-                <h2>11. Privacy & Data Protection</h2>
-                
-                <p>Your privacy is paramount. Our data practices are governed by our comprehensive <a href="/privacy-policy.html" style="color: var(--neon-cyan);">Privacy Policy</a>, which covers:</p>
-                <ul>
-                    <li>What information we collect and why</li>
-                    <li>How we use and protect your data</li>
-                    <li>Your rights under GDPR and other privacy laws</li>
-                    <li>Cookie usage and tracking technologies</li>
-                    <li>Third-party data sharing practices</li>
-                </ul>
-                
-                <h3>Key Privacy Points</h3>
-                <ul>
-                    <li>We never sell your personal information</li>
-                    <li>Marketing communications require explicit consent</li>
-                    <li>You can request data deletion at any time</li>
-                    <li>All data is encrypted and securely stored</li>
-                </ul>
-            </div>
-            
-            <div class="terms-section" id="modifications">
-                <h2>12. Modifications to Terms</h2>
-                
-                <p>We may update these terms to:</p>
-                <ul>
-                    <li>Reflect changes in our services</li>
-                    <li>Comply with new legal requirements</li>
-                    <li>Improve clarity and user understanding</li>
-                    <li>Address new features or offerings</li>
-                </ul>
-                
-                <h3>Change Notification</h3>
-                <ul>
-                    <li><strong>Email Notice:</strong> Sent to all users 30 days in advance</li>
-                    <li><strong>Portal Banner:</strong> Prominent notification on website</li>
-                    <li><strong>Effective Date:</strong> Changes take effect 30 days after notice</li>
-                    <li><strong>Continued Use:</strong> Constitutes acceptance of new terms</li>
-                </ul>
-                
-                <p>If you don't agree to updated terms, discontinue use before the effective date.</p>
-            </div>
-            
-            <div class="terms-section" id="termination">
-                <h2>13. Termination</h2>
-                
-                <h3>User Termination</h3>
-                <p>You may terminate your relationship with us by:</p>
-                <ul>
-                    <li>Closing your account through settings</li>
-                    <li>Contacting customer support</li>
-                    <li>Ceasing to use our services</li>
-                </ul>
-                
-                <h3>Our Termination Rights</h3>
-                <p>We may suspend or terminate access for:</p>
-                <ul>
-                    <li>Material breach of these terms</li>
-                    <li>Illegal or harmful conduct</li>
-                    <li>Business operational reasons</li>
-                    <li>Regulatory compliance requirements</li>
-                </ul>
-                
-                <h3>Effect of Termination</h3>
-                <ul>
-                    <li>Access to services immediately ceased</li>
-                    <li>Outstanding orders honored (unless cause for termination)</li>
-                    <li>Data retention per our privacy policy</li>
-                    <li>Accrued rights and obligations survive</li>
-                </ul>
-            </div>
-            
-            <div class="terms-section" id="governing-law">
-                <h2>14. Governing Law & Dispute Resolution</h2>
-                
-                <h3>Governing Law</h3>
-                <p>These terms are governed by the laws of the Netherlands, without regard to conflict of law principles.</p>
-                
-                <h3>Dispute Resolution Process</h3>
-                <ol>
-                    <li><strong>Direct Communication:</strong> Contact us first to resolve issues</li>
-                    <li><strong>Mediation:</strong> Good faith mediation if direct resolution fails</li>
-                    <li><strong>Arbitration:</strong> Binding arbitration in Amsterdam (if required)</li>
-                    <li><strong>Court Jurisdiction:</strong> Dutch courts have exclusive jurisdiction</li>
-                </ol>
-                
-                <h3>Class Action Waiver</h3>
-                <p>You agree to resolve disputes individually, not as part of class or collective actions.</p>
-                
-                <div class="mystery-box">
-                    <h4>Peaceful Resolution</h4>
-                    <p>We believe most disputes can be resolved through understanding and communication. Our support team is empowered to find fair solutions.</p>
-                </div>
-            </div>
-            
-            <div class="terms-section" id="miscellaneous">
-                <h2>15. Miscellaneous Provisions</h2>
-                
-                <h3>Entire Agreement</h3>
-                <p>These terms, along with our Privacy Policy and any specific event or purchase agreements, constitute the entire agreement between us.</p>
-                
-                <h3>Severability</h3>
-                <p>If any provision is found invalid or unenforceable, the remainder of these terms remain in effect.</p>
-                
-                <h3>Force Majeure</h3>
-                <p>We're not liable for delays or failures due to circumstances beyond our control, including:</p>
-                <ul>
-                    <li>Natural disasters</li>
-                    <li>Government actions</li>
-                    <li>Labor disputes</li>
-                    <li>Technical infrastructure failures</li>
-                    <li>Pandemic or health emergencies</li>
-                </ul>
-                
-                <h3>Assignment</h3>
-                <p>We may assign these terms or our rights/obligations. You may not assign your rights without our written consent.</p>
-                
-                <h3>Waiver</h3>
-                <p>Our failure to enforce any right doesn't constitute a waiver of that right.</p>
-            </div>
-            
-            <div class="contact-terms">
-                <h3>📧 Questions About Terms?</h3>
-                <p>
-                    If you have questions about these terms or need clarification on any provisions, 
-                    our support team is here to help. We're committed to transparency and understanding.
-                </p>
-                <p>
-                    <strong>Legal Inquiries:</strong> <a href="mailto:legal@ifitaintdutchitaintmuch.com">legal@ifitaintdutchitaintmuch.com</a><br>
-                    <strong>General Support:</strong> <a href="/contact.html?subject=terms-inquiry">Contact Portal</a>
-                </p>
-            </div>
-            
-            <div class="effective-date">
-                <p>
-                    <strong>Effective Date:</strong> September 9, 2025<br>
-                    <strong>Last Updated:</strong> September 9, 2025<br>
-                    <strong>Version:</strong> 3.0
-                </p>
-                <p style="margin-top: 1rem; font-style: italic;">
-                    "By entering our realm, you become part of the Dutch mystery. Welcome to the community of seekers."
-                </p>
-            </div>
-        </div>
+            </nav>
+            <p>&copy; 2025 If It Ain't Dutch, It Ain't Much. All terms enforced by Dutch mystery law.</p>
+        </footer>
     </div>
-    
-    <!-- Footer -->
-    <footer class="neon-footer" style="position: relative; margin-top: 2rem;">
-        <nav aria-label="Footer Navigation">
-            <ul>
-                <li><a href="/" rel="home">Portal Home</a></li>
-                <li><a href="/privacy-policy.html">Privacy Policy</a></li>
-                <li><a href="/contact.html">Contact Us</a></li>
-                <li><a href="/accessibility.html">Accessibility</a></li>
-            </ul>
-        </nav>
-        <p>&copy; 2025 If It Ain't Dutch, It Ain't Much. Terms binding across all realms.</p>
-    </footer>
     
     <script src="/js/enhanced-script.js" defer></script>
     
@@ -718,7 +667,7 @@
       "@context": "https://schema.org",
       "@type": "WebPage",
       "name": "Terms of Service",
-      "description": "Comprehensive terms of service for accessing Dutch mysteries and exclusive experiences.",
+      "description": "Legal terms and conditions for using the Dutch mystery portal and services.",
       "url": "https://ifitaintdutchitaintmuch.com/terms-of-service.html",
       "dateModified": "2025-09-09",
       "datePublished": "2025-09-09",
@@ -730,11 +679,6 @@
         "@type": "Organization",
         "name": "If It Ain't Dutch, It Ain't Much",
         "url": "https://ifitaintdutchitaintmuch.com/"
-      },
-      "mainEntity": {
-        "@type": "TermsOfService",
-        "name": "If It Ain't Dutch, It Ain't Much Terms of Service",
-        "description": "Legal terms governing access to Dutch heritage merchandise and underground Amsterdam experiences."
       }
     }
     </script>
