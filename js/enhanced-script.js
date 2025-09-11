@@ -1195,3 +1195,44 @@ document.addEventListener('DOMContentLoaded', () => {
     
     console.log('Dutch Mystery Portal initialized with authentication integration.');
 });
+
+// Global functions for HTML interactions
+function logout() {
+    // Clear authentication
+    sessionStorage.removeItem('dutchPortalAuth');
+    sessionStorage.removeItem('dutchPortalUser');
+    sessionStorage.removeItem('dutchPortalTime');
+    
+    // Show login form and hide protected content
+    const loginSection = document.getElementById('loginSection');
+    const protectedContent = document.getElementById('protectedContent');
+    
+    if (loginSection && protectedContent) {
+        protectedContent.style.display = 'none';
+        loginSection.style.display = 'block';
+        
+        // Clear form
+        const form = document.getElementById('loginForm');
+        if (form) {
+            form.reset();
+        }
+        
+        // Clear any messages
+        const message = document.getElementById('message');
+        if (message) {
+            message.classList.remove('show');
+        }
+    }
+    
+    // Show logout confirmation
+    if (window.DutchMysteryPortal) {
+        window.DutchMysteryPortal.showMessage('Logged out successfully. The portal awaits your return...', 'info');
+    }
+}
+
+function showComingSoon() {
+    // Show coming soon message
+    if (window.DutchMysteryPortal) {
+        window.DutchMysteryPortal.showMessage('More Dutch mysteries are being crafted... Stay tuned for exclusive releases!', 'info');
+    }
+}
