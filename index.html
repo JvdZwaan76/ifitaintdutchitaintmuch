@@ -1,64 +1,1243 @@
-// FIND this section in your index.html file (around line 650-680):
-// In the LoginFormHandler class, replace the existing "if (response.success)" block with this:
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    <!-- Enhanced Title & Meta Description -->
+    <title>If It Ain't Dutch, It Ain't Much | Exclusive Dutch Merchandise & Underground Techno Events Amsterdam</title>
+    <meta name="description" content="Discover exclusive Dutch-themed merchandise, premium windmill & tulip apparel, and gain access to Amsterdam's most secretive underground techno events. Enter the mysterious world where authentic Dutch culture meets electronic music.">
+    <meta name="keywords" content="Dutch merchandise, Netherlands clothing, Amsterdam techno events, underground music scene, Dutch culture, windmill apparel, tulip fashion, exclusive access, Dutch heritage, electronic music Amsterdam, Netherlands streetwear, techno tickets Amsterdam">
+    <meta name="author" content="If It Ain't Dutch, It Ain't Much">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="bingbot" content="index, follow">
+    
+    <!-- Enhanced Canonical & Hreflang -->
+    <link rel="canonical" href="https://ifitaintdutchitaintmuch.com/">
+    <link rel="alternate" hreflang="en" href="https://ifitaintdutchitaintmuch.com/">
+    <link rel="alternate" hreflang="nl" href="https://ifitaintdutchitaintmuch.com/nl/">
+    <link rel="alternate" hreflang="x-default" href="https://ifitaintdutchitaintmuch.com/">
+    
+    <!-- Enhanced Open Graph -->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="If It Ain't Dutch, It Ain't Much">
+    <meta property="og:url" content="https://ifitaintdutchitaintmuch.com/">
+    <meta property="og:title" content="Exclusive Dutch Merchandise & Underground Amsterdam Techno | If It Ain't Dutch, It Ain't Much">
+    <meta property="og:description" content="Unlock the vault to Dutch mysteries: premium heritage apparel, exclusive merchandise, and secret passages to Amsterdam's underground techno scene. Enter the void if you dare.">
+    <meta property="og:image" content="https://ifitaintdutchitaintmuch.com/images/og-dutch-mystery.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Mysterious Dutch merchandise and techno events - neon windmill silhouette">
+    <meta property="og:image:type" content="image/jpeg">
+    
+    <!-- Enhanced Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@DutchMystery">
+    <meta name="twitter:creator" content="@DutchMystery">
+    <meta name="twitter:url" content="https://ifitaintdutchitaintmuch.com/">
+    <meta name="twitter:title" content="If It Ain't Dutch, It Ain't Much | Mysterious Dutch Destination">
+    <meta name="twitter:description" content="Enter the vault of Dutch enigmas: exclusive merchandise, underground techno access, and mysteries that echo through Amsterdam's hidden corners.">
+    <meta name="twitter:image" content="https://ifitaintdutchitaintmuch.com/images/twitter-dutch-neon.jpg">
+    <meta name="twitter:image:alt" content="Neon-lit Dutch windmill with mysterious techno atmosphere">
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+    
+    <!-- Enhanced Font Loading -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="/css/enhanced-style.css">
+    
+    <!-- Critical CSS for new components -->
+    <style>
+        /* Access Request Form Styles */
+        .access-request-section {
+            background: linear-gradient(145deg, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 149, 0, 0.3);
+            border-radius: 25px;
+            padding: clamp(2rem, 4vw, 3rem);
+            margin: 3rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-if (response.success) {
-    this.showMessage('✨ Access Granted. Welcome to the mystery...', 'success');
-    
-    // FIXED: Store authentication in both sessionStorage AND HTTP cookies
-    sessionStorage.setItem('dutchPortalAuth', 'authenticated');
-    sessionStorage.setItem('dutchPortalUser', username);
-    sessionStorage.setItem('dutchPortalTime', Date.now().toString());
-    
-    // NEW: Set HTTP cookies that will be sent to the server
-    const cookieOptions = `path=/; max-age=${24*60*60}; secure; samesite=strict`;
-    document.cookie = `dutchPortalAuth=authenticated; ${cookieOptions}`;
-    document.cookie = `dutchPortalUser=${encodeURIComponent(username)}; ${cookieOptions}`;
-    
-    // Store session token if provided
-    if (response.sessionToken) {
-        sessionStorage.setItem('dutchPortalSession', response.sessionToken);
-        document.cookie = `dutchPortalSession=${response.sessionToken}; ${cookieOptions}`;
-    }
-    
-    // Trigger success effects
-    if (window.DutchMysteryPortal) {
-        window.DutchMysteryPortal.triggerSuccessEffects();
-    }
-    
-    // NEW: Redirect to ADE guide after showing success message
-    setTimeout(() => {
-        this.showMessage('Preparing your journey into the Dutch void...', 'info');
-        setTimeout(() => {
-            window.location.href = '/ade-2025-guide';
-        }, 1500);
-    }, 2000);
-    
-} else {
-    this.showMessage('🔒 Access Denied. The mystery remains sealed...', 'error');
-}
+        .access-request-section::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #FF9500, #FFD700, #FF9500);
+            border-radius: 25px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
 
-// ALSO ADD this new logout function at the end of your HTML script section:
-// (Replace the existing logout function if there is one)
+        .access-request-section:hover::before {
+            opacity: 0.3;
+            animation: borderGlow 2s ease-in-out infinite;
+        }
 
-function logout() {
-    // Clear sessionStorage
-    sessionStorage.removeItem('dutchPortalAuth');
-    sessionStorage.removeItem('dutchPortalUser');
-    sessionStorage.removeItem('dutchPortalTime');
-    sessionStorage.removeItem('dutchPortalSession');
+        .access-cta-title {
+            font-family: var(--font-title);
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            color: var(--primary-orange);
+            text-shadow: 0 0 20px var(--primary-orange);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .access-cta-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .access-request-form {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row.two-column {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .form-field {
+            position: relative;
+        }
+
+        .form-field label {
+            display: block;
+            color: var(--golden-yellow);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+
+        .form-field input,
+        .form-field select {
+            width: 100%;
+            padding: clamp(1rem, 2.5vw, 1.2rem);
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(255, 149, 0, 0.3);
+            border-radius: 10px;
+            color: var(--pure-white);
+            font-family: var(--font-body);
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-field input:focus,
+        .form-field select:focus {
+            outline: none;
+            border-color: var(--golden-yellow);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .form-field input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
+        }
+
+        .form-field.error input,
+        .form-field.error select {
+            border-color: #FF6B6B;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+        }
+
+        .form-field.valid input,
+        .form-field.valid select {
+            border-color: #00FF00;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+
+        .field-error {
+            color: #FF6B6B;
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .field-error.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .access-submit-btn {
+            background: linear-gradient(135deg, var(--golden-yellow), var(--primary-orange));
+            border: none;
+            color: var(--pure-black);
+            font-family: var(--font-title);
+            font-size: clamp(1rem, 2.2vw, 1.2rem);
+            font-weight: 700;
+            padding: clamp(1rem, 2.5vw, 1.3rem) clamp(2rem, 5vw, 3rem);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            width: 100%;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .access-submit-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.4);
+        }
+
+        .access-submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .form-success {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            color: #00FF00;
+            font-size: clamp(1rem, 2.2vw, 1.1rem);
+            margin-top: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .form-success.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 25px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .loading-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 149, 0, 0.3);
+            border-top: 3px solid var(--primary-orange);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Enhanced Audio Control Widget */
+        .audio-control-widget {
+            background: linear-gradient(145deg, rgba(0, 255, 255, 0.1), rgba(0, 255, 255, 0.05));
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: clamp(2rem, 4vw, 2.5rem);
+            margin: 2rem auto;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            max-width: 600px;
+            animation: mysteriousGlow 4s ease-in-out infinite alternate;
+        }
+
+        .audio-control-widget::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00FFFF, #FF9500, #00FFFF);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            animation: borderTransmission 3s ease-in-out infinite;
+        }
+
+        .audio-control-widget:hover::before {
+            opacity: 0.4;
+        }
+
+        .audio-widget-title {
+            font-family: var(--font-title);
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            color: var(--neon-cyan);
+            text-shadow: 0 0 15px var(--neon-cyan);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            animation: titleTransmission 3s ease-in-out infinite;
+        }
+
+        .audio-description {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            margin-bottom: 2rem;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .mystery-frequencies {
+            display: flex;
+            justify-content: center;
+            gap: 0.3rem;
+            margin: 1.5rem 0;
+            height: 40px;
+            align-items: end;
+        }
+
+        .freq-bar {
+            width: 4px;
+            background: linear-gradient(to top, var(--neon-cyan), var(--electric-blue));
+            border-radius: 2px;
+            animation: mysteriousFreq 2s ease-in-out infinite;
+            box-shadow: 0 0 8px var(--neon-cyan);
+        }
+
+        .freq-bar:nth-child(1) { height: 20px; animation-delay: 0s; }
+        .freq-bar:nth-child(2) { height: 35px; animation-delay: 0.2s; }
+        .freq-bar:nth-child(3) { height: 15px; animation-delay: 0.4s; }
+        .freq-bar:nth-child(4) { height: 40px; animation-delay: 0.6s; }
+        .freq-bar:nth-child(5) { height: 25px; animation-delay: 0.8s; }
+        .freq-bar:nth-child(6) { height: 30px; animation-delay: 1s; }
+        .freq-bar:nth-child(7) { height: 18px; animation-delay: 1.2s; }
+
+        .mystery-transmission-button {
+            position: relative;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(255, 149, 0, 0.2));
+            border: 2px solid var(--neon-cyan);
+            color: var(--pure-white);
+            font-family: var(--font-title);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-weight: 700;
+            padding: clamp(1rem, 2.5vw, 1.3rem) clamp(1.5rem, 4vw, 2.5rem);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin: 1rem 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            min-height: 60px;
+            backdrop-filter: blur(10px);
+        }
+
+        .mystery-transmission-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.4), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .mystery-transmission-button:hover::before {
+            left: 100%;
+        }
+
+        .mystery-transmission-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 
+                0 10px 30px rgba(0, 255, 255, 0.4),
+                0 0 25px var(--neon-cyan);
+            border-color: var(--golden-yellow);
+        }
+
+        .transmission-icon {
+            font-size: 1.5em;
+            animation: transmissionPulse 2s ease-in-out infinite;
+        }
+
+        .transmission-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .signal-waves {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 2px;
+        }
+
+        .wave {
+            width: 3px;
+            height: 8px;
+            background: var(--neon-cyan);
+            border-radius: 2px;
+            animation: waveSignal 1.5s ease-in-out infinite;
+        }
+
+        .wave:nth-child(1) { animation-delay: 0s; }
+        .wave:nth-child(2) { animation-delay: 0.3s; }
+        .wave:nth-child(3) { animation-delay: 0.6s; }
+
+        .audio-player-container {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .audio-player-container.active {
+            opacity: 1;
+            max-height: 200px;
+            margin-top: 1rem;
+        }
+
+        @keyframes mysteriousGlow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(0, 255, 255, 0.5), 0 0 40px rgba(255, 149, 0, 0.3);
+            }
+        }
+
+        @keyframes borderTransmission {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes titleTransmission {
+            0%, 100% { 
+                text-shadow: 0 0 15px var(--neon-cyan);
+            }
+            50% { 
+                text-shadow: 0 0 25px var(--neon-cyan), 0 0 35px var(--electric-blue);
+            }
+        }
+
+        @keyframes mysteriousFreq {
+            0%, 100% { 
+                transform: scaleY(0.7);
+                opacity: 0.6;
+            }
+            50% { 
+                transform: scaleY(1.3);
+                opacity: 1;
+            }
+        }
+
+        @keyframes transmissionPulse {
+            0%, 100% { 
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            50% { 
+                transform: scale(1.2) rotate(10deg);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes waveSignal {
+            0%, 100% { 
+                height: 8px;
+                opacity: 0.4;
+            }
+            50% { 
+                height: 16px;
+                opacity: 1;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .form-row.two-column {
+                grid-template-columns: 1fr;
+            }
+            
+            .access-request-section {
+                margin: 2rem 0;
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .access-request-section {
+                padding: 1.5rem;
+                border-radius: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link" tabindex="1">Skip to main content</a>
     
-    // NEW: Clear HTTP cookies
-    document.cookie = 'dutchPortalAuth=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    document.cookie = 'dutchPortalUser=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    document.cookie = 'dutchPortalSession=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen" aria-hidden="true">
+        <div class="dutch-loader">
+            <div class="windmill-spinner" aria-label="Loading"></div>
+            <p class="loading-text">Entering the Void...</p>
+        </div>
+    </div>
     
-    // Show logout confirmation
-    if (window.DutchMysteryPortal) {
-        window.DutchMysteryPortal.showMessage('Logged out successfully. The portal awaits your return...', 'info');
-    }
+    <!-- Enhanced Background Elements -->
+    <div class="background-gradient" aria-hidden="true"></div>
+    <canvas id="background-canvas" aria-hidden="true"></canvas>
+    <div class="floating-elements" aria-hidden="true"></div>
     
-    // Redirect to home after short delay
-    setTimeout(() => {
-        window.location.href = '/';
-    }, 1500);
-}
+    <!-- Main Page Structure -->
+    <div class="page-wrapper">
+        <!-- Main Container -->
+        <main class="container" role="main" id="main-content">
+            <header>
+                <h1 class="neon-title">
+                    <span class="title-line-1">If it ain't Dutch</span>
+                    <span class="title-line-2">it ain't Much</span>
+                </h1>
+                <p class="teaser">
+                    <span class="teaser-highlight">Whispers of windmills</span> and <span class="teaser-highlight">tulips in fabric form</span>; 
+                    echoes of <span class="teaser-highlight">Amsterdam's pulse</span> in hidden rhythms. 
+                    <br><br>
+                    Unlock the vault to <em>Dutch enigmas</em>: heritage apparel that tells ancient tales, 
+                    <strong>mysterious merchandise</strong> that defies explanation, and exclusive passages 
+                    to <span class="techno-highlight">techno realms untold</span>.
+                </p>
+            </header>
+            
+            <!-- Enhanced Audio Control Widget -->
+            <section class="audio-mystery" aria-labelledby="audio-heading">
+                <h2 id="audio-heading" class="sr-only">Audio Portal</h2>
+                <div class="audio-control-widget">
+                    <h3 class="audio-widget-title">🎛️ The Frequency Awakens</h3>
+                    <p class="audio-description">
+                        Deep within the digital void, ancient frequencies stir...<br>
+                        <em>Where redwood whispers meet electronic mysteries, consciousness expands...</em>
+                    </p>
+                    
+                    <div class="mystery-frequencies" aria-hidden="true">
+                        <div class="freq-bar"></div>
+                        <div class="freq-bar"></div>
+                        <div class="freq-bar"></div>
+                        <div class="freq-bar"></div>
+                        <div class="freq-bar"></div>
+                        <div class="freq-bar"></div>
+                        <div class="freq-bar"></div>
+                    </div>
+                    
+                    <button 
+                        id="audioPlayButton" 
+                        class="mystery-transmission-button"
+                        aria-describedby="audio-button-help"
+                        onclick="toggleAudioPlayer()">
+                        <span class="transmission-icon">📡</span>
+                        <span id="buttonText" class="transmission-text">INTERCEPT TRANSMISSION</span>
+                        <div class="signal-waves" aria-hidden="true">
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                        </div>
+                    </button>
+                    
+                    <div id="audioPlayerContainer" class="audio-player-container">
+                        <iframe 
+                            id="soundcloudPlayer"
+                            width="100%" 
+                            height="166" 
+                            scrolling="no" 
+                            frameborder="no" 
+                            allow="autoplay"
+                            style="border-radius: 10px; margin-top: 1rem;"
+                            title="Dutch Mystery Audio Transmission">
+                        </iframe>
+                    </div>
+                    
+                    <div id="audio-button-help" class="sr-only">Click to intercept the mysterious redwood forest transmission</div>
+                </div>
+            </section>
+
+            <!-- NEW: Access Request Section -->
+            <section class="access-request-section" aria-labelledby="access-request-heading">
+                <div class="loading-overlay" id="accessLoadingOverlay">
+                    <div class="loading-spinner"></div>
+                </div>
+                
+                <h2 id="access-request-heading" class="access-cta-title">🔒 Request Portal Access</h2>
+                <p class="access-cta-subtitle">
+                    Join the initiated. Submit your request to unlock exclusive Dutch mysteries, 
+                    premium merchandise, and underground Amsterdam experiences.
+                </p>
+
+                <form id="accessRequestForm" class="access-request-form" novalidate>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label for="fullName">Full Name *</label>
+                            <input 
+                                type="text" 
+                                id="fullName" 
+                                name="fullName" 
+                                placeholder="Enter your full name"
+                                required
+                                maxlength="100"
+                                aria-describedby="fullName-error">
+                            <div class="field-error" id="fullName-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-row two-column">
+                        <div class="form-field">
+                            <label for="email">Email Address *</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                placeholder="your@email.com"
+                                required
+                                maxlength="150"
+                                aria-describedby="email-error">
+                            <div class="field-error" id="email-error"></div>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="phone">Phone Number *</label>
+                            <input 
+                                type="tel" 
+                                id="phone" 
+                                name="phone" 
+                                placeholder="+31 6 12345678"
+                                required
+                                maxlength="20"
+                                aria-describedby="phone-error">
+                            <div class="field-error" id="phone-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label for="country">Country of Origin *</label>
+                            <select id="country" name="country" required aria-describedby="country-error">
+                                <option value="">Select your country...</option>
+                                <option value="NL">Netherlands</option>
+                                <option value="DE">Germany</option>
+                                <option value="BE">Belgium</option>
+                                <option value="FR">France</option>
+                                <option value="GB">United Kingdom</option>
+                                <option value="US">United States</option>
+                                <option value="CA">Canada</option>
+                                <option value="AU">Australia</option>
+                                <option value="ES">Spain</option>
+                                <option value="IT">Italy</option>
+                                <option value="SE">Sweden</option>
+                                <option value="NO">Norway</option>
+                                <option value="DK">Denmark</option>
+                                <option value="CH">Switzerland</option>
+                                <option value="AT">Austria</option>
+                                <option value="OTHER">Other</option>
+                            </select>
+                            <div class="field-error" id="country-error"></div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="access-submit-btn" id="accessSubmitBtn">
+                        <span id="submitBtnText">🌟 Request Access to the Void</span>
+                    </button>
+                </form>
+
+                <div class="form-success" id="accessFormSuccess">
+                    <h3>✨ Access Request Submitted!</h3>
+                    <p>Your request has been received by the portal guardians. You'll hear from us within 48 hours if you're chosen to enter the Dutch mystery realm.</p>
+                    <p><em>Check your email for confirmation details.</em></p>
+                </div>
+            </section>
+            
+            <section class="access-portal" aria-labelledby="portal-heading">
+                <h2 id="portal-heading" class="sr-only">Existing User Access Portal</h2>
+                <div class="login-form">
+                    <div class="form-glow" aria-hidden="true"></div>
+                    <h3 style="color: var(--electric-blue); text-align: center; margin-bottom: 2rem; font-family: var(--font-subtitle);">
+                        Already Have Access?
+                    </h3>
+                    <form id="loginForm" role="form" aria-label="Portal Access Form" novalidate>
+                        <div class="input-group">
+                            <label for="username" class="sr-only">Username</label>
+                            <input 
+                                type="text" 
+                                id="username" 
+                                name="username"
+                                placeholder="Enter Your Identity" 
+                                required 
+                                aria-label="Enter your username to access the portal"
+                                aria-describedby="username-help"
+                                autocomplete="username"
+                                spellcheck="false"
+                                maxlength="50"
+                            >
+                            <span class="input-focus-effect" aria-hidden="true"></span>
+                            <div id="username-help" class="sr-only">Enter your username to access exclusive Dutch content</div>
+                        </div>
+                        <div class="input-group">
+                            <label for="password" class="sr-only">Password</label>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password"
+                                placeholder="Speak the Secret" 
+                                required 
+                                aria-label="Enter your password to unlock mysteries"
+                                aria-describedby="password-help"
+                                autocomplete="current-password"
+                                maxlength="100"
+                            >
+                            <span class="input-focus-effect" aria-hidden="true"></span>
+                            <div id="password-help" class="sr-only">Enter your password to unlock Dutch mysteries</div>
+                        </div>
+                        <button type="submit" class="void-button" aria-describedby="button-description">
+                            <span class="button-text">Enter the Void</span>
+                            <span class="button-glow" aria-hidden="true"></span>
+                        </button>
+                        <div id="button-description" class="sr-only">Click to access exclusive Dutch merchandise and underground events</div>
+                    </form>
+                    <div id="message" 
+                         aria-live="polite" 
+                         aria-atomic="true" 
+                         class="message-container"
+                         role="status">
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Features Preview -->
+            <section class="features-preview" aria-labelledby="features-heading">
+                <h2 id="features-heading" class="sr-only">What Awaits Beyond</h2>
+                <div class="feature-cards">
+                    <div class="feature-card" 
+                         data-feature="merchandise" 
+                         tabindex="0" 
+                         role="button" 
+                         aria-label="Heritage Collection - Windmill-inspired apparel and tulip mysteries">
+                        <div class="feature-icon" aria-hidden="true">🛍️</div>
+                        <h3>Heritage Collection</h3>
+                        <p>Windmill-inspired apparel & tulip mysteries</p>
+                    </div>
+                    <div class="feature-card" 
+                         data-feature="events" 
+                         tabindex="0" 
+                         role="button" 
+                         aria-label="Underground Access - Exclusive Amsterdam techno experiences">
+                        <div class="feature-icon" aria-hidden="true">🎵</div>
+                        <h3>Underground Access</h3>
+                        <p>Exclusive Amsterdam techno experiences</p>
+                    </div>
+                    <div class="feature-card" 
+                         data-feature="culture" 
+                         tabindex="0" 
+                         role="button" 
+                         aria-label="Cultural Secrets - Hidden Dutch treasures and artifacts">
+                        <div class="feature-icon" aria-hidden="true">🔮</div>
+                        <h3>Cultural Secrets</h3>
+                        <p>Hidden Dutch treasures & artifacts</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- Enhanced Footer -->
+        <footer class="neon-footer" role="contentinfo">
+            <nav aria-label="Footer Navigation">
+                <ul>
+                    <li><a href="/privacy-policy.html" rel="nofollow">Privacy Policy</a></li>
+                    <li><a href="/terms-of-service.html" rel="nofollow">Terms of Service</a></li>
+                    <li><a href="/contact.html">Contact Portal</a></li>
+                    <li><a href="/accessibility.html">Accessibility</a></li>
+                    <li><a href="/sitemap.xml" rel="nofollow">Sitemap</a></li>
+                </ul>
+            </nav>
+            <p>&copy; 2025 If It Ain't Dutch, It Ain't Much. All mysteries reserved.</p>
+            <div class="social-links" aria-label="Follow Our Mysteries">
+                <a href="https://instagram.com/ifitaintdutchitaintmuch" 
+                   target="_blank" 
+                   rel="noopener nofollow" 
+                   aria-label="Follow us on Instagram">📷</a>
+                <a href="https://on.soundcloud.com/PZdtlNaYaIgP25MTX2" 
+                   target="_blank" 
+                   rel="noopener nofollow" 
+                   aria-label="Listen to our mysterious sounds">🎵</a>
+                <!-- Discreet Admin Access -->
+                <a href="/admin" 
+                   class="admin-access-link"
+                   aria-label="Portal Management">⚙️</a>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Enhanced Effects -->
+    <div class="smoke" aria-hidden="true"></div>
+    <div class="lasers" aria-hidden="true">
+        <div class="laser laser1" aria-hidden="true"></div>
+        <div class="laser laser2" aria-hidden="true"></div>
+        <div class="laser laser3" aria-hidden="true"></div>
+        <div class="laser laser4" aria-hidden="true"></div>
+    </div>
+    
+    <!-- Enhanced JavaScript -->
+    <script src="/js/enhanced-script.js" defer></script>
+    
+    <!-- All JavaScript (Access Request Form + Login with Redirect) -->
+    <script>
+        // Form validation and submission logic
+        class AccessRequestForm {
+            constructor() {
+                this.form = document.getElementById('accessRequestForm');
+                this.submitBtn = document.getElementById('accessSubmitBtn');
+                this.loadingOverlay = document.getElementById('accessLoadingOverlay');
+                this.successMessage = document.getElementById('accessFormSuccess');
+                
+                this.init();
+            }
+
+            init() {
+                this.form.addEventListener('submit', this.handleSubmit.bind(this));
+                
+                // Real-time validation
+                const fields = this.form.querySelectorAll('input, select');
+                fields.forEach(field => {
+                    field.addEventListener('blur', () => this.validateField(field));
+                    field.addEventListener('input', () => this.clearFieldError(field));
+                });
+            }
+
+            validateField(field) {
+                const fieldContainer = field.closest('.form-field');
+                const errorElement = fieldContainer.querySelector('.field-error');
+                let isValid = true;
+                let errorMessage = '';
+
+                // Clear previous states
+                fieldContainer.classList.remove('error', 'valid');
+
+                // Required field validation
+                if (field.hasAttribute('required') && !field.value.trim()) {
+                    isValid = false;
+                    errorMessage = 'This field is required';
+                } else if (field.value.trim()) {
+                    // Specific field validations
+                    switch (field.type) {
+                        case 'text':
+                            if (field.name === 'fullName') {
+                                if (field.value.trim().length < 2) {
+                                    isValid = false;
+                                    errorMessage = 'Name must be at least 2 characters';
+                                } else if (!/^[a-zA-Z\s\-'\.]+$/.test(field.value.trim())) {
+                                    isValid = false;
+                                    errorMessage = 'Name contains invalid characters';
+                                }
+                            }
+                            break;
+                        
+                        case 'email':
+                            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                            if (!emailRegex.test(field.value.trim())) {
+                                isValid = false;
+                                errorMessage = 'Please enter a valid email address';
+                            }
+                            break;
+                        
+                        case 'tel':
+                            const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+                            const cleanPhone = field.value.replace(/[\s\-\(\)]/g, '');
+                            if (!phoneRegex.test(cleanPhone)) {
+                                isValid = false;
+                                errorMessage = 'Please enter a valid phone number';
+                            } else if (cleanPhone.length < 8) {
+                                isValid = false;
+                                errorMessage = 'Phone number too short';
+                            }
+                            break;
+                    }
+                } else if (field.tagName === 'SELECT' && field.hasAttribute('required')) {
+                    if (!field.value) {
+                        isValid = false;
+                        errorMessage = 'Please select an option';
+                    }
+                }
+
+                // Update UI
+                if (!isValid) {
+                    fieldContainer.classList.add('error');
+                    errorElement.textContent = errorMessage;
+                    errorElement.classList.add('show');
+                } else if (field.value.trim()) {
+                    fieldContainer.classList.add('valid');
+                    errorElement.classList.remove('show');
+                }
+
+                return isValid;
+            }
+
+            clearFieldError(field) {
+                const fieldContainer = field.closest('.form-field');
+                const errorElement = fieldContainer.querySelector('.field-error');
+                
+                fieldContainer.classList.remove('error');
+                errorElement.classList.remove('show');
+            }
+
+            validateForm() {
+                const fields = this.form.querySelectorAll('input[required], select[required]');
+                let isFormValid = true;
+
+                fields.forEach(field => {
+                    const isFieldValid = this.validateField(field);
+                    if (!isFieldValid) {
+                        isFormValid = false;
+                    }
+                });
+
+                return isFormValid;
+            }
+
+            async handleSubmit(e) {
+                e.preventDefault();
+                
+                // Validate form
+                if (!this.validateForm()) {
+                    this.showNotification('Please fix the errors above', 'error');
+                    return;
+                }
+
+                // Show loading state
+                this.setLoadingState(true);
+
+                try {
+                    const formData = new FormData(this.form);
+                    const data = {
+                        fullName: formData.get('fullName').trim(),
+                        email: formData.get('email').trim().toLowerCase(),
+                        phone: formData.get('phone').trim(),
+                        country: formData.get('country'),
+                        requestDate: new Date().toISOString(),
+                        userAgent: navigator.userAgent,
+                        referrer: document.referrer || 'direct'
+                    };
+
+                    const response = await fetch('/api/access-request', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        this.showSuccess();
+                        this.trackSubmission('success');
+                    } else {
+                        throw new Error(result.error || 'Failed to submit request');
+                    }
+
+                } catch (error) {
+                    console.error('Access request error:', error);
+                    this.showNotification('Failed to submit request. Please try again.', 'error');
+                    this.trackSubmission('error', error.message);
+                } finally {
+                    this.setLoadingState(false);
+                }
+            }
+
+            setLoadingState(loading) {
+                if (loading) {
+                    this.loadingOverlay.classList.add('show');
+                    this.submitBtn.disabled = true;
+                    document.getElementById('submitBtnText').textContent = 'Submitting to Portal...';
+                } else {
+                    this.loadingOverlay.classList.remove('show');
+                    this.submitBtn.disabled = false;
+                    document.getElementById('submitBtnText').textContent = '🌟 Request Access to the Void';
+                }
+            }
+
+            showSuccess() {
+                this.form.style.display = 'none';
+                this.successMessage.classList.add('show');
+            }
+
+            showNotification(message, type = 'info') {
+                // Create notification element
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: ${type === 'success' ? 'linear-gradient(135deg, #00FF00, #00FFFF)' : 
+                               type === 'error' ? 'linear-gradient(135deg, #FF0000, #FF6B6B)' : 
+                               'linear-gradient(135deg, #00BFFF, #0066CC)'};
+                    color: ${type === 'success' || type === 'error' ? 'black' : 'white'};
+                    padding: 1rem 2rem;
+                    border-radius: 10px;
+                    font-weight: bold;
+                    z-index: 10000;
+                    animation: slideIn 0.3s ease-out;
+                    max-width: 300px;
+                    font-size: 0.9rem;
+                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                `;
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.animation = 'slideOut 0.3s ease-in forwards';
+                    setTimeout(() => notification.remove(), 300);
+                }, 4000);
+            }
+
+            trackSubmission(status, error = null) {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'access_request_submitted', {
+                        'event_category': 'engagement',
+                        'event_label': status,
+                        'value': status === 'success' ? 1 : 0
+                    });
+                    
+                    if (error) {
+                        gtag('event', 'access_request_error', {
+                            'event_category': 'error',
+                            'event_label': error
+                        });
+                    }
+                }
+            }
+        }
+
+        // NEW: Login Form Handler with Redirect to ADE Guide
+        class LoginFormHandler {
+            constructor() {
+                this.form = document.getElementById('loginForm');
+                this.messageElement = document.getElementById('message');
+                this.init();
+            }
+
+            init() {
+                this.form.addEventListener('submit', this.handleSubmit.bind(this));
+            }
+
+            async handleSubmit(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value.trim();
+                
+                if (!username || !password) {
+                    this.showMessage('The void requires both identity and secret...', 'warning');
+                    return;
+                }
+                
+                const button = this.form.querySelector('.void-button');
+                const originalText = button.querySelector('.button-text').textContent;
+                button.querySelector('.button-text').textContent = 'Entering...';
+                button.disabled = true;
+                button.style.opacity = '0.7';
+                
+                try {
+                    const response = await this.simulateLogin(username, password);
+                    
+                    if (response.success) {
+                        this.showMessage('✨ Access Granted. Welcome to the mystery...', 'success');
+                        
+                        // Store authentication
+                        sessionStorage.setItem('dutchPortalAuth', 'authenticated');
+                        sessionStorage.setItem('dutchPortalUser', username);
+                        sessionStorage.setItem('dutchPortalTime', Date.now().toString());
+                        
+                        // NEW: Redirect to ADE guide after showing success message
+                        setTimeout(() => {
+                            this.showMessage('Preparing your journey into the Dutch void...', 'info');
+                            setTimeout(() => {
+                                window.location.href = '/ade-2025-guide';
+                            }, 1500);
+                        }, 2000);
+                        
+                    } else {
+                        this.showMessage('🔒 Access Denied. The mystery remains sealed...', 'error');
+                    }
+                } catch (error) {
+                    this.showMessage('⚠️ Error connecting to the void. Try again...', 'error');
+                } finally {
+                    setTimeout(() => {
+                        button.querySelector('.button-text').textContent = originalText;
+                        button.disabled = false;
+                        button.style.opacity = '1';
+                    }, 1000);
+                }
+            }
+
+            async simulateLogin(username, password) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        const validCombos = [
+                            { username: 'dutch', password: 'mystery' },
+                            { username: 'amsterdam', password: 'techno' },
+                            { username: 'windmill', password: 'tulip' },
+                            { username: 'void', password: 'enter' }
+                        ];
+                        
+                        const isValid = validCombos.some(combo => 
+                            combo.username === username.toLowerCase() && 
+                            combo.password === password.toLowerCase()
+                        );
+                        
+                        resolve({ 
+                            success: isValid,
+                            message: isValid ? 'Welcome to the Dutch mystery' : 'Invalid credentials'
+                        });
+                    }, Math.random() * 1000 + 500);
+                });
+            }
+
+            showMessage(text, type = 'info') {
+                this.messageElement.textContent = text;
+                this.messageElement.className = `message-container show ${type}`;
+                
+                setTimeout(() => {
+                    this.messageElement.classList.remove('show');
+                }, 5000);
+            }
+        }
+
+        // Audio player functionality (enhanced with new track)
+        let audioPlayerVisible = false;
+
+        function toggleAudioPlayer() {
+            const button = document.getElementById('audioPlayButton');
+            const buttonText = document.getElementById('buttonText');
+            const container = document.getElementById('audioPlayerContainer');
+            const iframe = document.getElementById('soundcloudPlayer');
+            
+            if (!audioPlayerVisible) {
+                buttonText.textContent = 'TRANSMISSION ACTIVE';
+                
+                // Updated SoundCloud URL for Redwood Forest Renegade
+                const soundcloudUrl = 'https://soundcloud.com/gerard-geary-689669043/redwood-forest-renegade';
+                iframe.src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(soundcloudUrl)}&color=%2300ffff&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true`;
+                
+                container.classList.add('active');
+                audioPlayerVisible = true;
+                button.style.background = 'linear-gradient(135deg, #00FF00, #00FFFF)';
+                button.style.borderColor = '#00FF00';
+                
+                // Enhanced visual feedback
+                button.querySelector('.transmission-icon').textContent = '🌲';
+                
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'redwood_transmission_activated', {
+                        'event_category': 'engagement',
+                        'event_label': 'redwood_forest_renegade'
+                    });
+                }
+                
+            } else {
+                buttonText.textContent = 'INTERCEPT TRANSMISSION';
+                container.classList.remove('active');
+                
+                setTimeout(() => {
+                    iframe.src = '';
+                }, 500);
+                
+                audioPlayerVisible = false;
+                button.style.background = 'linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(255, 149, 0, 0.2))';
+                button.style.borderColor = '#00FFFF';
+                button.querySelector('.transmission-icon').textContent = '📡';
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            new AccessRequestForm();
+            new LoginFormHandler(); // NEW: Initialize login handler
+            
+            // Add notification animations
+            if (!document.getElementById('notification-styles')) {
+                const style = document.createElement('style');
+                style.id = 'notification-styles';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes slideOut {
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(100%); opacity: 0; }
+                    }
+                    
+                    @media (max-width: 480px) {
+                        .notification {
+                            top: 10px !important;
+                            right: 10px !important;
+                            left: 10px !important;
+                            max-width: none !important;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        });
+    </script>
+</body>
+</html>
