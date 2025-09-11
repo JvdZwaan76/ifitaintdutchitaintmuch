@@ -617,7 +617,7 @@
                     <div class="loading-spinner"></div>
                 </div>
                 
-                <h2 id="access-request-heading" class="access-cta-title">🔒 Request Portal Access</h2>
+                <h2 id="access-request-heading" class="access-cta-title">🔑 Request Portal Access</h2>
                 <p class="access-cta-subtitle">
                     Join the initiated. Submit your request to unlock exclusive Dutch mysteries, 
                     premium merchandise, and underground Amsterdam experiences.
@@ -1066,7 +1066,7 @@
             }
         }
 
-        // NEW: Login Form Handler with Redirect to ADE Guide
+        // NEW: Login Form Handler with HTTP Cookie Authentication
         class LoginFormHandler {
             constructor() {
                 this.form = document.getElementById('loginForm');
@@ -1101,10 +1101,26 @@
                     if (response.success) {
                         this.showMessage('✨ Access Granted. Welcome to the mystery...', 'success');
                         
-                        // Store authentication
+                        // FIXED: Store authentication in both sessionStorage AND HTTP cookies
                         sessionStorage.setItem('dutchPortalAuth', 'authenticated');
                         sessionStorage.setItem('dutchPortalUser', username);
                         sessionStorage.setItem('dutchPortalTime', Date.now().toString());
+                        
+                        // NEW: Set HTTP cookies that will be sent to the server
+                        const cookieOptions = `path=/; max-age=${24*60*60}; secure; samesite=strict`;
+                        document.cookie = `dutchPortalAuth=authenticated; ${cookieOptions}`;
+                        document.cookie = `dutchPortalUser=${encodeURIComponent(username)}; ${cookieOptions}`;
+                        
+                        // Store session token if provided
+                        if (response.sessionToken) {
+                            sessionStorage.setItem('dutchPortalSession', response.sessionToken);
+                            document.cookie = `dutchPortalSession=${response.sessionToken}; ${cookieOptions}`;
+                        }
+                        
+                        // Trigger success effects
+                        if (window.DutchMysteryPortal) {
+                            window.DutchMysteryPortal.triggerSuccessEffects();
+                        }
                         
                         // NEW: Redirect to ADE guide after showing success message
                         setTimeout(() => {
@@ -1145,7 +1161,8 @@
                         
                         resolve({ 
                             success: isValid,
-                            message: isValid ? 'Welcome to the Dutch mystery' : 'Invalid credentials'
+                            message: isValid ? 'Welcome to the Dutch mystery' : 'Invalid credentials',
+                            sessionToken: isValid ? crypto.randomUUID() : null
                         });
                     }, Math.random() * 1000 + 500);
                 });
@@ -1205,6 +1222,30 @@
                 button.style.borderColor = '#00FFFF';
                 button.querySelector('.transmission-icon').textContent = '📡';
             }
+        }
+
+        // FIXED: Global logout function that clears both sessionStorage AND cookies
+        function logout() {
+            // Clear sessionStorage
+            sessionStorage.removeItem('dutchPortalAuth');
+            sessionStorage.removeItem('dutchPortalUser');
+            sessionStorage.removeItem('dutchPortalTime');
+            sessionStorage.removeItem('dutchPortalSession');
+            
+            // NEW: Clear HTTP cookies
+            document.cookie = 'dutchPortalAuth=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            document.cookie = 'dutchPortalUser=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            document.cookie = 'dutchPortalSession=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            
+            // Show logout confirmation
+            if (window.DutchMysteryPortal) {
+                window.DutchMysteryPortal.showMessage('Logged out successfully. The portal awaits your return...', 'info');
+            }
+            
+            // Redirect to home after short delay
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1500);
         }
 
         // Initialize when DOM is loaded
