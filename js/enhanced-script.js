@@ -1,9 +1,9 @@
 /**
- * Enhanced Dutch Mystery Website - Interactive JavaScript
- * Clean version without duplicated classes
+ * Enhanced Dutch Underground Techno Website - Interactive JavaScript
+ * Fixed version with proper loading screen handling
  */
 
-class DutchMysteryPortal {
+class DutchUndergroundPortal {
     constructor() {
         this.canvas = null;
         this.ctx = null;
@@ -19,19 +19,19 @@ class DutchMysteryPortal {
         
         this.config = {
             particles: {
-                count: this.performanceMode ? 50 : 150,
+                count: this.performanceMode ? 30 : 100,
                 maxSpeed: this.performanceMode ? 1 : 2,
                 colors: ['#FF9500', '#00BFFF', '#00FFFF', '#FFD700'],
                 sizes: { min: 1, max: this.performanceMode ? 3 : 4 }
             },
             stars: {
-                count: this.performanceMode ? 100 : 200,
+                count: this.performanceMode ? 50 : 150,
                 twinkleSpeed: 0.02,
                 colors: ['#FFFFFF', '#FFD700', '#00BFFF', '#FF9500']
             },
             floatingElements: {
-                count: this.performanceMode ? 15 : 30,
-                symbols: ['🌷', '🛠️', '⚡', '🔮', '💎', '🌟'],
+                count: this.performanceMode ? 10 : 20,
+                symbols: ['⚡', '🔊', '🏭', '🎛️', '💎', '🌟'],
                 speed: { min: 0.5, max: 2 }
             }
         };
@@ -47,16 +47,74 @@ class DutchMysteryPortal {
     }
     
     init() {
+        console.log('Initializing Dutch Underground Portal...');
+        
+        // FIXED: Handle loading screen immediately
+        this.handleLoadingScreen();
+        
         this.setupEventListeners();
         this.initCanvas();
         this.createParticles();
         this.createStars();
         this.createFloatingElements();
         this.startAnimationLoop();
-        this.handleLoading();
         this.initFormEffects();
         this.initAccessibilityFeatures();
         this.initMobileOptimizations();
+        
+        console.log('Dutch Underground Portal initialized successfully');
+    }
+    
+    handleLoadingScreen() {
+        const loadingScreen = document.getElementById('loadingScreen');
+        
+        if (loadingScreen) {
+            // FIXED: Set a maximum loading time to prevent infinite loading
+            const maxLoadTime = this.isMobile ? 2000 : 3000;
+            
+            const removeLoadingScreen = () => {
+                console.log('Removing loading screen...');
+                loadingScreen.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    this.isLoaded = true;
+                    this.triggerEntryAnimations();
+                    console.log('Loading screen removed, entry animations triggered');
+                }, 1000);
+            };
+            
+            // FIXED: Multiple triggers to ensure loading screen is removed
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => {
+                    setTimeout(removeLoadingScreen, 500);
+                });
+            } else {
+                // Document already loaded
+                setTimeout(removeLoadingScreen, 500);
+            }
+            
+            // FIXED: Fallback timer in case other methods fail
+            setTimeout(() => {
+                if (loadingScreen && !loadingScreen.classList.contains('fade-out')) {
+                    console.warn('Loading screen removal fallback triggered');
+                    removeLoadingScreen();
+                }
+            }, maxLoadTime);
+            
+            // FIXED: Window load event as additional trigger
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    if (loadingScreen && !loadingScreen.classList.contains('fade-out')) {
+                        removeLoadingScreen();
+                    }
+                }, 200);
+            });
+        } else {
+            console.warn('Loading screen element not found');
+            this.isLoaded = true;
+            this.triggerEntryAnimations();
+        }
     }
     
     setupEventListeners() {
@@ -123,7 +181,10 @@ class DutchMysteryPortal {
     
     initCanvas() {
         this.canvas = document.getElementById('background-canvas');
-        if (!this.canvas) return;
+        if (!this.canvas) {
+            console.warn('Background canvas not found');
+            return;
+        }
         
         this.ctx = this.canvas.getContext('2d');
         
@@ -225,7 +286,7 @@ class DutchMysteryPortal {
                 z-index: 1;
                 left: ${Math.random() * 100}%;
                 top: ${Math.random() * 100}%;
-                animation: floatMystery ${Math.random() * 10 + 15}s infinite linear;
+                animation: floatUnderground ${Math.random() * 10 + 15}s infinite linear;
                 will-change: transform;
             `;
             
@@ -236,7 +297,7 @@ class DutchMysteryPortal {
             const style = document.createElement('style');
             style.id = 'floating-styles';
             style.textContent = `
-                @keyframes floatMystery {
+                @keyframes floatUnderground {
                     0% { transform: translateY(100vh) rotate(0deg); }
                     100% { transform: translateY(-100px) rotate(360deg); }
                 }
@@ -246,6 +307,11 @@ class DutchMysteryPortal {
     }
     
     startAnimationLoop() {
+        if (!this.canvas || !this.ctx) {
+            console.warn('Canvas not available for animation loop');
+            return;
+        }
+        
         let lastTime = 0;
         let frameCount = 0;
         let fps = 60;
@@ -272,7 +338,7 @@ class DutchMysteryPortal {
                     }
                 }
                 
-                if (this.ctx) {
+                try {
                     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
                     
                     this.updateStars();
@@ -284,6 +350,8 @@ class DutchMysteryPortal {
                     if (!this.isMobile && !this.performanceMode) {
                         this.drawConnections();
                     }
+                } catch (error) {
+                    console.error('Animation error:', error);
                 }
                 
                 lastTime = currentTime;
@@ -454,23 +522,9 @@ class DutchMysteryPortal {
         return cursor;
     }
     
-    handleLoading() {
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const loadingScreen = document.getElementById('loadingScreen');
-                if (loadingScreen) {
-                    loadingScreen.classList.add('fade-out');
-                    setTimeout(() => {
-                        loadingScreen.style.display = 'none';
-                        this.isLoaded = true;
-                        this.triggerEntryAnimations();
-                    }, 1000);
-                }
-            }, this.isMobile ? 1000 : 2000);
-        });
-    }
-    
     triggerEntryAnimations() {
+        console.log('Triggering entry animations...');
+        
         const elements = [
             '.neon-title',
             '.teaser',
@@ -561,7 +615,7 @@ class DutchMysteryPortal {
             input.addEventListener('blur', () => {
                 const viewport = document.querySelector('meta[name="viewport"]');
                 if (viewport) {
-                    viewport.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover';
+                    viewport.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes';
                 }
             });
         });
@@ -634,37 +688,30 @@ class DutchMysteryPortal {
         }
     }
     
-    triggerErrorEffects() {
-        if (this.isMobile) {
-            if (navigator.vibrate) {
-                navigator.vibrate([200, 100, 200]);
-            }
-        } else {
-            document.body.style.animation = 'screenShake 0.5s ease-in-out';
-            setTimeout(() => {
-                document.body.style.animation = '';
-            }, 500);
-        }
+    triggerFeaturePreview(card) {
+        const feature = card.dataset.feature;
+        const messages = {
+            events: 'Warehouse Events: Underground techno experiences in industrial spaces await...',
+            sound: 'Sound Systems: Cutting-edge audio technology and bass frequencies unleashed...',
+            collective: 'Electronic Collective: Underground artist network and electronic mysteries revealed...'
+        };
         
-        if (!document.getElementById('error-styles')) {
-            const style = document.createElement('style');
-            style.id = 'error-styles';
-            style.textContent = `
-                @keyframes screenShake {
-                    0%, 100% { transform: translateX(0); }
-                    25% { transform: translateX(-5px); }
-                    75% { transform: translateX(5px); }
-                }
-            `;
-            document.head.appendChild(style);
+        this.showMessage(messages[feature] || 'Underground feature revealed...', 'info');
+        
+        if (!this.isMobile) {
+            this.createParticleBurst(
+                card.getBoundingClientRect().left + card.offsetWidth / 2,
+                card.getBoundingClientRect().top + card.offsetHeight / 2,
+                '#FFD700'
+            );
         }
     }
     
     createParticleBurst(x, y, color) {
-        if (this.performanceMode) return;
+        if (this.performanceMode || !this.ctx) return;
         
         const burstParticles = [];
-        const particleCount = this.isMobile ? 10 : 20;
+        const particleCount = this.isMobile ? 8 : 15;
         
         for (let i = 0; i < particleCount; i++) {
             const angle = (Math.PI * 2 / particleCount) * i;
@@ -683,8 +730,6 @@ class DutchMysteryPortal {
         }
         
         const animateBurst = () => {
-            if (!this.ctx) return;
-            
             burstParticles.forEach((particle, index) => {
                 particle.x += particle.vx;
                 particle.y += particle.vy;
@@ -731,8 +776,8 @@ class DutchMysteryPortal {
     
     disablePerformanceMode() {
         this.performanceMode = false;
-        this.config.particles.count = this.isMobile ? 50 : 150;
-        this.config.stars.count = this.isMobile ? 100 : 200;
+        this.config.particles.count = this.isMobile ? 30 : 100;
+        this.config.stars.count = this.isMobile ? 50 : 150;
         this.createParticles();
         this.createStars();
         console.log('Performance mode disabled');
@@ -744,7 +789,7 @@ class DutchMysteryPortal {
         const rect = input.getBoundingClientRect();
         const particles = [];
         
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 8; i++) {
             particles.push({
                 x: rect.left + Math.random() * rect.width,
                 y: rect.top + rect.height,
@@ -838,25 +883,6 @@ class DutchMysteryPortal {
                     card._glowElement = null;
                 }
             }, 300);
-        }
-    }
-    
-    triggerFeaturePreview(card) {
-        const feature = card.dataset.feature;
-        const messages = {
-            merchandise: 'Heritage Collection: Exclusive Dutch-inspired apparel awaits beyond the portal...',
-            events: 'Underground Access: Secret Amsterdam techno experiences for the initiated...',
-            culture: 'Cultural Secrets: Hidden treasures of Dutch heritage revealed to explorers...'
-        };
-        
-        this.showMessage(messages[feature] || 'Mystery feature revealed...', 'info');
-        
-        if (!this.isMobile) {
-            this.createParticleBurst(
-                card.getBoundingClientRect().left + card.offsetWidth / 2,
-                card.getBoundingClientRect().top + card.offsetHeight / 2,
-                '#FFD700'
-            );
         }
     }
     
@@ -961,11 +987,11 @@ class DutchMysteryPortal {
 }
 
 // Enhanced Smoke Particle System
-class SmokeSystem {
+class UndergroundSmokeSystem {
     constructor() {
         this.container = document.querySelector('.smoke');
         this.particles = [];
-        this.maxParticles = this.detectMobile() ? 10 : 25;
+        this.maxParticles = this.detectMobile() ? 5 : 15;
         this.isMobile = this.detectMobile();
         this.init();
     }
@@ -981,15 +1007,15 @@ class SmokeSystem {
         this.createParticles();
         setInterval(() => {
             this.createParticle();
-        }, this.isMobile ? 1500 : 800);
+        }, this.isMobile ? 2000 : 1000);
     }
     
     createParticles() {
-        const initialCount = this.isMobile ? 2 : 5;
+        const initialCount = this.isMobile ? 2 : 3;
         for (let i = 0; i < initialCount; i++) {
             setTimeout(() => {
                 this.createParticle();
-            }, i * 200);
+            }, i * 300);
         }
     }
     
@@ -999,11 +1025,11 @@ class SmokeSystem {
         const particle = document.createElement('div');
         particle.className = 'smoke-particle';
         
-        const size = Math.random() * (this.isMobile ? 80 : 120) + (this.isMobile ? 40 : 60);
+        const size = Math.random() * (this.isMobile ? 60 : 100) + (this.isMobile ? 30 : 50);
         const startX = Math.random() * 100;
-        const endX = startX + (Math.random() - 0.5) * 40;
-        const opacity = Math.random() * 0.4 + 0.1;
-        const duration = Math.random() * (this.isMobile ? 15000 : 20000) + (this.isMobile ? 10000 : 15000);
+        const endX = startX + (Math.random() - 0.5) * 30;
+        const opacity = Math.random() * 0.3 + 0.1;
+        const duration = Math.random() * (this.isMobile ? 12000 : 18000) + (this.isMobile ? 8000 : 12000);
         
         particle.style.cssText = `
             position: absolute;
@@ -1014,7 +1040,7 @@ class SmokeSystem {
             left: ${startX}%;
             top: 100%;
             pointer-events: none;
-            filter: blur(${Math.random() * 15 + 10}px);
+            filter: blur(${Math.random() * 10 + 8}px);
             z-index: 1;
             will-change: transform;
         `;
@@ -1028,7 +1054,7 @@ class SmokeSystem {
                 opacity: opacity
             },
             {
-                transform: `translateY(-${window.innerHeight + 100}px) translateX(${endX - startX}%) scale(${Math.random() + 1.5}) rotate(${Math.random() * 360}deg)`,
+                transform: `translateY(-${window.innerHeight + 100}px) translateX(${endX - startX}%) scale(${Math.random() + 1.2}) rotate(${Math.random() * 360}deg)`,
                 opacity: 0
             }
         ], {
@@ -1050,18 +1076,43 @@ class SmokeSystem {
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    window.DutchMysteryPortal = new DutchMysteryPortal();
-    const smokeSystem = new SmokeSystem();
+    console.log('DOM loaded, initializing Underground Portal...');
+    
+    try {
+        window.DutchMysteryPortal = new DutchUndergroundPortal();
+        const smokeSystem = new UndergroundSmokeSystem();
+        
+        console.log('Underground Portal systems initialized successfully');
+    } catch (error) {
+        console.error('Error initializing Underground Portal:', error);
+        
+        // FIXED: Fallback loading screen removal if initialization fails
+        const loadingScreen = document.getElementById('loadingScreen');
+        if (loadingScreen) {
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 1000);
+        }
+    }
+    
+    // FIXED: Ensure loading screen is removed regardless
+    setTimeout(() => {
+        const loadingScreen = document.getElementById('loadingScreen');
+        if (loadingScreen && loadingScreen.style.display !== 'none') {
+            console.log('Fallback: Removing loading screen');
+            loadingScreen.style.display = 'none';
+        }
+    }, 5000);
     
     window.addEventListener('error', (e) => {
-        console.warn('Dutch Mystery Portal:', e.error?.message || 'Unknown error');
+        console.warn('Underground Portal:', e.error?.message || 'Unknown error');
     });
     
     if ('performance' in window) {
         window.addEventListener('load', () => {
             const loadTime = performance.now();
             if (loadTime > 5000) {
-                console.warn('Portal loading slowly. Consider reducing effects for better performance.');
+                console.warn('Portal loading slowly. Performance mode may be beneficial.');
             }
         });
     }
@@ -1122,13 +1173,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     `;
     document.head.appendChild(dynamicStyles);
-    
-    console.log('Dutch Mystery Portal initialized.');
 });
 
 // Global functions for HTML interactions
 function showComingSoon() {
     if (window.DutchMysteryPortal) {
-        window.DutchMysteryPortal.showMessage('More Dutch mysteries are being crafted... Stay tuned for exclusive releases!', 'info');
+        window.DutchMysteryPortal.showMessage('More underground frequencies are being crafted... Stay tuned for exclusive releases!', 'info');
     }
 }
