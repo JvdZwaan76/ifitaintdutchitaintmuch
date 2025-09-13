@@ -23,7 +23,79 @@ class DutchUndergroundPortal {
                 maxSpeed: this.performanceMode ? 1 : 2,
                 colors: ['#FF9500', '#00BFFF', '#00FFFF', '#FFD700'],
                 sizes: { min: 1, max: this.performanceMode ? 3 : 4 }
-            },
+            }
+    
+    initBackgroundVideo() {
+        const video = document.getElementById('backgroundVideo');
+        
+        if (!video) {
+            console.warn('Background video element not found');
+            return;
+        }
+        
+        console.log('Initializing background video...');
+        
+        // Basic video setup
+        video.muted = true;
+        video.playsInline = true;
+        video.controls = false;
+        
+        // Performance optimizations for mobile
+        if (this.isMobile) {
+            video.style.opacity = '0.4';
+            video.style.filter = 'brightness(0.6) contrast(1.0)';
+        }
+        
+        // Handle video events
+        video.addEventListener('loadstart', () => {
+            console.log('Underground video loading started');
+        });
+        
+        video.addEventListener('canplay', () => {
+            console.log('Underground video ready to play');
+            video.style.transition = 'opacity 1s ease-in-out';
+        });
+        
+        video.addEventListener('loadeddata', () => {
+            console.log('Underground video data loaded');
+        });
+        
+        video.addEventListener('error', (e) => {
+            console.error('Video loading error:', e);
+            console.error('Video error details:', video.error);
+            // Fallback to gradient background
+            const videoContainer = document.querySelector('.video-background');
+            if (videoContainer) {
+                videoContainer.style.display = 'none';
+            }
+        });
+        
+        video.addEventListener('ended', () => {
+            console.log('Video ended, restarting loop...');
+            video.currentTime = 0;
+            video.play().catch(e => console.warn('Video restart failed:', e));
+        });
+        
+        // Handle visibility changes for performance
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && !video.paused) {
+                video.pause();
+            } else if (!document.hidden && video.paused) {
+                video.play().catch(e => console.warn('Video resume failed:', e));
+            }
+        });
+        
+        // Try to play the video
+        video.play().then(() => {
+            console.log('Underground video started playing successfully');
+        }).catch((error) => {
+            console.error('Video autoplay failed:', error.name, error.message);
+            // Autoplay blocked - video will start on user interaction
+            document.addEventListener('click', () => {
+                video.play().catch(e => console.warn('Manual video start failed:', e));
+            }, { once: true });
+        });
+    },
             stars: {
                 count: this.performanceMode ? 50 : 150,
                 twinkleSpeed: 0.02,
