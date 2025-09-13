@@ -1,18 +1,33 @@
 # robots.txt for If It Ain't Dutch, It Ain't Much
 # Amsterdam Underground Techno Portal
-# Production configuration for optimal SEO
+# SEO OPTIMIZED configuration for enhanced search engine crawling
 
+# Default rules for all crawlers
 User-agent: *
 Allow: /
 
-# Allow important content for SEO
+# SEO IMPROVEMENT: Allow important content paths explicitly
 Allow: /ade-2025-guide
 Allow: /blog/
+Allow: /events/
+Allow: /artists/
+Allow: /music/
+Allow: /venues/
+Allow: /community/
 Allow: /images/
 Allow: /css/
 Allow: /js/
+Allow: /fonts/
 Allow: /manifest.json
 Allow: /sw.js
+Allow: /sitemap*.xml
+Allow: /rss.xml
+
+# SEO IMPROVEMENT: Allow favicon and essential files
+Allow: /favicon.ico
+Allow: /apple-touch-icon.png
+Allow: /browserconfig.xml
+Allow: /.well-known/
 
 # Disallow admin and private areas
 Disallow: /admin
@@ -23,32 +38,137 @@ Disallow: /wp-admin/
 Disallow: /wp-content/
 Disallow: /temp/
 Disallow: /tmp/
+Disallow: /cache/
+Disallow: /logs/
+Disallow: /backup/
+Disallow: /test/
+Disallow: /dev/
+Disallow: /staging/
 
-# Disallow sensitive files
-Disallow: *.log
-Disallow: *.env
-Disallow: *.config
+# SEO IMPROVEMENT: Disallow sensitive files and directories
+Disallow: /*.log$
+Disallow: /*.env$
+Disallow: /*.config$
+Disallow: /*.json$ 
+Allow: /manifest.json
+Allow: /package.json
 Disallow: /error/
 Disallow: /logs/
+Disallow: /_*
+Disallow: /.git/
+Disallow: /.env
+Disallow: /node_modules/
+Disallow: /.DS_Store
+Disallow: /Thumbs.db
 
-# Allow specific search engines enhanced access
+# SEO IMPROVEMENT: Disallow URL parameters that create duplicate content
+Disallow: /*?*
+Disallow: /*&*
+Allow: /*?q=*
+Allow: /*?search=*
+Allow: /*?filter=*
+Allow: /*?lang=*
+
+# SEO IMPROVEMENT: Disallow session and tracking parameters
+Disallow: /*?utm_*
+Disallow: /*?fbclid=*
+Disallow: /*?gclid=*
+Disallow: /*?ref=*
+Disallow: /*?source=*
+Disallow: /*?medium=*
+Disallow: /*?campaign=*
+Disallow: /*?session*
+Disallow: /*?sid=*
+Disallow: /*?PHPSESSID=*
+
+# SEO IMPROVEMENT: Disallow print and mobile versions if they exist
+Disallow: /print/
+Disallow: /mobile/
+Disallow: /*?print=*
+Disallow: /*?mobile=*
+
+# Enhanced crawler-specific rules
 User-agent: Googlebot
 Allow: /
 Allow: /ade-2025-guide
 Allow: /blog/
+Allow: /events/
+Allow: /images/
 Crawl-delay: 1
+# SEO IMPROVEMENT: Allow Google to crawl CSS and JS for rendering
+Allow: /css/
+Allow: /js/
 
 User-agent: Bingbot
 Allow: /
 Allow: /ade-2025-guide
 Allow: /blog/
+Allow: /events/
 Crawl-delay: 1
 
 User-agent: Slurp
 Allow: /
 Crawl-delay: 2
 
-# Block problematic bots
+# SEO IMPROVEMENT: Enhanced rules for image crawlers
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.webp$
+Allow: /*.svg$
+Disallow: /images/admin/
+Disallow: /images/private/
+
+User-agent: Googlebot-Video
+Allow: /video/
+Allow: /*.mp4$
+Allow: /*.webm$
+Allow: /*.mov$
+Disallow: /video/private/
+
+# SEO IMPROVEMENT: Rules for news crawlers
+User-agent: Googlebot-News
+Allow: /blog/
+Allow: /ade-2025-guide
+Allow: /events/
+Allow: /news/
+Crawl-delay: 1
+
+# SEO IMPROVEMENT: Enhanced mobile crawler rules
+User-agent: Googlebot-Mobile
+Allow: /
+Allow: /ade-2025-guide
+Allow: /blog/
+Allow: /events/
+Allow: /css/
+Allow: /js/
+Allow: /images/
+
+# Social media crawlers
+User-agent: facebookexternalhit
+Allow: /
+Allow: /images/
+Allow: /ade-2025-guide
+
+User-agent: Twitterbot
+Allow: /
+Allow: /images/
+Allow: /ade-2025-guide
+
+User-agent: LinkedInBot
+Allow: /
+Allow: /images/
+Allow: /ade-2025-guide
+
+User-agent: WhatsApp
+Allow: /
+Allow: /images/
+Allow: /ade-2025-guide
+
+# SEO IMPROVEMENT: Block problematic and aggressive crawlers
 User-agent: AhrefsBot
 Disallow: /
 
@@ -61,9 +181,84 @@ Disallow: /
 User-agent: DotBot
 Disallow: /
 
-# Sitemap location
+User-agent: MegaIndex
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: YandexBot
+Crawl-delay: 10
+
+# SEO IMPROVEMENT: Block content scrapers and bad bots
+User-agent: SiteBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+# SEO IMPROVEMENT: Block archiving and caching bots if desired
+User-agent: ia_archiver
+Disallow: /admin
+Disallow: /api/
+Allow: /
+
+User-agent: Wayback
+Disallow: /admin
+Disallow: /api/
+Allow: /
+
+# SEO IMPROVEMENT: Enhanced sitemap directives
 Sitemap: https://ifitaintdutchitaintmuch.com/sitemap.xml
 Sitemap: https://ifitaintdutchitaintmuch.com/sitemap-blog.xml
+Sitemap: https://ifitaintdutchitaintmuch.com/sitemap-events.xml
+Sitemap: https://ifitaintdutchitaintmuch.com/sitemap-images.xml
+Sitemap: https://ifitaintdutchitaintmuch.com/sitemap-news.xml
 
-# Host directive (preferred domain)
+# SEO IMPROVEMENT: Multi-language sitemap support
+Sitemap: https://ifitaintdutchitaintmuch.com/sitemap-nl.xml
+Sitemap: https://ifitaintdutchitaintmuch.com/sitemap-de.xml
+
+# RSS feed directive
+Sitemap: https://ifitaintdutchitaintmuch.com/rss.xml
+
+# SEO IMPROVEMENT: Host directive for preferred domain
 Host: https://ifitaintdutchitaintmuch.com
+
+# SEO IMPROVEMENT: Clean-param directive to ignore tracking parameters
+Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content
+Clean-param: fbclid&gclid&ref&source
+Clean-param: session&sid&PHPSESSID
+Clean-param: print&mobile
+
+# SEO IMPROVEMENT: Request-rate directive for polite crawling
+Request-rate: 1/10s
+
+# Additional comments for SEO clarity
+# This robots.txt file is optimized for:
+# - Maximum crawl efficiency for search engines
+# - Protection of sensitive admin and API endpoints  
+# - Support for multi-language content discovery
+# - Enhanced image and video content indexing
+# - Social media sharing optimization
+# - News content fast indexing
+# - Mobile-first crawling support
+# - Clean URL structure maintenance
+
+# Last updated: 2025-01-15
+# Version: 2.0 - Enhanced SEO Optimized
