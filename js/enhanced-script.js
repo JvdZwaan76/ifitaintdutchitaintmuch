@@ -1,7 +1,7 @@
 /**
- * Enhanced Dutch Underground Techno Website - Production JavaScript
+ * Enhanced Dutch Underground Techno Website - FINAL PRODUCTION JavaScript
  * Complete integration with Cloudflare Workers backend API
- * Version: 4.0.0 - Production Ready with Backend Integration
+ * Version: 4.0.1 - Fixed SoundCloud URL and console errors
  */
 
 class DutchUndergroundPortal {
@@ -56,7 +56,7 @@ class DutchUndergroundPortal {
     }
     
     init() {
-        console.log('🌷 Initializing Dutch Underground Portal v4.0.0...');
+        console.log('Dutch Underground Portal v4.0.1 initializing...');
         
         this.handleLoadingScreen();
         this.setupEventListeners();
@@ -71,14 +71,14 @@ class DutchUndergroundPortal {
         this.initMobileOptimizations();
         this.initBackendIntegration();
         
-        console.log('✅ Dutch Underground Portal initialized successfully');
+        console.log('Dutch Underground Portal initialized successfully');
     }
 
     /**
-     * NEW: Backend Integration Initialization
+     * Backend Integration Initialization
      */
     initBackendIntegration() {
-        console.log('🔌 Initializing backend integration...');
+        console.log('Initializing backend integration...');
         
         // Initialize Access Request Form
         this.initAccessRequestForm();
@@ -89,7 +89,7 @@ class DutchUndergroundPortal {
         // Health check on load
         this.performHealthCheck();
         
-        console.log('✅ Backend integration initialized');
+        console.log('Backend integration initialized');
     }
 
     /**
@@ -116,7 +116,7 @@ class DutchUndergroundPortal {
      * Handle Access Request Submission to Backend
      */
     async handleAccessRequest(form) {
-        console.log('📝 Submitting access request...');
+        console.log('Submitting access request...');
         
         try {
             // Validate form
@@ -140,12 +140,6 @@ class DutchUndergroundPortal {
                 referrer: document.referrer || null
             };
 
-            console.log('📤 Sending request data:', { 
-                ...requestData, 
-                userAgent: 'hidden', 
-                requestDate: 'generated' 
-            });
-
             // Submit to backend API
             const response = await fetch(this.endpoints.accessRequest, {
                 method: 'POST',
@@ -157,7 +151,6 @@ class DutchUndergroundPortal {
             });
 
             const result = await response.json();
-            console.log('📥 Backend response:', result);
 
             if (response.ok && result.success) {
                 // Success handling
@@ -177,7 +170,7 @@ class DutchUndergroundPortal {
             } else {
                 // Error handling
                 const errorMessage = result.message || 'Failed to submit access request';
-                console.error('❌ Access request failed:', errorMessage);
+                console.error('Access request failed:', errorMessage);
                 this.showMessage(errorMessage, 'error');
                 
                 // Show specific field errors if available
@@ -189,7 +182,7 @@ class DutchUndergroundPortal {
             }
 
         } catch (error) {
-            console.error('💥 Access request error:', error);
+            console.error('Access request error:', error);
             this.showMessage(
                 'Network error. Please check your connection and try again.', 
                 'error'
@@ -325,7 +318,7 @@ class DutchUndergroundPortal {
 
         if (submitText) {
             submitText.textContent = loading ? 
-                '⏳ Transmitting to Underground...' : 
+                'Transmitting to Underground...' : 
                 '🌟 Request Underground Access';
         }
     }
@@ -355,11 +348,10 @@ class DutchUndergroundPortal {
     }
 
     async handleAdminLogin() {
-        console.log('🔐 Processing admin login...');
+        console.log('Processing admin login...');
 
         const username = document.getElementById('adminUsername').value.trim();
         const password = document.getElementById('adminPassword').value.trim();
-        const errorDiv = document.getElementById('adminLoginError');
 
         if (!username || !password) {
             this.showAdminError('Please enter both username and password');
@@ -379,7 +371,7 @@ class DutchUndergroundPortal {
             const result = await response.json();
 
             if (response.ok && result.success) {
-                console.log('✅ Admin login successful');
+                console.log('Admin login successful');
                 
                 // Store session
                 this.storeAdminSession(result);
@@ -394,12 +386,12 @@ class DutchUndergroundPortal {
                 }, 1500);
 
             } else {
-                console.log('❌ Admin login failed:', result.error);
+                console.log('Admin login failed:', result.error);
                 this.showAdminError(result.error || 'Invalid credentials');
             }
 
         } catch (error) {
-            console.error('💥 Admin login error:', error);
+            console.error('Admin login error:', error);
             this.showAdminError('Login failed. Please try again.');
         }
     }
@@ -423,12 +415,12 @@ class DutchUndergroundPortal {
             if (session.sessionToken && session.expiresAt) {
                 const expiry = new Date(session.expiresAt);
                 if (expiry > new Date()) {
-                    console.log('✅ Valid admin session found');
+                    console.log('Valid admin session found');
                     return true;
                 }
             }
         } catch (error) {
-            console.log('🔍 No valid admin session');
+            console.log('No valid admin session');
         }
         return false;
     }
@@ -453,12 +445,12 @@ class DutchUndergroundPortal {
             const health = await response.json();
             
             if (health.status === 'healthy') {
-                console.log('💚 Backend health check passed:', health);
+                console.log('Backend health check passed:', health);
             } else {
-                console.warn('⚠️ Backend health check warning:', health);
+                console.warn('Backend health check warning:', health);
             }
         } catch (error) {
-            console.error('💥 Backend health check failed:', error);
+            console.error('Backend health check failed:', error);
         }
     }
 
@@ -467,8 +459,7 @@ class DutchUndergroundPortal {
      */
     trackEvent(eventName, properties = {}) {
         try {
-            // Add to your analytics service here (Google Analytics, etc.)
-            console.log('📊 Tracking event:', eventName, properties);
+            console.log('Tracking event:', eventName, properties);
             
             // Example: Send to your analytics endpoint
             if (window.gtag) {
@@ -487,7 +478,7 @@ class DutchUndergroundPortal {
             return;
         }
         
-        console.log('🎥 Initializing background video...');
+        console.log('Initializing background video...');
         
         video.muted = true;
         video.playsInline = true;
@@ -500,20 +491,20 @@ class DutchUndergroundPortal {
         }
         
         video.addEventListener('loadstart', () => {
-            console.log('📹 Underground video loading started');
+            console.log('Underground video loading started');
         });
         
         video.addEventListener('canplay', () => {
-            console.log('▶️ Underground video ready to play');
+            console.log('Underground video ready to play');
             video.style.transition = 'opacity 1s ease-in-out';
         });
         
         video.addEventListener('loadeddata', () => {
-            console.log('📊 Underground video data loaded');
+            console.log('Underground video data loaded');
         });
         
         video.addEventListener('error', (e) => {
-            console.error('❌ Video loading error:', e);
+            console.error('Video loading error:', e);
             const videoContainer = document.querySelector('.video-background');
             if (videoContainer) {
                 videoContainer.style.display = 'none';
@@ -521,7 +512,7 @@ class DutchUndergroundPortal {
         });
         
         video.addEventListener('ended', () => {
-            console.log('🔄 Video ended, restarting loop...');
+            console.log('Video ended, restarting loop...');
             video.currentTime = 0;
             video.play().catch(e => console.warn('Video restart failed:', e));
         });
@@ -536,9 +527,9 @@ class DutchUndergroundPortal {
         
         const playVideo = () => {
             video.play().then(() => {
-                console.log('✅ Underground video started playing successfully');
+                console.log('Underground video started playing successfully');
             }).catch((error) => {
-                console.error('❌ Video autoplay failed:', error.name, error.message);
+                console.error('Video autoplay failed:', error.name, error.message);
                 document.addEventListener('click', () => {
                     video.play().catch(e => console.warn('Manual video start failed:', e));
                 }, { once: true });
@@ -563,14 +554,14 @@ class DutchUndergroundPortal {
             const maxLoadTime = this.isMobile ? 2000 : 3000;
             
             const removeLoadingScreen = () => {
-                console.log('🔄 Removing loading screen...');
+                console.log('Removing loading screen...');
                 loadingScreen.classList.add('fade-out');
                 
                 setTimeout(() => {
                     loadingScreen.style.display = 'none';
                     this.isLoaded = true;
                     this.triggerEntryAnimations();
-                    console.log('✅ Loading screen removed, entry animations triggered');
+                    console.log('Loading screen removed, entry animations triggered');
                 }, 1000);
             };
             
@@ -584,7 +575,7 @@ class DutchUndergroundPortal {
             
             setTimeout(() => {
                 if (loadingScreen && !loadingScreen.classList.contains('fade-out')) {
-                    console.warn('⚠️ Loading screen removal fallback triggered');
+                    console.warn('Loading screen removal fallback triggered');
                     removeLoadingScreen();
                 }
             }, maxLoadTime);
@@ -597,7 +588,7 @@ class DutchUndergroundPortal {
                 }, 200);
             });
         } else {
-            console.warn('⚠️ Loading screen element not found');
+            console.warn('Loading screen element not found');
             this.isLoaded = true;
             this.triggerEntryAnimations();
         }
@@ -669,7 +660,7 @@ class DutchUndergroundPortal {
     initCanvas() {
         this.canvas = document.getElementById('background-canvas');
         if (!this.canvas) {
-            console.warn('⚠️ Background canvas not found');
+            console.warn('Background canvas not found');
             return;
         }
         
@@ -795,7 +786,7 @@ class DutchUndergroundPortal {
     
     startAnimationLoop() {
         if (!this.canvas || !this.ctx) {
-            console.warn('⚠️ Canvas not available for animation loop');
+            console.warn('Canvas not available for animation loop');
             return;
         }
         
@@ -838,7 +829,7 @@ class DutchUndergroundPortal {
                         this.drawConnections();
                     }
                 } catch (error) {
-                    console.error('❌ Animation error:', error);
+                    console.error('Animation error:', error);
                 }
                 
                 lastTime = currentTime;
@@ -1010,7 +1001,7 @@ class DutchUndergroundPortal {
     }
     
     triggerEntryAnimations() {
-        console.log('✨ Triggering entry animations...');
+        console.log('Triggering entry animations...');
         
         const elements = [
             '.neon-title',
@@ -1046,7 +1037,6 @@ class DutchUndergroundPortal {
     
     initFormEffects() {
         const form = document.getElementById('loginForm');
-        const message = document.getElementById('message');
         
         if (!form) return;
         
@@ -1288,7 +1278,7 @@ class DutchUndergroundPortal {
         this.config.stars.count = Math.floor(this.config.stars.count * 0.5);
         this.particles = this.particles.slice(0, this.config.particles.count);
         this.stars = this.stars.slice(0, this.config.stars.count);
-        console.log('⚡ Performance mode enabled');
+        console.log('Performance mode enabled');
     }
     
     disablePerformanceMode() {
@@ -1297,7 +1287,7 @@ class DutchUndergroundPortal {
         this.config.stars.count = this.isMobile ? 50 : 150;
         this.createParticles();
         this.createStars();
-        console.log('🚀 Performance mode disabled');
+        console.log('Performance mode disabled');
     }
     
     createInputParticles(input) {
@@ -1473,6 +1463,21 @@ class DutchUndergroundPortal {
         const tempElements = document.querySelectorAll('.cursor-glow, [id*="success-"], [id*="error-"]');
         tempElements.forEach(el => el.remove());
     }
+
+    closeAdminLogin() {
+        const modal = document.getElementById('adminLoginModal');
+        if (modal) {
+            modal.style.display = 'none';
+            
+            // Clear form
+            const form = document.getElementById('adminLoginForm');
+            if (form) form.reset();
+            
+            // Clear error
+            const errorDiv = document.getElementById('adminLoginError');
+            if (errorDiv) errorDiv.style.display = 'none';
+        }
+    }
     
     throttle(func, limit) {
         let inThrottle;
@@ -1593,15 +1598,15 @@ class UndergroundSmokeSystem {
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🏁 DOM loaded, initializing Underground Portal v4.0.0...');
+    console.log('DOM loaded, initializing Underground Portal v4.0.1...');
     
     try {
         window.DutchMysteryPortal = new DutchUndergroundPortal();
         const smokeSystem = new UndergroundSmokeSystem();
         
-        console.log('✅ Underground Portal systems initialized successfully');
+        console.log('Underground Portal systems initialized successfully');
     } catch (error) {
-        console.error('❌ Error initializing Underground Portal:', error);
+        console.error('Error initializing Underground Portal:', error);
         
         const loadingScreen = document.getElementById('loadingScreen');
         if (loadingScreen) {
@@ -1614,20 +1619,20 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         const loadingScreen = document.getElementById('loadingScreen');
         if (loadingScreen && loadingScreen.style.display !== 'none') {
-            console.log('🔄 Fallback: Removing loading screen');
+            console.log('Fallback: Removing loading screen');
             loadingScreen.style.display = 'none';
         }
     }, 5000);
     
     window.addEventListener('error', (e) => {
-        console.warn('⚠️ Underground Portal:', e.error?.message || 'Unknown error');
+        console.warn('Underground Portal:', e.error?.message || 'Unknown error');
     });
     
     if ('performance' in window) {
         window.addEventListener('load', () => {
             const loadTime = performance.now();
             if (loadTime > 5000) {
-                console.warn('🐌 Portal loading slowly. Performance mode may be beneficial.');
+                console.warn('Portal loading slowly. Performance mode may be beneficial.');
             }
         });
     }
@@ -1787,9 +1792,9 @@ function showComingSoon() {
     }
 }
 
-// Audio player functions
+// FIXED: Audio player functions with correct SoundCloud URL
 function toggleAudioPlayer() {
-    console.log('🎵 Audio player toggle requested');
+    console.log('Audio player toggle requested');
     
     const button = document.getElementById('audioPlayButton');
     const buttonText = document.getElementById('buttonText');
@@ -1797,13 +1802,13 @@ function toggleAudioPlayer() {
     const soundcloudPlayer = document.getElementById('soundcloudPlayer');
     
     if (!playerContainer || !soundcloudPlayer) {
-        console.warn('⚠️ Audio player elements not found');
+        console.warn('Audio player elements not found');
         return;
     }
     
     if (playerContainer.style.display === 'none' || !playerContainer.style.display) {
-        // Show audio player - Halform x Rico Winter Live Set
-        soundcloudPlayer.src = 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1935537451&color=%23ff9500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true';
+        // FIXED: Show audio player - Halform x Rico Winter Live Set (Correct URL)
+        soundcloudPlayer.src = 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/halform/halform-x-rico-winter-live-set-o01&color=%23ff9500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true';
         playerContainer.style.display = 'block';
         
         if (buttonText) buttonText.textContent = 'DISCONNECT TRANSMISSION';
@@ -1813,6 +1818,15 @@ function toggleAudioPlayer() {
             window.DutchMysteryPortal.showMessage('Underground transmission intercepted... Audio portal activated!', 'success');
             window.DutchMysteryPortal.trackEvent('audio_player_opened', { track: 'halform_rico_winter_live_set' });
         }
+        
+        // Handle potential SoundCloud loading issues gracefully
+        setTimeout(() => {
+            const iframe = document.getElementById('soundcloudPlayer');
+            if (iframe) {
+                iframe.onload = () => console.log('SoundCloud player loaded successfully');
+                iframe.onerror = (e) => console.warn('SoundCloud player load issue (non-critical):', e);
+            }
+        }, 2000);
     } else {
         // Hide audio player
         playerContainer.style.display = 'none';
