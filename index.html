@@ -1373,6 +1373,9 @@
                 document.head.appendChild(style);
             }
         });
+        
+        // BACKUP: Also call video init after a short delay as fallback
+        setTimeout(initializeBackgroundVideo, 1000);
     </script>
 </body>
 </html>
