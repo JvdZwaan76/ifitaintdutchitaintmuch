@@ -1,6 +1,6 @@
 /**
  * Enhanced Dutch Underground Techno Website - Interactive JavaScript
- * Fixed version with proper video loading and loading screen handling
+ * Complete production-ready version with proper video loading and form handling
  */
 
 class DutchUndergroundPortal {
@@ -687,6 +687,34 @@ class DutchUndergroundPortal {
                 });
             }
         });
+        
+        // Login form submission
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleLoginSubmission(form);
+        });
+    }
+    
+    handleLoginSubmission(form) {
+        const username = form.querySelector('#username').value.trim();
+        const password = form.querySelector('#password').value.trim();
+        
+        if (!username || !password) {
+            this.showMessage('Please enter both identity and frequency to access the underground.', 'warning');
+            return;
+        }
+        
+        // Demo login logic
+        if (username.toLowerCase() === 'admin' && password === 'underground') {
+            this.showMessage('Access granted! Welcome to the underground collective...', 'success');
+            this.triggerSuccessEffects();
+            
+            setTimeout(() => {
+                this.showMessage('Redirecting to the vault...', 'info');
+            }, 2000);
+        } else {
+            this.showMessage('Invalid credentials. The underground remains sealed.', 'error');
+        }
     }
     
     initMobileOptimizations() {
@@ -1274,9 +1302,39 @@ function showComingSoon() {
 // Audio player functions
 function toggleAudioPlayer() {
     console.log('Audio player toggle requested');
-    // Audio player functionality would go here
-    if (window.DutchMysteryPortal) {
-        window.DutchMysteryPortal.showMessage('Underground transmission intercepted... Audio portal activated!', 'success');
+    
+    const button = document.getElementById('audioPlayButton');
+    const buttonText = document.getElementById('buttonText');
+    const playerContainer = document.getElementById('audioPlayerContainer');
+    const soundcloudPlayer = document.getElementById('soundcloudPlayer');
+    
+    if (!playerContainer || !soundcloudPlayer) {
+        console.warn('Audio player elements not found');
+        return;
+    }
+    
+    if (playerContainer.style.display === 'none' || !playerContainer.style.display) {
+        // Show audio player
+        soundcloudPlayer.src = 'https://w.soundcloud.com/player/?url=https%3A//on.soundcloud.com/PZdtlNaYaIgP25MTX2&color=%23ff9500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true';
+        playerContainer.style.display = 'block';
+        
+        if (buttonText) buttonText.textContent = 'DISCONNECT TRANSMISSION';
+        if (button) button.style.background = 'linear-gradient(135deg, #FF0000, #FF9500)';
+        
+        if (window.DutchMysteryPortal) {
+            window.DutchMysteryPortal.showMessage('Underground transmission intercepted... Audio portal activated!', 'success');
+        }
+    } else {
+        // Hide audio player
+        playerContainer.style.display = 'none';
+        soundcloudPlayer.src = '';
+        
+        if (buttonText) buttonText.textContent = 'INTERCEPT TRANSMISSION';
+        if (button) button.style.background = 'linear-gradient(135deg, #FF9500, #00BFFF)';
+        
+        if (window.DutchMysteryPortal) {
+            window.DutchMysteryPortal.showMessage('Transmission disconnected... Returning to underground silence.', 'info');
+        }
     }
 }
 
@@ -1288,16 +1346,45 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             console.log('Access request form submitted');
             
-            if (window.DutchMysteryPortal) {
-                window.DutchMysteryPortal.showMessage('Access request transmitted to the underground collective...', 'success');
+            // Get form data
+            const formData = new FormData(accessForm);
+            const fullName = formData.get('fullName');
+            const email = formData.get('email');
+            const phone = formData.get('phone');
+            const country = formData.get('country');
+            
+            // Basic validation
+            if (!fullName || !email || !phone || !country) {
+                if (window.DutchMysteryPortal) {
+                    window.DutchMysteryPortal.showMessage('Please complete all fields to request underground access.', 'warning');
+                }
+                return;
             }
             
-            // Show success section
-            const successSection = document.getElementById('accessFormSuccess');
-            if (successSection) {
-                successSection.style.display = 'block';
-                accessForm.style.display = 'none';
+            // Show loading
+            const loadingOverlay = document.getElementById('accessLoadingOverlay');
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'flex';
             }
+            
+            // Simulate form submission
+            setTimeout(() => {
+                if (loadingOverlay) {
+                    loadingOverlay.style.display = 'none';
+                }
+                
+                if (window.DutchMysteryPortal) {
+                    window.DutchMysteryPortal.showMessage('Access request transmitted to the underground collective...', 'success');
+                    window.DutchMysteryPortal.triggerSuccessEffects();
+                }
+                
+                // Show success section
+                const successSection = document.getElementById('accessFormSuccess');
+                if (successSection) {
+                    successSection.style.display = 'block';
+                    accessForm.style.display = 'none';
+                }
+            }, 2000);
         });
     }
 });
