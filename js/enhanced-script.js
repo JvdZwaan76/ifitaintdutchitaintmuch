@@ -704,13 +704,17 @@ class DutchUndergroundPortal {
             return;
         }
         
-        // Demo login logic
-        if (username.toLowerCase() === 'admin' && password === 'underground') {
+        // Demo login logic - Updated credentials
+        if (username.toLowerCase() === 'void' && password === 'enter') {
             this.showMessage('Access granted! Welcome to the underground collective...', 'success');
             this.triggerSuccessEffects();
             
             setTimeout(() => {
                 this.showMessage('Redirecting to the vault...', 'info');
+                // Could redirect to admin page or show hidden content
+                setTimeout(() => {
+                    window.location.href = '/admin';
+                }, 1000);
             }, 2000);
         } else {
             this.showMessage('Invalid credentials. The underground remains sealed.', 'error');
