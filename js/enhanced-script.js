@@ -1,6 +1,7 @@
 /**
- * Enhanced Dutch Underground Techno Website - Interactive JavaScript
- * FINAL PRODUCTION VERSION - All syntax errors fixed, login credentials updated
+ * Enhanced Dutch Underground Techno Website - Production JavaScript
+ * Complete integration with Cloudflare Workers backend API
+ * Version: 4.0.0 - Production Ready with Backend Integration
  */
 
 class DutchUndergroundPortal {
@@ -16,6 +17,14 @@ class DutchUndergroundPortal {
         this.isVisible = true;
         this.isMobile = this.detectMobile();
         this.performanceMode = this.isMobile;
+        
+        // API Configuration
+        this.API_BASE = window.location.origin;
+        this.endpoints = {
+            accessRequest: '/api/access-request',
+            adminLogin: '/api/admin/login',
+            health: '/api/health'
+        };
         
         this.config = {
             particles: {
@@ -47,7 +56,7 @@ class DutchUndergroundPortal {
     }
     
     init() {
-        console.log('Initializing Dutch Underground Portal...');
+        console.log('🌷 Initializing Dutch Underground Portal v4.0.0...');
         
         this.handleLoadingScreen();
         this.setupEventListeners();
@@ -60,8 +69,414 @@ class DutchUndergroundPortal {
         this.initFormEffects();
         this.initAccessibilityFeatures();
         this.initMobileOptimizations();
+        this.initBackendIntegration();
         
-        console.log('Dutch Underground Portal initialized successfully');
+        console.log('✅ Dutch Underground Portal initialized successfully');
+    }
+
+    /**
+     * NEW: Backend Integration Initialization
+     */
+    initBackendIntegration() {
+        console.log('🔌 Initializing backend integration...');
+        
+        // Initialize Access Request Form
+        this.initAccessRequestForm();
+        
+        // Initialize Admin Authentication
+        this.initAdminAuth();
+        
+        // Health check on load
+        this.performHealthCheck();
+        
+        console.log('✅ Backend integration initialized');
+    }
+
+    /**
+     * Access Request Form Integration with Backend API
+     */
+    initAccessRequestForm() {
+        const form = document.getElementById('accessRequestForm');
+        if (!form) return;
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await this.handleAccessRequest(form);
+        });
+
+        // Real-time validation
+        const inputs = form.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('blur', () => this.validateField(input));
+            input.addEventListener('input', () => this.clearFieldError(input));
+        });
+    }
+
+    /**
+     * Handle Access Request Submission to Backend
+     */
+    async handleAccessRequest(form) {
+        console.log('📝 Submitting access request...');
+        
+        try {
+            // Validate form
+            if (!this.validateAccessForm(form)) {
+                this.showMessage('Please fix the validation errors before submitting.', 'error');
+                return;
+            }
+
+            // Show loading state
+            this.setFormLoading(true);
+
+            // Collect form data
+            const formData = new FormData(form);
+            const requestData = {
+                fullName: formData.get('fullName').trim(),
+                email: formData.get('email').trim().toLowerCase(),
+                phone: formData.get('phone').trim(),
+                country: formData.get('country'),
+                requestDate: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                referrer: document.referrer || null
+            };
+
+            console.log('📤 Sending request data:', { 
+                ...requestData, 
+                userAgent: 'hidden', 
+                requestDate: 'generated' 
+            });
+
+            // Submit to backend API
+            const response = await fetch(this.endpoints.accessRequest, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            });
+
+            const result = await response.json();
+            console.log('📥 Backend response:', result);
+
+            if (response.ok && result.success) {
+                // Success handling
+                this.showFormSuccess();
+                this.triggerSuccessEffects();
+                this.showMessage(
+                    'Access request submitted successfully! Check your email for confirmation.', 
+                    'success'
+                );
+                
+                // Analytics tracking
+                this.trackEvent('access_request_submitted', {
+                    country: requestData.country,
+                    timestamp: new Date().toISOString()
+                });
+
+            } else {
+                // Error handling
+                const errorMessage = result.message || 'Failed to submit access request';
+                console.error('❌ Access request failed:', errorMessage);
+                this.showMessage(errorMessage, 'error');
+                
+                // Show specific field errors if available
+                if (result.fieldErrors) {
+                    Object.keys(result.fieldErrors).forEach(field => {
+                        this.showFieldError(field, result.fieldErrors[field]);
+                    });
+                }
+            }
+
+        } catch (error) {
+            console.error('💥 Access request error:', error);
+            this.showMessage(
+                'Network error. Please check your connection and try again.', 
+                'error'
+            );
+        } finally {
+            this.setFormLoading(false);
+        }
+    }
+
+    /**
+     * Form Validation
+     */
+    validateAccessForm(form) {
+        const requiredFields = ['fullName', 'email', 'phone', 'country'];
+        let isValid = true;
+
+        requiredFields.forEach(fieldName => {
+            const field = form.querySelector(`[name="${fieldName}"]`);
+            if (!this.validateField(field)) {
+                isValid = false;
+            }
+        });
+
+        return isValid;
+    }
+
+    validateField(field) {
+        const value = field.value.trim();
+        const fieldName = field.name;
+        let isValid = true;
+        let errorMessage = '';
+
+        // Clear previous error
+        this.clearFieldError(field);
+
+        // Required field validation
+        if (!value) {
+            errorMessage = `${this.getFieldDisplayName(fieldName)} is required`;
+            isValid = false;
+        } else {
+            // Specific field validation
+            switch (fieldName) {
+                case 'fullName':
+                    if (value.length < 2) {
+                        errorMessage = 'Full name must be at least 2 characters';
+                        isValid = false;
+                    } else if (value.length > 100) {
+                        errorMessage = 'Full name must be less than 100 characters';
+                        isValid = false;
+                    }
+                    break;
+
+                case 'email':
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(value)) {
+                        errorMessage = 'Please enter a valid email address';
+                        isValid = false;
+                    } else if (value.length > 150) {
+                        errorMessage = 'Email must be less than 150 characters';
+                        isValid = false;
+                    }
+                    break;
+
+                case 'phone':
+                    if (value.length < 8) {
+                        errorMessage = 'Phone number must be at least 8 characters';
+                        isValid = false;
+                    } else if (value.length > 20) {
+                        errorMessage = 'Phone number must be less than 20 characters';
+                        isValid = false;
+                    }
+                    break;
+
+                case 'country':
+                    if (!value) {
+                        errorMessage = 'Please select your country';
+                        isValid = false;
+                    }
+                    break;
+            }
+        }
+
+        if (!isValid) {
+            this.showFieldError(fieldName, errorMessage);
+            field.parentElement.classList.add('invalid');
+        } else {
+            field.parentElement.classList.add('valid');
+        }
+
+        return isValid;
+    }
+
+    getFieldDisplayName(fieldName) {
+        const displayNames = {
+            fullName: 'Full name',
+            email: 'Email address',
+            phone: 'Phone number',
+            country: 'Country'
+        };
+        return displayNames[fieldName] || fieldName;
+    }
+
+    showFieldError(fieldName, message) {
+        const errorElement = document.getElementById(`${fieldName}-error`);
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+    }
+
+    clearFieldError(field) {
+        const fieldName = field.name;
+        const errorElement = document.getElementById(`${fieldName}-error`);
+        if (errorElement) {
+            errorElement.style.display = 'none';
+        }
+        field.parentElement.classList.remove('invalid', 'valid');
+    }
+
+    setFormLoading(loading) {
+        const overlay = document.getElementById('accessLoadingOverlay');
+        const submitBtn = document.getElementById('accessSubmitBtn');
+        const submitText = document.getElementById('submitBtnText');
+
+        if (overlay) {
+            overlay.style.display = loading ? 'flex' : 'none';
+        }
+
+        if (submitBtn) {
+            submitBtn.disabled = loading;
+            submitBtn.style.opacity = loading ? '0.7' : '1';
+        }
+
+        if (submitText) {
+            submitText.textContent = loading ? 
+                '⏳ Transmitting to Underground...' : 
+                '🌟 Request Underground Access';
+        }
+    }
+
+    showFormSuccess() {
+        const form = document.getElementById('accessRequestForm');
+        const successDiv = document.getElementById('accessFormSuccess');
+
+        if (form) form.style.display = 'none';
+        if (successDiv) successDiv.style.display = 'block';
+    }
+
+    /**
+     * Admin Authentication Integration
+     */
+    initAdminAuth() {
+        const adminForm = document.getElementById('adminLoginForm');
+        if (adminForm) {
+            adminForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await this.handleAdminLogin();
+            });
+        }
+
+        // Check for existing admin session
+        this.checkAdminSession();
+    }
+
+    async handleAdminLogin() {
+        console.log('🔐 Processing admin login...');
+
+        const username = document.getElementById('adminUsername').value.trim();
+        const password = document.getElementById('adminPassword').value.trim();
+        const errorDiv = document.getElementById('adminLoginError');
+
+        if (!username || !password) {
+            this.showAdminError('Please enter both username and password');
+            return;
+        }
+
+        try {
+            const response = await fetch(this.endpoints.adminLogin, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                console.log('✅ Admin login successful');
+                
+                // Store session
+                this.storeAdminSession(result);
+                
+                // Close modal
+                this.closeAdminLogin();
+                
+                // Redirect to admin panel
+                this.showMessage('Login successful! Redirecting to admin panel...', 'success');
+                setTimeout(() => {
+                    window.location.href = '/admin';
+                }, 1500);
+
+            } else {
+                console.log('❌ Admin login failed:', result.error);
+                this.showAdminError(result.error || 'Invalid credentials');
+            }
+
+        } catch (error) {
+            console.error('💥 Admin login error:', error);
+            this.showAdminError('Login failed. Please try again.');
+        }
+    }
+
+    storeAdminSession(sessionData) {
+        // Store in both sessionStorage and httpOnly cookie simulation
+        sessionStorage.setItem('dutchAdminAuth', JSON.stringify({
+            sessionToken: sessionData.sessionToken,
+            user: sessionData.user,
+            expiresAt: sessionData.expiresAt,
+            timestamp: new Date().toISOString()
+        }));
+
+        // Set cookie for backend authentication
+        document.cookie = `dutchAdminAuth=${sessionData.sessionToken}; path=/; secure; samesite=strict`;
+    }
+
+    checkAdminSession() {
+        try {
+            const session = JSON.parse(sessionStorage.getItem('dutchAdminAuth') || '{}');
+            if (session.sessionToken && session.expiresAt) {
+                const expiry = new Date(session.expiresAt);
+                if (expiry > new Date()) {
+                    console.log('✅ Valid admin session found');
+                    return true;
+                }
+            }
+        } catch (error) {
+            console.log('🔍 No valid admin session');
+        }
+        return false;
+    }
+
+    showAdminError(message) {
+        const errorDiv = document.getElementById('adminLoginError');
+        if (errorDiv) {
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+    }
+
+    /**
+     * Health Check
+     */
+    async performHealthCheck() {
+        try {
+            const response = await fetch(this.endpoints.health);
+            const health = await response.json();
+            
+            if (health.status === 'healthy') {
+                console.log('💚 Backend health check passed:', health);
+            } else {
+                console.warn('⚠️ Backend health check warning:', health);
+            }
+        } catch (error) {
+            console.error('💥 Backend health check failed:', error);
+        }
+    }
+
+    /**
+     * Analytics Tracking
+     */
+    trackEvent(eventName, properties = {}) {
+        try {
+            // Add to your analytics service here (Google Analytics, etc.)
+            console.log('📊 Tracking event:', eventName, properties);
+            
+            // Example: Send to your analytics endpoint
+            if (window.gtag) {
+                window.gtag('event', eventName, properties);
+            }
+        } catch (error) {
+            console.warn('Analytics tracking failed:', error);
+        }
     }
     
     initBackgroundVideo() {
@@ -72,7 +487,7 @@ class DutchUndergroundPortal {
             return;
         }
         
-        console.log('Initializing background video...');
+        console.log('🎥 Initializing background video...');
         
         video.muted = true;
         video.playsInline = true;
@@ -85,20 +500,20 @@ class DutchUndergroundPortal {
         }
         
         video.addEventListener('loadstart', () => {
-            console.log('Underground video loading started');
+            console.log('📹 Underground video loading started');
         });
         
         video.addEventListener('canplay', () => {
-            console.log('Underground video ready to play');
+            console.log('▶️ Underground video ready to play');
             video.style.transition = 'opacity 1s ease-in-out';
         });
         
         video.addEventListener('loadeddata', () => {
-            console.log('Underground video data loaded');
+            console.log('📊 Underground video data loaded');
         });
         
         video.addEventListener('error', (e) => {
-            console.error('Video loading error:', e);
+            console.error('❌ Video loading error:', e);
             const videoContainer = document.querySelector('.video-background');
             if (videoContainer) {
                 videoContainer.style.display = 'none';
@@ -106,7 +521,7 @@ class DutchUndergroundPortal {
         });
         
         video.addEventListener('ended', () => {
-            console.log('Video ended, restarting loop...');
+            console.log('🔄 Video ended, restarting loop...');
             video.currentTime = 0;
             video.play().catch(e => console.warn('Video restart failed:', e));
         });
@@ -121,9 +536,9 @@ class DutchUndergroundPortal {
         
         const playVideo = () => {
             video.play().then(() => {
-                console.log('Underground video started playing successfully');
+                console.log('✅ Underground video started playing successfully');
             }).catch((error) => {
-                console.error('Video autoplay failed:', error.name, error.message);
+                console.error('❌ Video autoplay failed:', error.name, error.message);
                 document.addEventListener('click', () => {
                     video.play().catch(e => console.warn('Manual video start failed:', e));
                 }, { once: true });
@@ -148,14 +563,14 @@ class DutchUndergroundPortal {
             const maxLoadTime = this.isMobile ? 2000 : 3000;
             
             const removeLoadingScreen = () => {
-                console.log('Removing loading screen...');
+                console.log('🔄 Removing loading screen...');
                 loadingScreen.classList.add('fade-out');
                 
                 setTimeout(() => {
                     loadingScreen.style.display = 'none';
                     this.isLoaded = true;
                     this.triggerEntryAnimations();
-                    console.log('Loading screen removed, entry animations triggered');
+                    console.log('✅ Loading screen removed, entry animations triggered');
                 }, 1000);
             };
             
@@ -169,7 +584,7 @@ class DutchUndergroundPortal {
             
             setTimeout(() => {
                 if (loadingScreen && !loadingScreen.classList.contains('fade-out')) {
-                    console.warn('Loading screen removal fallback triggered');
+                    console.warn('⚠️ Loading screen removal fallback triggered');
                     removeLoadingScreen();
                 }
             }, maxLoadTime);
@@ -182,7 +597,7 @@ class DutchUndergroundPortal {
                 }, 200);
             });
         } else {
-            console.warn('Loading screen element not found');
+            console.warn('⚠️ Loading screen element not found');
             this.isLoaded = true;
             this.triggerEntryAnimations();
         }
@@ -240,6 +655,7 @@ class DutchUndergroundPortal {
             
             if (e.key === 'Escape') {
                 this.resetInteractiveStates();
+                this.closeAdminLogin();
             }
         });
         
@@ -253,7 +669,7 @@ class DutchUndergroundPortal {
     initCanvas() {
         this.canvas = document.getElementById('background-canvas');
         if (!this.canvas) {
-            console.warn('Background canvas not found');
+            console.warn('⚠️ Background canvas not found');
             return;
         }
         
@@ -379,7 +795,7 @@ class DutchUndergroundPortal {
     
     startAnimationLoop() {
         if (!this.canvas || !this.ctx) {
-            console.warn('Canvas not available for animation loop');
+            console.warn('⚠️ Canvas not available for animation loop');
             return;
         }
         
@@ -422,7 +838,7 @@ class DutchUndergroundPortal {
                         this.drawConnections();
                     }
                 } catch (error) {
-                    console.error('Animation error:', error);
+                    console.error('❌ Animation error:', error);
                 }
                 
                 lastTime = currentTime;
@@ -594,7 +1010,7 @@ class DutchUndergroundPortal {
     }
     
     triggerEntryAnimations() {
-        console.log('Triggering entry animations...');
+        console.log('✨ Triggering entry animations...');
         
         const elements = [
             '.neon-title',
@@ -685,7 +1101,7 @@ class DutchUndergroundPortal {
             return;
         }
         
-        // FIXED: Updated login credentials to "void / enter"
+        // Updated login credentials: "void / enter"
         if (username.toLowerCase() === 'void' && password === 'enter') {
             this.showMessage('Access granted! Welcome to the underground collective...', 'success');
             this.triggerSuccessEffects();
@@ -693,7 +1109,7 @@ class DutchUndergroundPortal {
             setTimeout(() => {
                 this.showMessage('Redirecting to the vault...', 'info');
                 setTimeout(() => {
-                    window.location.href = '/admin';
+                    window.location.href = '/ade-2025-guide';
                 }, 1000);
             }, 2000);
         } else {
@@ -872,7 +1288,7 @@ class DutchUndergroundPortal {
         this.config.stars.count = Math.floor(this.config.stars.count * 0.5);
         this.particles = this.particles.slice(0, this.config.particles.count);
         this.stars = this.stars.slice(0, this.config.stars.count);
-        console.log('Performance mode enabled');
+        console.log('⚡ Performance mode enabled');
     }
     
     disablePerformanceMode() {
@@ -881,7 +1297,7 @@ class DutchUndergroundPortal {
         this.config.stars.count = this.isMobile ? 50 : 150;
         this.createParticles();
         this.createStars();
-        console.log('Performance mode disabled');
+        console.log('🚀 Performance mode disabled');
     }
     
     createInputParticles(input) {
@@ -1177,15 +1593,15 @@ class UndergroundSmokeSystem {
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM loaded, initializing Underground Portal...');
+    console.log('🏁 DOM loaded, initializing Underground Portal v4.0.0...');
     
     try {
         window.DutchMysteryPortal = new DutchUndergroundPortal();
         const smokeSystem = new UndergroundSmokeSystem();
         
-        console.log('Underground Portal systems initialized successfully');
+        console.log('✅ Underground Portal systems initialized successfully');
     } catch (error) {
-        console.error('Error initializing Underground Portal:', error);
+        console.error('❌ Error initializing Underground Portal:', error);
         
         const loadingScreen = document.getElementById('loadingScreen');
         if (loadingScreen) {
@@ -1198,20 +1614,20 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         const loadingScreen = document.getElementById('loadingScreen');
         if (loadingScreen && loadingScreen.style.display !== 'none') {
-            console.log('Fallback: Removing loading screen');
+            console.log('🔄 Fallback: Removing loading screen');
             loadingScreen.style.display = 'none';
         }
     }, 5000);
     
     window.addEventListener('error', (e) => {
-        console.warn('Underground Portal:', e.error?.message || 'Unknown error');
+        console.warn('⚠️ Underground Portal:', e.error?.message || 'Unknown error');
     });
     
     if ('performance' in window) {
         window.addEventListener('load', () => {
             const loadTime = performance.now();
             if (loadTime > 5000) {
-                console.warn('Portal loading slowly. Performance mode may be beneficial.');
+                console.warn('🐌 Portal loading slowly. Performance mode may be beneficial.');
             }
         });
     }
@@ -1248,16 +1664,106 @@ document.addEventListener('DOMContentLoaded', () => {
             text-shadow: 0 0 10px #00BFFF;
         }
         
-        .skip-link:focus {
-            background: #000 !important;
-            color: #fff !important;
-            text-decoration: none !important;
-            border: 2px solid #fff !important;
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .admin-modal-content {
+            background: linear-gradient(145deg, #1a1a1a, #2d1810);
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid rgba(255, 149, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .admin-modal h3 {
+            color: #FF9500;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-family: var(--font-title);
+            text-shadow: 0 0 10px #FF9500;
+        }
+        
+        .admin-close {
+            color: #FF9500;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: -10px;
+        }
+        
+        .admin-close:hover {
+            color: #FFD700;
+        }
+        
+        .admin-input-group {
+            margin-bottom: 1rem;
+        }
+        
+        .admin-input-group input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(255, 149, 0, 0.3);
+            color: #fff;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-input-group input:focus {
+            outline: none;
+            border-color: #00BFFF;
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.4);
+        }
+        
+        .admin-login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #FF9500, #FFD700);
+            color: #000;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 149, 0, 0.4);
+        }
+        
+        .admin-error {
+            color: #FF0000;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
         }
         
         @media (max-width: 768px) {
             .cursor-glow {
                 display: none !important;
+            }
+            
+            .admin-modal-content {
+                margin: 20% auto;
+                width: 95%;
+                padding: 1.5rem;
             }
         }
         
@@ -1283,7 +1789,7 @@ function showComingSoon() {
 
 // Audio player functions
 function toggleAudioPlayer() {
-    console.log('Audio player toggle requested');
+    console.log('🎵 Audio player toggle requested');
     
     const button = document.getElementById('audioPlayButton');
     const buttonText = document.getElementById('buttonText');
@@ -1291,13 +1797,13 @@ function toggleAudioPlayer() {
     const soundcloudPlayer = document.getElementById('soundcloudPlayer');
     
     if (!playerContainer || !soundcloudPlayer) {
-        console.warn('Audio player elements not found');
+        console.warn('⚠️ Audio player elements not found');
         return;
     }
     
     if (playerContainer.style.display === 'none' || !playerContainer.style.display) {
-        // Show audio player - Use proper SoundCloud embed URL
-        soundcloudPlayer.src = 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1853220279&color=%23ff9500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true';
+        // Show audio player - Halform x Rico Winter Live Set
+        soundcloudPlayer.src = 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1935537451&color=%23ff9500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true';
         playerContainer.style.display = 'block';
         
         if (buttonText) buttonText.textContent = 'DISCONNECT TRANSMISSION';
@@ -1305,6 +1811,7 @@ function toggleAudioPlayer() {
         
         if (window.DutchMysteryPortal) {
             window.DutchMysteryPortal.showMessage('Underground transmission intercepted... Audio portal activated!', 'success');
+            window.DutchMysteryPortal.trackEvent('audio_player_opened', { track: 'halform_rico_winter_live_set' });
         }
     } else {
         // Hide audio player
@@ -1320,48 +1827,40 @@ function toggleAudioPlayer() {
     }
 }
 
-// Access request form handling
-document.addEventListener('DOMContentLoaded', () => {
-    const accessForm = document.getElementById('accessRequestForm');
-    if (accessForm) {
-        accessForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            console.log('Access request form submitted');
-            
-            const formData = new FormData(accessForm);
-            const fullName = formData.get('fullName');
-            const email = formData.get('email');
-            const phone = formData.get('phone');
-            const country = formData.get('country');
-            
-            if (!fullName || !email || !phone || !country) {
-                if (window.DutchMysteryPortal) {
-                    window.DutchMysteryPortal.showMessage('Please complete all fields to request underground access.', 'warning');
-                }
-                return;
-            }
-            
-            const loadingOverlay = document.getElementById('accessLoadingOverlay');
-            if (loadingOverlay) {
-                loadingOverlay.style.display = 'flex';
-            }
-            
-            setTimeout(() => {
-                if (loadingOverlay) {
-                    loadingOverlay.style.display = 'none';
-                }
-                
-                if (window.DutchMysteryPortal) {
-                    window.DutchMysteryPortal.showMessage('Access request transmitted to the underground collective...', 'success');
-                    window.DutchMysteryPortal.triggerSuccessEffects();
-                }
-                
-                const successSection = document.getElementById('accessFormSuccess');
-                if (successSection) {
-                    successSection.style.display = 'block';
-                    accessForm.style.display = 'none';
-                }
-            }, 2000);
-        });
+// Admin login modal functions
+function showAdminLogin(event) {
+    if (event) event.preventDefault();
+    const modal = document.getElementById('adminLoginModal');
+    if (modal) {
+        modal.style.display = 'block';
+        
+        // Focus on username input
+        const usernameInput = document.getElementById('adminUsername');
+        if (usernameInput) {
+            setTimeout(() => usernameInput.focus(), 100);
+        }
+    }
+}
+
+function closeAdminLogin() {
+    const modal = document.getElementById('adminLoginModal');
+    if (modal) {
+        modal.style.display = 'none';
+        
+        // Clear form
+        const form = document.getElementById('adminLoginForm');
+        if (form) form.reset();
+        
+        // Clear error
+        const errorDiv = document.getElementById('adminLoginError');
+        if (errorDiv) errorDiv.style.display = 'none';
+    }
+}
+
+// Close modal when clicking outside
+window.addEventListener('click', (event) => {
+    const modal = document.getElementById('adminLoginModal');
+    if (event.target === modal) {
+        closeAdminLogin();
     }
 });
