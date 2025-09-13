@@ -7,7 +7,7 @@
     <!-- Enhanced Title & Meta Description -->
     <title>If It Ain't Dutch, It Ain't Much | Underground Techno & Electronic Music Amsterdam</title>
     <meta name="description" content="Enter Amsterdam's underground techno scene. Exclusive access to the city's most secretive electronic music events, warehouse parties, and cutting-edge sound experiences. Where bass meets consciousness.">
-    <meta name="keywords" content="Amsterdam techno, underground electronic music, warehouse parties, Dutch electronic scene, techno events Amsterdam, underground club access, electronic music Netherlands, bass culture, rave Amsterdam, techno collective">
+    <meta name="keywords" content="Amsterdam techno, underground electronic music, warehouse parties, Dutch electronic scene, techno events Amsterdam, underground club access, electronic music Netherlands, bass culture, rave Amsterdam, techno collective, ADE 2025">
     <meta name="author" content="If It Ain't Dutch, It Ain't Much">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="googlebot" content="index, follow">
@@ -59,6 +59,15 @@
     
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="/css/enhanced-style.css">
+    
+    <!-- Bing Clarity Tracking -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "t9ydydlot9");
+    </script>
 </head>
 <body>
     <!-- Skip Link for Accessibility -->
@@ -160,7 +169,7 @@
                             frameborder="no" 
                             allow="autoplay"
                             style="border-radius: 8px; margin-top: 1rem;"
-                            title="Dutch Underground Electronic Transmission">
+                            title="Halform x Rico Winter Live Set - Underground Electronic Transmission">
                         </iframe>
                     </div>
                     
@@ -174,7 +183,7 @@
                     <div class="loading-spinner"></div>
                 </div>
                 
-                <h2 id="access-request-heading" class="access-cta-title">🔒 Request Warehouse Access</h2>
+                <h2 id="access-request-heading" class="access-cta-title">🔐 Request Warehouse Access</h2>
                 <p class="access-cta-subtitle">
                     Join the underground collective. Submit your request to unlock exclusive warehouse events, 
                     underground electronic experiences, and access to Amsterdam's hidden techno scenes.
@@ -362,6 +371,7 @@
                     <li><a href="/contact.html">Contact Portal</a></li>
                     <li><a href="/accessibility.html">Accessibility</a></li>
                     <li><a href="/sitemap.xml" rel="nofollow">Sitemap</a></li>
+                    <li><a href="/ade-2025-guide">ADE 2025 Guide</a></li>
                 </ul>
             </nav>
             <p>&copy; 2025 If It Ain't Dutch, It Ain't Much. All frequencies reserved.</p>
@@ -374,8 +384,9 @@
                    target="_blank" 
                    rel="noopener nofollow" 
                    aria-label="Listen to our underground frequencies">🎵</a>
-                <!-- Discreet Admin Access -->
-                <a href="/admin" 
+                <!-- Protected Admin Access -->
+                <a href="#" 
+                   onclick="showAdminLogin(event)"
                    class="admin-access-link"
                    aria-label="Portal Management">⚙️</a>
             </div>
@@ -389,6 +400,24 @@
         <div class="laser laser2" aria-hidden="true"></div>
         <div class="laser laser3" aria-hidden="true"></div>
         <div class="laser laser4" aria-hidden="true"></div>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div id="adminLoginModal" class="admin-modal">
+        <div class="admin-modal-content">
+            <span class="admin-close" onclick="closeAdminLogin()">&times;</span>
+            <h3>Portal Management Access</h3>
+            <form id="adminLoginForm">
+                <div class="admin-input-group">
+                    <input type="text" id="adminUsername" placeholder="Admin Username" required>
+                </div>
+                <div class="admin-input-group">
+                    <input type="password" id="adminPassword" placeholder="Admin Password" required>
+                </div>
+                <button type="submit" class="admin-login-btn">Access Portal Management</button>
+                <div id="adminLoginError" class="admin-error"></div>
+            </form>
+        </div>
     </div>
     
     <!-- Enhanced JavaScript -->
