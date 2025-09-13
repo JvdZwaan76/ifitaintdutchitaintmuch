@@ -13,6 +13,45 @@
     <meta name="googlebot" content="index, follow">
     <meta name="bingbot" content="index, follow">
     
+    <!-- CRITICAL SEO IMPROVEMENT: Add structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "If It Ain't Dutch, It Ain't Much",
+      "url": "https://ifitaintdutchitaintmuch.com/",
+      "description": "Amsterdam's underground techno scene portal",
+      "sameAs": [
+        "https://www.instagram.com/if_it_aint_dutch_it_aint_nl",
+        "https://on.soundcloud.com/PZdtlNaYaIgP25MTX2"
+      ],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://ifitaintdutchitaintmuch.com/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    <!-- CRITICAL SEO IMPROVEMENT: Add Organization structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MusicGroup",
+      "name": "If It Ain't Dutch, It Ain't Much",
+      "genre": ["Electronic", "Techno", "Underground"],
+      "foundingLocation": {
+        "@type": "Place",
+        "name": "Amsterdam",
+        "addressCountry": "Netherlands"
+      },
+      "sameAs": [
+        "https://www.instagram.com/if_it_aint_dutch_it_aint_nl",
+        "https://on.soundcloud.com/PZdtlNaYaIgP25MTX2"
+      ]
+    }
+    </script>
+    
     <!-- Enhanced Canonical & Hreflang -->
     <link rel="canonical" href="https://ifitaintdutchitaintmuch.com/">
     <link rel="alternate" hreflang="en" href="https://ifitaintdutchitaintmuch.com/">
@@ -42,12 +81,72 @@
     <meta name="twitter:image" content="https://ifitaintdutchitaintmuch.com/images/twitter-techno-warehouse.jpg">
     <meta name="twitter:image:alt" content="Underground warehouse techno scene with industrial atmosphere">
     
+    <!-- PERFORMANCE IMPROVEMENT: Critical CSS inlined -->
+    <style>
+        /* Critical above-the-fold CSS - inline for faster FCP */
+        :root {
+            --primary-orange: #FF9500;
+            --electric-blue: #00BFFF;
+            --pure-black: #000000;
+            --pure-white: #FFFFFF;
+            --warehouse-gray: #1a1a1a;
+            --font-title: 'Orbitron', 'Arial Black', sans-serif;
+            --font-body: 'Inter', 'Arial', sans-serif;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+            height: 100%;
+            overflow-x: hidden;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(180deg, var(--warehouse-gray), var(--pure-black));
+            color: var(--pure-white);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            min-height: 100vh;
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .neon-title {
+            font-family: var(--font-title);
+            font-size: clamp(1.5rem, 6vw, 4rem);
+            color: var(--primary-orange);
+            text-shadow: 0 0 10px var(--primary-orange);
+            margin-bottom: clamp(2rem, 6vw, 3rem);
+            text-align: center;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: clamp(1rem, 4vw, 2rem);
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+    
     <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
     
-    <!-- Enhanced Font Loading -->
+    <!-- PERFORMANCE IMPROVEMENT: Optimized font loading with font-display -->
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     
     <!-- Favicons -->
@@ -57,8 +156,17 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
     
-    <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="/css/enhanced-style.css">
+    <!-- PERFORMANCE IMPROVEMENT: Non-critical CSS loaded asynchronously -->
+    <link rel="preload" href="/css/enhanced-style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/css/enhanced-style.css"></noscript>
+    
+    <!-- SEO IMPROVEMENT: Add theme-color for mobile browsers -->
+    <meta name="theme-color" content="#FF9500">
+    <meta name="msapplication-TileColor" content="#FF9500">
+    
+    <!-- PERFORMANCE IMPROVEMENT: Resource hints -->
+    <link rel="dns-prefetch" href="//w.soundcloud.com">
+    <link rel="preconnect" href="https://api.resend.com" crossorigin>
     
     <!-- Bing Clarity Tracking -->
     <script type="text/javascript">
@@ -70,13 +178,13 @@
     </script>
 </head>
 <body>
-    <!-- Skip Link for Accessibility -->
-    <a href="#main-content" class="skip-link" tabindex="1">Skip to main content</a>
+    <!-- SEO IMPROVEMENT: Enhanced skip link with better accessibility -->
+    <a href="#main-content" class="skip-link" tabindex="1" aria-label="Skip to main content">Skip to main content</a>
     
-    <!-- Loading Screen -->
+    <!-- Loading Screen with SEO-friendly hidden text -->
     <div class="loading-screen" id="loadingScreen" aria-hidden="true">
         <div class="dutch-loader">
-            <div class="windmill-spinner" aria-label="Loading"></div>
+            <div class="windmill-spinner" aria-label="Loading underground portal"></div>
             <p class="loading-text">Entering the Underground...</p>
         </div>
     </div>
@@ -84,7 +192,7 @@
     <!-- Enhanced Background Elements with Video -->
     <div class="background-gradient" aria-hidden="true"></div>
     
-    <!-- Underground Neon Video Background -->
+    <!-- Underground Neon Video Background with better fallbacks -->
     <div class="video-background" aria-hidden="true">
         <video 
             id="backgroundVideo"
@@ -93,13 +201,13 @@
             muted 
             loop 
             playsinline
-            preload="auto"
-            poster=""
+            preload="metadata"
+            poster="/images/video-poster.jpg"
             aria-label="Underground neon atmosphere background video">
-            <source src="/video/ifitaintdutchitaintmuch-neon.mp4" type="video/mp4">
             <source src="/video/ifitaintdutchitaintmuch-neon.webm" type="video/webm">
+            <source src="/video/ifitaintdutchitaintmuch-neon.mp4" type="video/mp4">
             <!-- Fallback for browsers that don't support video -->
-            <div class="video-fallback"></div>
+            <div class="video-fallback" style="background: linear-gradient(135deg, #1a1a1a, #000);"></div>
         </video>
         <div class="video-overlay"></div>
     </div>
@@ -109,14 +217,14 @@
     
     <!-- Main Page Structure -->
     <div class="page-wrapper">
-        <!-- Main Container -->
+        <!-- SEO IMPROVEMENT: Enhanced semantic structure -->
         <main class="container" role="main" id="main-content">
-            <header>
-                <h1 class="neon-title">
+            <header itemscope itemtype="https://schema.org/Organization">
+                <h1 class="neon-title" itemprop="name">
                     <span class="title-line-1">If it ain't Dutch</span>
                     <span class="title-line-2">it ain't Much</span>
                 </h1>
-                <p class="teaser">
+                <p class="teaser" itemprop="description">
                     <span class="teaser-highlight">Bass frequencies echo through abandoned warehouses</span>; 
                     <span class="teaser-highlight">industrial rhythms pulse beneath Amsterdam's surface</span>. 
                     <br><br>
@@ -126,8 +234,8 @@
                 </p>
             </header>
             
-            <!-- Enhanced Audio Control Widget -->
-            <section class="audio-mystery" aria-labelledby="audio-heading">
+            <!-- Enhanced Audio Control Widget with better accessibility -->
+            <section class="audio-mystery" aria-labelledby="audio-heading" itemscope itemtype="https://schema.org/AudioObject">
                 <h2 id="audio-heading" class="sr-only">Audio Portal</h2>
                 <div class="audio-control-widget">
                     <h3 class="audio-widget-title">🎛️ The Frequency Awakens</h3>
@@ -136,7 +244,7 @@
                         <em>Where concrete meets consciousness, bass lines unlock hidden dimensions...</em>
                     </p>
                     
-                    <div class="mystery-frequencies" aria-hidden="true">
+                    <div class="mystery-frequencies" aria-hidden="true" role="img" aria-label="Audio frequency visualization">
                         <div class="freq-bar"></div>
                         <div class="freq-bar"></div>
                         <div class="freq-bar"></div>
@@ -150,8 +258,9 @@
                         id="audioPlayButton" 
                         class="mystery-transmission-button"
                         aria-describedby="audio-button-help"
-                        onclick="toggleAudioPlayer()">
-                        <span class="transmission-icon">📡</span>
+                        onclick="toggleAudioPlayer()"
+                        type="button">
+                        <span class="transmission-icon" aria-hidden="true">📡</span>
                         <span id="buttonText" class="transmission-text">INTERCEPT TRANSMISSION</span>
                         <div class="signal-waves" aria-hidden="true">
                             <div class="wave"></div>
@@ -169,7 +278,8 @@
                             frameborder="no" 
                             allow="autoplay"
                             style="border-radius: 8px; margin-top: 1rem;"
-                            title="Halform x Rico Winter Live Set - Underground Electronic Transmission">
+                            title="Halform x Rico Winter Live Set - Underground Electronic Transmission"
+                            loading="lazy">
                         </iframe>
                     </div>
                     
@@ -177,10 +287,10 @@
                 </div>
             </section>
 
-            <!-- Access Request Section -->
-            <section class="access-request-section" aria-labelledby="access-request-heading">
-                <div class="loading-overlay" id="accessLoadingOverlay">
-                    <div class="loading-spinner"></div>
+            <!-- SEO IMPROVEMENT: Enhanced form with better structure -->
+            <section class="access-request-section" aria-labelledby="access-request-heading" itemscope itemtype="https://schema.org/ContactPoint">
+                <div class="loading-overlay" id="accessLoadingOverlay" aria-hidden="true">
+                    <div class="loading-spinner" aria-label="Processing request"></div>
                 </div>
                 
                 <h2 id="access-request-heading" class="access-cta-title">🔐 Request Warehouse Access</h2>
@@ -189,7 +299,7 @@
                     underground electronic experiences, and access to Amsterdam's hidden techno scenes.
                 </p>
 
-                <form id="accessRequestForm" class="access-request-form" novalidate>
+                <form id="accessRequestForm" class="access-request-form" novalidate aria-labelledby="access-request-heading">
                     <div class="form-row">
                         <div class="form-field">
                             <label for="fullName">Full Name *</label>
@@ -200,8 +310,9 @@
                                 placeholder="Enter your full name"
                                 required
                                 maxlength="100"
+                                autocomplete="name"
                                 aria-describedby="fullName-error">
-                            <div class="field-error" id="fullName-error"></div>
+                            <div class="field-error" id="fullName-error" role="alert"></div>
                         </div>
                     </div>
 
@@ -215,8 +326,9 @@
                                 placeholder="your@email.com"
                                 required
                                 maxlength="150"
+                                autocomplete="email"
                                 aria-describedby="email-error">
-                            <div class="field-error" id="email-error"></div>
+                            <div class="field-error" id="email-error" role="alert"></div>
                         </div>
 
                         <div class="form-field">
@@ -228,15 +340,16 @@
                                 placeholder="+31 6 12345678"
                                 required
                                 maxlength="20"
+                                autocomplete="tel"
                                 aria-describedby="phone-error">
-                            <div class="field-error" id="phone-error"></div>
+                            <div class="field-error" id="phone-error" role="alert"></div>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-field">
                             <label for="country">Country of Origin *</label>
-                            <select id="country" name="country" required aria-describedby="country-error">
+                            <select id="country" name="country" required autocomplete="country" aria-describedby="country-error">
                                 <option value="">Select your country...</option>
                                 <option value="NL">Netherlands</option>
                                 <option value="DE">Germany</option>
@@ -255,7 +368,7 @@
                                 <option value="AT">Austria</option>
                                 <option value="OTHER">Other</option>
                             </select>
-                            <div class="field-error" id="country-error"></div>
+                            <div class="field-error" id="country-error" role="alert"></div>
                         </div>
                     </div>
 
@@ -264,13 +377,14 @@
                     </button>
                 </form>
 
-                <div class="form-success" id="accessFormSuccess">
+                <div class="form-success" id="accessFormSuccess" role="alert">
                     <h3>✨ Access Request Submitted!</h3>
                     <p>Your request has been received by the warehouse collective. You'll hear from us within 48 hours if you're chosen to enter the underground electronic realm.</p>
                     <p><em>Check your email for confirmation details.</em></p>
                 </div>
             </section>
             
+            <!-- Enhanced login section with better semantics -->
             <section class="access-portal" aria-labelledby="portal-heading">
                 <h2 id="portal-heading" class="sr-only">Existing User Access Portal</h2>
                 <div class="login-form">
@@ -327,20 +441,21 @@
                 </div>
             </section>
             
-            <!-- Features Preview -->
+            <!-- Features Preview with enhanced accessibility -->
             <section class="features-preview" aria-labelledby="features-heading">
                 <h2 id="features-heading" class="sr-only">What Awaits Beyond</h2>
                 <div class="feature-cards">
-                    <div class="feature-card" 
+                    <article class="feature-card" 
                          data-feature="events" 
                          tabindex="0" 
                          role="button" 
-                         aria-label="Warehouse Events - Underground techno experiences">
+                         aria-label="Warehouse Events - Underground techno experiences"
+                         itemscope itemtype="https://schema.org/Event">
                         <div class="feature-icon" aria-hidden="true">🏭</div>
-                        <h3>Warehouse Events</h3>
-                        <p>Underground techno experiences & industrial spaces</p>
-                    </div>
-                    <div class="feature-card" 
+                        <h3 itemprop="name">Warehouse Events</h3>
+                        <p itemprop="description">Underground techno experiences & industrial spaces</p>
+                    </article>
+                    <article class="feature-card" 
                          data-feature="sound" 
                          tabindex="0" 
                          role="button" 
@@ -348,8 +463,8 @@
                         <div class="feature-icon" aria-hidden="true">🔊</div>
                         <h3>Sound Systems</h3>
                         <p>Cutting-edge audio technology & bass frequencies</p>
-                    </div>
-                    <div class="feature-card" 
+                    </article>
+                    <article class="feature-card" 
                          data-feature="collective" 
                          tabindex="0" 
                          role="button" 
@@ -357,13 +472,13 @@
                         <div class="feature-icon" aria-hidden="true">⚡</div>
                         <h3>Electronic Collective</h3>
                         <p>Underground artist network & electronic mysteries</p>
-                    </div>
+                    </article>
                 </div>
             </section>
         </main>
         
-        <!-- Enhanced Footer -->
-        <footer class="neon-footer" role="contentinfo">
+        <!-- Enhanced Footer with better structure -->
+        <footer class="neon-footer" role="contentinfo" itemscope itemtype="https://schema.org/Organization">
             <nav aria-label="Footer Navigation">
                 <ul>
                     <li><a href="/privacy-policy.html" rel="nofollow">Privacy Policy</a></li>
@@ -379,11 +494,13 @@
                 <a href="https://www.instagram.com/if_it_aint_dutch_it_aint_nl" 
                    target="_blank" 
                    rel="noopener nofollow" 
-                   aria-label="Follow us on Instagram">📷</a>
+                   aria-label="Follow us on Instagram"
+                   itemprop="sameAs">📷</a>
                 <a href="https://on.soundcloud.com/PZdtlNaYaIgP25MTX2" 
                    target="_blank" 
                    rel="noopener nofollow" 
-                   aria-label="Listen to our underground frequencies">🎵</a>
+                   aria-label="Listen to our underground frequencies"
+                   itemprop="sameAs">🎵</a>
                 <!-- Protected Admin Access -->
                 <a href="#" 
                    onclick="showAdminLogin(event)"
@@ -402,25 +519,42 @@
         <div class="laser laser4" aria-hidden="true"></div>
     </div>
 
-    <!-- Admin Login Modal -->
-    <div id="adminLoginModal" class="admin-modal">
+    <!-- Admin Login Modal with better accessibility -->
+    <div id="adminLoginModal" class="admin-modal" role="dialog" aria-labelledby="adminModalTitle" aria-hidden="true">
         <div class="admin-modal-content">
-            <span class="admin-close" onclick="closeAdminLogin()">&times;</span>
-            <h3>Portal Management Access</h3>
+            <span class="admin-close" onclick="closeAdminLogin()" aria-label="Close admin login">&times;</span>
+            <h3 id="adminModalTitle">Portal Management Access</h3>
             <form id="adminLoginForm">
                 <div class="admin-input-group">
-                    <input type="text" id="adminUsername" placeholder="Admin Username" required>
+                    <label for="adminUsername" class="sr-only">Admin Username</label>
+                    <input type="text" id="adminUsername" placeholder="Admin Username" required autocomplete="username">
                 </div>
                 <div class="admin-input-group">
-                    <input type="password" id="adminPassword" placeholder="Admin Password" required>
+                    <label for="adminPassword" class="sr-only">Admin Password</label>
+                    <input type="password" id="adminPassword" placeholder="Admin Password" required autocomplete="current-password">
                 </div>
                 <button type="submit" class="admin-login-btn">Access Portal Management</button>
-                <div id="adminLoginError" class="admin-error"></div>
+                <div id="adminLoginError" class="admin-error" role="alert"></div>
             </form>
         </div>
     </div>
     
-    <!-- Enhanced JavaScript -->
+    <!-- PERFORMANCE IMPROVEMENT: Defer non-critical JavaScript -->
     <script src="/js/enhanced-script.js" defer></script>
+    
+    <!-- PERFORMANCE IMPROVEMENT: Add service worker registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(function(err) {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>
