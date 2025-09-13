@@ -1,23 +1,16 @@
 {
-  "name": "If It Ain't Dutch, It Ain't Much - Dutch Mystery Portal",
-  "short_name": "Dutch Mystery",
-  "description": "Exclusive Dutch-themed merchandise, heritage apparel, and underground Amsterdam techno events. Enter the mysterious portal to unlock Dutch secrets.",
+  "name": "If It Ain't Dutch, It Ain't Much - Underground Techno Portal",
+  "short_name": "Dutch Underground",
+  "description": "Amsterdam's underground techno scene. Exclusive access to warehouse events, cutting-edge sound experiences, and electronic mysteries.",
   "start_url": "/",
-  "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "theme_color": "#FF9500",
   "background_color": "#000000",
-  "lang": "en",
+  "categories": ["music", "entertainment", "lifestyle"],
+  "lang": "en-US",
   "dir": "ltr",
-  
-  "categories": [
-    "shopping",
-    "entertainment", 
-    "lifestyle",
-    "music",
-    "fashion"
-  ],
+  "scope": "/",
   
   "icons": [
     {
@@ -28,7 +21,7 @@
     },
     {
       "src": "/images/icon-96x96.png",
-      "sizes": "96x96", 
+      "sizes": "96x96",
       "type": "image/png",
       "purpose": "any"
     },
@@ -67,93 +60,31 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
-    },
-    {
-      "src": "/images/icon-maskable-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/images/icon-maskable-512x512.png",
-      "sizes": "512x512", 
-      "type": "image/png",
-      "purpose": "maskable"
-    }
-  ],
-  
-  "screenshots": [
-    {
-      "src": "/images/screenshot-wide-1280x720.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Dutch Mystery Portal - Desktop Experience"
-    },
-    {
-      "src": "/images/screenshot-narrow-390x844.png", 
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Dutch Mystery Portal - Mobile Experience"
-    },
-    {
-      "src": "/images/screenshot-store-wide.png",
-      "sizes": "1280x720",
-      "type": "image/png", 
-      "form_factor": "wide",
-      "label": "Heritage Collection Store"
     }
   ],
   
   "shortcuts": [
     {
-      "name": "Store",
-      "short_name": "Store",
-      "description": "Browse exclusive Dutch heritage merchandise",
-      "url": "/store/",
+      "name": "ADE 2025 Guide",
+      "short_name": "ADE Guide",
+      "description": "Amsterdam Dance Event 2025 complete underground guide",
+      "url": "/ade-2025-guide",
       "icons": [
         {
-          "src": "/images/shortcut-store-96x96.png",
+          "src": "/images/shortcut-ade.png",
           "sizes": "96x96",
           "type": "image/png"
         }
       ]
     },
     {
-      "name": "Events",
-      "short_name": "Events", 
-      "description": "Access underground Amsterdam techno events",
-      "url": "/events/",
+      "name": "Admin Portal",
+      "short_name": "Admin",
+      "description": "Access portal management dashboard",
+      "url": "/admin",
       "icons": [
         {
-          "src": "/images/shortcut-events-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Member Portal",
-      "short_name": "Portal",
-      "description": "Access your exclusive member dashboard",
-      "url": "/member-portal/",
-      "icons": [
-        {
-          "src": "/images/shortcut-portal-96x96.png",
-          "sizes": "96x96", 
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Contact",
-      "short_name": "Contact",
-      "description": "Contact the mystery guardians",
-      "url": "/contact.html",
-      "icons": [
-        {
-          "src": "/images/shortcut-contact-96x96.png",
+          "src": "/images/shortcut-admin.png",
           "sizes": "96x96",
           "type": "image/png"
         }
@@ -161,89 +92,46 @@
     }
   ],
   
-  "share_target": {
-    "action": "/share-target/",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": {
-      "title": "title",
-      "text": "text", 
-      "url": "url",
-      "files": [
-        {
-          "name": "images",
-          "accept": ["image/*"]
-        }
-      ]
-    }
-  },
-  
-  "protocol_handlers": [
+  "screenshots": [
     {
-      "protocol": "web+dutchmystery",
-      "url": "/handle-protocol/?url=%s"
+      "src": "/images/screenshot-mobile.png",
+      "sizes": "375x812",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Dutch Underground Portal - Mobile Experience"
+    },
+    {
+      "src": "/images/screenshot-desktop.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Dutch Underground Portal - Desktop Experience"
+    }
+  ],
+  
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://ifitaintdutchitaintmuch.com/"
     }
   ],
   
   "prefer_related_applications": false,
-  "related_applications": [
+  
+  "protocol_handlers": [
     {
-      "platform": "play",
-      "url": "https://play.google.com/store/apps/details?id=com.dutchmystery.app",
-      "id": "com.dutchmystery.app"
-    },
-    {
-      "platform": "itunes", 
-      "url": "https://apps.apple.com/app/dutch-mystery/id123456789",
-      "id": "123456789"
+      "protocol": "web+dutchportal",
+      "url": "/?action=%s"
     }
-  ],
-  
-  "file_handlers": [
-    {
-      "action": "/handle-playlist/",
-      "accept": {
-        "audio/playlist": [".m3u", ".pls"],
-        "application/x-mpegurl": [".m3u"]
-      },
-      "launch_type": "single-client"
-    }
-  ],
-  
-  "launch_handler": {
-    "client_mode": "focus-existing"
-  },
-  
-  "display_override": [
-    "window-controls-overlay",
-    "minimal-ui",
-    "standalone", 
-    "browser"
   ],
   
   "edge_side_panel": {
     "preferred_width": 400
   },
   
-  "handle_links": "preferred",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
   
-  "id": "dutch-mystery-portal",
-  "scope_extensions": [
-    {
-      "origin": "https://events.ifitaintdutchitaintmuch.com"
-    },
-    {
-      "origin": "https://store.ifitaintdutchitaintmuch.com" 
-    }
-  ],
-  
-  "categories": [
-    "shopping",
-    "entertainment",
-    "music",
-    "lifestyle",
-    "fashion"
-  ],
-  
-  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7"
+  "handle_links": "preferred"
 }
