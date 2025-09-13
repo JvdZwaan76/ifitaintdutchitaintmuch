@@ -1,11 +1,10 @@
 /**
- * Enhanced Dutch Underground Techno Website - OPTIMIZED JavaScript
- * Performance-focused with Core Web Vitals optimization
- * Version: 5.0.0 - Performance & SEO Optimized
+ * Enhanced Dutch Underground Techno Website - FINAL PRODUCTION JavaScript
+ * Complete integration with Cloudflare Workers backend API
+ * Version: 4.0.1 - Fixed SoundCloud URL and console errors
  */
 
-// PERFORMANCE IMPROVEMENT: Optimize for Core Web Vitals
-class DutchUndergroundPortalOptimized {
+class DutchUndergroundPortal {
     constructor() {
         this.canvas = null;
         this.ctx = null;
@@ -19,14 +18,7 @@ class DutchUndergroundPortalOptimized {
         this.isMobile = this.detectMobile();
         this.performanceMode = this.isMobile;
         
-        // PERFORMANCE IMPROVEMENT: Reduced API calls and batching
-        this.apiCallQueue = [];
-        this.isProcessingQueue = false;
-        
-        // PERFORMANCE IMPROVEMENT: Optimized configuration based on device
-        this.config = this.getOptimizedConfig();
-        
-        // API Configuration with improved error handling
+        // API Configuration
         this.API_BASE = window.location.origin;
         this.endpoints = {
             accessRequest: '/api/access-request',
@@ -34,53 +26,26 @@ class DutchUndergroundPortalOptimized {
             health: '/api/health'
         };
         
-        this.init();
-    }
-    
-    // PERFORMANCE IMPROVEMENT: Device-optimized configuration
-    getOptimizedConfig() {
-        const baseConfig = {
+        this.config = {
             particles: {
-                count: this.performanceMode ? 15 : 50, // Reduced from 30/100
-                maxSpeed: this.performanceMode ? 0.5 : 1, // Reduced speed
+                count: this.performanceMode ? 30 : 100,
+                maxSpeed: this.performanceMode ? 1 : 2,
                 colors: ['#FF9500', '#00BFFF', '#00FFFF', '#FFD700'],
-                sizes: { min: 1, max: this.performanceMode ? 2 : 3 }
+                sizes: { min: 1, max: this.performanceMode ? 3 : 4 }
             },
             stars: {
-                count: this.performanceMode ? 25 : 75, // Reduced from 50/150
-                twinkleSpeed: 0.01, // Reduced animation frequency
+                count: this.performanceMode ? 50 : 150,
+                twinkleSpeed: 0.02,
                 colors: ['#FFFFFF', '#FFD700', '#00BFFF', '#FF9500']
             },
             floatingElements: {
-                count: this.performanceMode ? 5 : 10, // Reduced from 10/20
+                count: this.performanceMode ? 10 : 20,
                 symbols: ['⚡', '🔊', '🏭', '🎛️', '💎', '🌟'],
-                speed: { min: 0.3, max: 1 } // Reduced speed
+                speed: { min: 0.5, max: 2 }
             }
         };
         
-        // PERFORMANCE IMPROVEMENT: Disable effects on low-end devices
-        if (this.isLowEndDevice()) {
-            baseConfig.particles.count = Math.floor(baseConfig.particles.count * 0.5);
-            baseConfig.stars.count = Math.floor(baseConfig.stars.count * 0.5);
-            baseConfig.floatingElements.count = Math.floor(baseConfig.floatingElements.count * 0.5);
-        }
-        
-        return baseConfig;
-    }
-    
-    // PERFORMANCE IMPROVEMENT: Low-end device detection
-    isLowEndDevice() {
-        // Check for indicators of low-end devices
-        const memory = navigator.deviceMemory || 4; // Default to 4GB if unknown
-        const cores = navigator.hardwareConcurrency || 2; // Default to 2 cores
-        const connection = navigator.connection;
-        
-        return (
-            memory < 2 || 
-            cores < 2 || 
-            (connection && connection.effectiveType && 
-             ['slow-2g', '2g', '3g'].includes(connection.effectiveType))
-        );
+        this.init();
     }
     
     detectMobile() {
@@ -90,388 +55,580 @@ class DutchUndergroundPortalOptimized {
                (navigator.maxTouchPoints > 0);
     }
     
-    // PERFORMANCE IMPROVEMENT: Optimized initialization with priority loading
     init() {
-        console.log('Dutch Underground Portal v5.0.0 (Performance Optimized) initializing...');
+        console.log('Dutch Underground Portal v4.0.1 initializing...');
         
-        // PERFORMANCE IMPROVEMENT: Critical path first
         this.handleLoadingScreen();
         this.setupEventListeners();
+        this.initBackgroundVideo();
+        this.initCanvas();
+        this.createParticles();
+        this.createStars();
+        this.createFloatingElements();
+        this.startAnimationLoop();
         this.initFormEffects();
         this.initAccessibilityFeatures();
         this.initMobileOptimizations();
         this.initBackendIntegration();
         
-        // PERFORMANCE IMPROVEMENT: Defer non-critical visual effects
-        requestIdleCallback(() => {
-            this.initBackgroundVideo();
-            this.initCanvas();
-            this.createParticles();
-            this.createStars();
-            this.createFloatingElements();
-            this.startAnimationLoop();
-        }, { timeout: 2000 });
-        
         console.log('Dutch Underground Portal initialized successfully');
     }
 
     /**
-     * PERFORMANCE IMPROVEMENT: Optimized backend integration with request batching
+     * Backend Integration Initialization
      */
     initBackendIntegration() {
-        console.log('Initializing optimized backend integration...');
+        console.log('Initializing backend integration...');
         
+        // Initialize Access Request Form
         this.initAccessRequestForm();
+        
+        // Initialize Admin Authentication
         this.initAdminAuth();
         
-        // PERFORMANCE IMPROVEMENT: Defer health check
-        setTimeout(() => this.performHealthCheck(), 1000);
+        // Health check on load
+        this.performHealthCheck();
+        
+        console.log('Backend integration initialized');
     }
 
     /**
-     * PERFORMANCE IMPROVEMENT: Optimized access request with validation caching
+     * Access Request Form Integration with Backend API
      */
     initAccessRequestForm() {
         const form = document.getElementById('accessRequestForm');
         if (!form) return;
 
-        // PERFORMANCE IMPROVEMENT: Debounced validation
-        const debouncedValidation = this.debounce((input) => {
-            this.validateField(input);
-        }, 300);
-
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            await this.handleAccessRequestOptimized(form);
+            await this.handleAccessRequest(form);
         });
 
-        // PERFORMANCE IMPROVEMENT: Optimized real-time validation
+        // Real-time validation
         const inputs = form.querySelectorAll('input, select');
         inputs.forEach(input => {
             input.addEventListener('blur', () => this.validateField(input));
-            input.addEventListener('input', () => {
-                this.clearFieldError(input);
-                debouncedValidation(input);
-            });
+            input.addEventListener('input', () => this.clearFieldError(input));
         });
     }
 
     /**
-     * PERFORMANCE IMPROVEMENT: Optimized access request handler
+     * Handle Access Request Submission to Backend
      */
-    async handleAccessRequestOptimized(form) {
-        console.log('Submitting optimized access request...');
+    async handleAccessRequest(form) {
+        console.log('Submitting access request...');
         
         try {
-            // PERFORMANCE IMPROVEMENT: Client-side validation cache
-            if (!this.validateAccessFormOptimized(form)) {
-                this.showMessage('Please fix validation errors before submitting.', 'error');
+            // Validate form
+            if (!this.validateAccessForm(form)) {
+                this.showMessage('Please fix the validation errors before submitting.', 'error');
                 return;
             }
 
+            // Show loading state
             this.setFormLoading(true);
 
-            // PERFORMANCE IMPROVEMENT: Optimized data collection
-            const requestData = this.collectFormDataOptimized(form);
+            // Collect form data
+            const formData = new FormData(form);
+            const requestData = {
+                fullName: formData.get('fullName').trim(),
+                email: formData.get('email').trim().toLowerCase(),
+                phone: formData.get('phone').trim(),
+                country: formData.get('country'),
+                requestDate: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                referrer: document.referrer || null
+            };
 
-            // PERFORMANCE IMPROVEMENT: Single optimized API call
-            const response = await this.submitAccessRequest(requestData);
+            // Submit to backend API
+            const response = await fetch(this.endpoints.accessRequest, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            });
 
-            if (response.success) {
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                // Success handling
                 this.showFormSuccess();
                 this.triggerSuccessEffects();
-                this.showMessage('Access request submitted successfully!', 'success');
+                this.showMessage(
+                    'Access request submitted successfully! Check your email for confirmation.', 
+                    'success'
+                );
                 
-                // PERFORMANCE IMPROVEMENT: Non-blocking analytics
-                this.trackEventOptimized('access_request_submitted', {
+                // Analytics tracking
+                this.trackEvent('access_request_submitted', {
                     country: requestData.country,
                     timestamp: new Date().toISOString()
                 });
+
             } else {
-                this.handleAccessRequestError(response);
+                // Error handling
+                const errorMessage = result.message || 'Failed to submit access request';
+                console.error('Access request failed:', errorMessage);
+                this.showMessage(errorMessage, 'error');
+                
+                // Show specific field errors if available
+                if (result.fieldErrors) {
+                    Object.keys(result.fieldErrors).forEach(field => {
+                        this.showFieldError(field, result.fieldErrors[field]);
+                    });
+                }
             }
 
         } catch (error) {
             console.error('Access request error:', error);
-            this.showMessage('Network error. Please try again.', 'error');
+            this.showMessage(
+                'Network error. Please check your connection and try again.', 
+                'error'
+            );
         } finally {
             this.setFormLoading(false);
         }
     }
 
     /**
-     * PERFORMANCE IMPROVEMENT: Optimized form validation with caching
+     * Form Validation
      */
-    validateAccessFormOptimized(form) {
+    validateAccessForm(form) {
         const requiredFields = ['fullName', 'email', 'phone', 'country'];
         let isValid = true;
-        
-        // PERFORMANCE IMPROVEMENT: Batch validation
-        const validationResults = requiredFields.map(fieldName => {
+
+        requiredFields.forEach(fieldName => {
             const field = form.querySelector(`[name="${fieldName}"]`);
-            return this.validateField(field);
+            if (!this.validateField(field)) {
+                isValid = false;
+            }
         });
-        
-        return validationResults.every(result => result);
+
+        return isValid;
     }
 
-    /**
-     * PERFORMANCE IMPROVEMENT: Optimized data collection
-     */
-    collectFormDataOptimized(form) {
-        const formData = new FormData(form);
-        return {
-            fullName: formData.get('fullName').trim(),
-            email: formData.get('email').trim().toLowerCase(),
-            phone: formData.get('phone').trim(),
-            country: formData.get('country'),
-            requestDate: new Date().toISOString(),
-            userAgent: navigator.userAgent,
-            referrer: document.referrer || null,
-            // PERFORMANCE IMPROVEMENT: Add performance metrics
-            performanceMetrics: this.getPerformanceMetrics()
-        };
-    }
+    validateField(field) {
+        const value = field.value.trim();
+        const fieldName = field.name;
+        let isValid = true;
+        let errorMessage = '';
 
-    /**
-     * PERFORMANCE IMPROVEMENT: Collect performance metrics for optimization
-     */
-    getPerformanceMetrics() {
-        if (!window.performance) return null;
-        
-        const navigation = performance.getEntriesByType('navigation')[0];
-        const paint = performance.getEntriesByType('paint');
-        
-        return {
-            domContentLoaded: navigation?.domContentLoadedEventEnd - navigation?.domContentLoadedEventStart,
-            firstContentfulPaint: paint.find(p => p.name === 'first-contentful-paint')?.startTime,
-            connectionType: navigator.connection?.effectiveType,
-            deviceMemory: navigator.deviceMemory,
-            hardwareConcurrency: navigator.hardwareConcurrency
-        };
-    }
+        // Clear previous error
+        this.clearFieldError(field);
 
-    /**
-     * PERFORMANCE IMPROVEMENT: Optimized API request with retry logic
-     */
-    async submitAccessRequest(requestData) {
-        const maxRetries = 2;
-        let lastError = null;
+        // Required field validation
+        if (!value) {
+            errorMessage = `${this.getFieldDisplayName(fieldName)} is required`;
+            isValid = false;
+        } else {
+            // Specific field validation
+            switch (fieldName) {
+                case 'fullName':
+                    if (value.length < 2) {
+                        errorMessage = 'Full name must be at least 2 characters';
+                        isValid = false;
+                    } else if (value.length > 100) {
+                        errorMessage = 'Full name must be less than 100 characters';
+                        isValid = false;
+                    }
+                    break;
 
-        for (let attempt = 0; attempt <= maxRetries; attempt++) {
-            try {
-                const response = await fetch(this.endpoints.accessRequest, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify(requestData)
-                });
+                case 'email':
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(value)) {
+                        errorMessage = 'Please enter a valid email address';
+                        isValid = false;
+                    } else if (value.length > 150) {
+                        errorMessage = 'Email must be less than 150 characters';
+                        isValid = false;
+                    }
+                    break;
 
-                const result = await response.json();
-                return { 
-                    success: response.ok && result.success, 
-                    data: result,
-                    attempt: attempt + 1
-                };
+                case 'phone':
+                    if (value.length < 8) {
+                        errorMessage = 'Phone number must be at least 8 characters';
+                        isValid = false;
+                    } else if (value.length > 20) {
+                        errorMessage = 'Phone number must be less than 20 characters';
+                        isValid = false;
+                    }
+                    break;
 
-            } catch (error) {
-                lastError = error;
-                console.warn(`Access request attempt ${attempt + 1} failed:`, error);
-                
-                // PERFORMANCE IMPROVEMENT: Exponential backoff
-                if (attempt < maxRetries) {
-                    await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
-                }
+                case 'country':
+                    if (!value) {
+                        errorMessage = 'Please select your country';
+                        isValid = false;
+                    }
+                    break;
             }
         }
 
-        throw lastError;
+        if (!isValid) {
+            this.showFieldError(fieldName, errorMessage);
+            field.parentElement.classList.add('invalid');
+        } else {
+            field.parentElement.classList.add('valid');
+        }
+
+        return isValid;
+    }
+
+    getFieldDisplayName(fieldName) {
+        const displayNames = {
+            fullName: 'Full name',
+            email: 'Email address',
+            phone: 'Phone number',
+            country: 'Country'
+        };
+        return displayNames[fieldName] || fieldName;
+    }
+
+    showFieldError(fieldName, message) {
+        const errorElement = document.getElementById(`${fieldName}-error`);
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+    }
+
+    clearFieldError(field) {
+        const fieldName = field.name;
+        const errorElement = document.getElementById(`${fieldName}-error`);
+        if (errorElement) {
+            errorElement.style.display = 'none';
+        }
+        field.parentElement.classList.remove('invalid', 'valid');
+    }
+
+    setFormLoading(loading) {
+        const overlay = document.getElementById('accessLoadingOverlay');
+        const submitBtn = document.getElementById('accessSubmitBtn');
+        const submitText = document.getElementById('submitBtnText');
+
+        if (overlay) {
+            overlay.style.display = loading ? 'flex' : 'none';
+        }
+
+        if (submitBtn) {
+            submitBtn.disabled = loading;
+            submitBtn.style.opacity = loading ? '0.7' : '1';
+        }
+
+        if (submitText) {
+            submitText.textContent = loading ? 
+                'Transmitting to Underground...' : 
+                '🌟 Request Underground Access';
+        }
+    }
+
+    showFormSuccess() {
+        const form = document.getElementById('accessRequestForm');
+        const successDiv = document.getElementById('accessFormSuccess');
+
+        if (form) form.style.display = 'none';
+        if (successDiv) successDiv.style.display = 'block';
     }
 
     /**
-     * PERFORMANCE IMPROVEMENT: Optimized background video with Intersection Observer
+     * Admin Authentication Integration
      */
+    initAdminAuth() {
+        const adminForm = document.getElementById('adminLoginForm');
+        if (adminForm) {
+            adminForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await this.handleAdminLogin();
+            });
+        }
+
+        // Check for existing admin session
+        this.checkAdminSession();
+    }
+
+    async handleAdminLogin() {
+        console.log('Processing admin login...');
+
+        const username = document.getElementById('adminUsername').value.trim();
+        const password = document.getElementById('adminPassword').value.trim();
+
+        if (!username || !password) {
+            this.showAdminError('Please enter both username and password');
+            return;
+        }
+
+        try {
+            const response = await fetch(this.endpoints.adminLogin, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                console.log('Admin login successful');
+                
+                // Store session
+                this.storeAdminSession(result);
+                
+                // Close modal
+                this.closeAdminLogin();
+                
+                // Redirect to admin panel
+                this.showMessage('Login successful! Redirecting to admin panel...', 'success');
+                setTimeout(() => {
+                    window.location.href = '/admin';
+                }, 1500);
+
+            } else {
+                console.log('Admin login failed:', result.error);
+                this.showAdminError(result.error || 'Invalid credentials');
+            }
+
+        } catch (error) {
+            console.error('Admin login error:', error);
+            this.showAdminError('Login failed. Please try again.');
+        }
+    }
+
+    storeAdminSession(sessionData) {
+        // Store in both sessionStorage and httpOnly cookie simulation
+        sessionStorage.setItem('dutchAdminAuth', JSON.stringify({
+            sessionToken: sessionData.sessionToken,
+            user: sessionData.user,
+            expiresAt: sessionData.expiresAt,
+            timestamp: new Date().toISOString()
+        }));
+
+        // Set cookie for backend authentication
+        document.cookie = `dutchAdminAuth=${sessionData.sessionToken}; path=/; secure; samesite=strict`;
+    }
+
+    checkAdminSession() {
+        try {
+            const session = JSON.parse(sessionStorage.getItem('dutchAdminAuth') || '{}');
+            if (session.sessionToken && session.expiresAt) {
+                const expiry = new Date(session.expiresAt);
+                if (expiry > new Date()) {
+                    console.log('Valid admin session found');
+                    return true;
+                }
+            }
+        } catch (error) {
+            console.log('No valid admin session');
+        }
+        return false;
+    }
+
+    showAdminError(message) {
+        const errorDiv = document.getElementById('adminLoginError');
+        if (errorDiv) {
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+    }
+
+    /**
+     * Health Check
+     */
+    async performHealthCheck() {
+        try {
+            const response = await fetch(this.endpoints.health);
+            const health = await response.json();
+            
+            if (health.status === 'healthy') {
+                console.log('Backend health check passed:', health);
+            } else {
+                console.warn('Backend health check warning:', health);
+            }
+        } catch (error) {
+            console.error('Backend health check failed:', error);
+        }
+    }
+
+    /**
+     * Analytics Tracking
+     */
+    trackEvent(eventName, properties = {}) {
+        try {
+            console.log('Tracking event:', eventName, properties);
+            
+            // Example: Send to your analytics endpoint
+            if (window.gtag) {
+                window.gtag('event', eventName, properties);
+            }
+        } catch (error) {
+            console.warn('Analytics tracking failed:', error);
+        }
+    }
+    
     initBackgroundVideo() {
         const video = document.getElementById('backgroundVideo');
-        if (!video) return;
         
-        console.log('Initializing optimized background video...');
+        if (!video) {
+            console.warn('Background video element not found');
+            return;
+        }
+        
+        console.log('Initializing background video...');
         
         video.muted = true;
         video.playsInline = true;
-        video.preload = 'metadata'; // Changed from 'auto' for performance
+        video.controls = false;
+        video.preload = 'auto';
         
-        // PERFORMANCE IMPROVEMENT: Intersection Observer for video playback
-        const videoObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    this.startVideoPlayback(video);
-                } else {
-                    this.pauseVideoPlayback(video);
-                }
-            });
-        }, { threshold: 0.1 });
-        
-        videoObserver.observe(video);
-        
-        // PERFORMANCE IMPROVEMENT: Reduced video quality on mobile
         if (this.isMobile) {
-            video.style.opacity = '0.2';
-            video.style.filter = 'brightness(0.4) contrast(0.8)';
+            video.style.opacity = '0.4';
+            video.style.filter = 'brightness(0.6) contrast(1.0)';
         }
         
-        this.setupVideoEventListeners(video);
-    }
-
-    /**
-     * PERFORMANCE IMPROVEMENT: Optimized video event handling
-     */
-    setupVideoEventListeners(video) {
-        video.addEventListener('loadedmetadata', () => {
-            console.log('Video metadata loaded');
-        }, { once: true });
+        video.addEventListener('loadstart', () => {
+            console.log('Underground video loading started');
+        });
+        
+        video.addEventListener('canplay', () => {
+            console.log('Underground video ready to play');
+            video.style.transition = 'opacity 1s ease-in-out';
+        });
+        
+        video.addEventListener('loadeddata', () => {
+            console.log('Underground video data loaded');
+        });
         
         video.addEventListener('error', (e) => {
-            console.error('Video error:', e);
-            this.hideVideoContainer();
-        }, { once: true });
-        
-        // PERFORMANCE IMPROVEMENT: Pause video when tab is hidden
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                this.pauseVideoPlayback(video);
-            } else if (this.isVisible) {
-                this.startVideoPlayback(video);
+            console.error('Video loading error:', e);
+            const videoContainer = document.querySelector('.video-background');
+            if (videoContainer) {
+                videoContainer.style.display = 'none';
             }
         });
-    }
-
-    startVideoPlayback(video) {
-        if (video.paused) {
-            video.play().catch(e => console.warn('Video autoplay failed:', e));
-        }
-    }
-
-    pauseVideoPlayback(video) {
-        if (!video.paused) {
-            video.pause();
-        }
-    }
-
-    hideVideoContainer() {
-        const container = document.querySelector('.video-background');
-        if (container) {
-            container.style.display = 'none';
-        }
-    }
-
-    /**
-     * PERFORMANCE IMPROVEMENT: Optimized loading screen with performance monitoring
-     */
-    handleLoadingScreen() {
-        const loadingScreen = document.getElementById('loadingScreen');
-        if (!loadingScreen) return;
         
-        const startTime = performance.now();
-        const maxLoadTime = this.isMobile ? 1500 : 2500; // Reduced from 2000/3000
+        video.addEventListener('ended', () => {
+            console.log('Video ended, restarting loop...');
+            video.currentTime = 0;
+            video.play().catch(e => console.warn('Video restart failed:', e));
+        });
         
-        const removeLoadingScreen = () => {
-            const loadTime = performance.now() - startTime;
-            console.log(`Loading screen removed after ${loadTime.toFixed(2)}ms`);
-            
-            loadingScreen.classList.add('fade-out');
-            
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-                this.isLoaded = true;
-                this.triggerEntryAnimations();
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && !video.paused) {
+                video.pause();
+            } else if (!document.hidden && video.paused) {
+                video.play().catch(e => console.warn('Video resume failed:', e));
+            }
+        });
+        
+        const playVideo = () => {
+            video.play().then(() => {
+                console.log('Underground video started playing successfully');
+            }).catch((error) => {
+                console.error('Video autoplay failed:', error.name, error.message);
+                document.addEventListener('click', () => {
+                    video.play().catch(e => console.warn('Manual video start failed:', e));
+                }, { once: true });
                 
-                // PERFORMANCE IMPROVEMENT: Report loading performance
-                this.reportLoadingPerformance(loadTime);
-            }, 500); // Reduced from 1000ms
+                document.addEventListener('touchstart', () => {
+                    video.play().catch(e => console.warn('Manual video start failed:', e));
+                }, { once: true });
+            });
         };
         
-        // PERFORMANCE IMPROVEMENT: Fast loading path
-        if (document.readyState === 'complete') {
-            setTimeout(removeLoadingScreen, 200);
-        } else if (document.readyState === 'interactive') {
-            setTimeout(removeLoadingScreen, 300);
+        if (video.readyState >= 3) {
+            playVideo();
         } else {
-            document.addEventListener('DOMContentLoaded', () => {
-                setTimeout(removeLoadingScreen, 200);
-            });
+            video.addEventListener('canplay', playVideo, { once: true });
         }
-        
-        // Fallback with reduced timeout
-        setTimeout(removeLoadingScreen, maxLoadTime);
     }
-
-    /**
-     * PERFORMANCE IMPROVEMENT: Report loading performance metrics
-     */
-    reportLoadingPerformance(loadTime) {
-        try {
-            const navigation = performance.getEntriesByType('navigation')[0];
-            const metrics = {
-                loadTime,
-                domContentLoaded: navigation?.domContentLoadedEventEnd,
-                pageLoad: navigation?.loadEventEnd,
-                firstContentfulPaint: performance.getEntriesByName('first-contentful-paint')[0]?.startTime
+    
+    handleLoadingScreen() {
+        const loadingScreen = document.getElementById('loadingScreen');
+        
+        if (loadingScreen) {
+            const maxLoadTime = this.isMobile ? 2000 : 3000;
+            
+            const removeLoadingScreen = () => {
+                console.log('Removing loading screen...');
+                loadingScreen.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    this.isLoaded = true;
+                    this.triggerEntryAnimations();
+                    console.log('Loading screen removed, entry animations triggered');
+                }, 1000);
             };
             
-            console.log('Performance metrics:', metrics);
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => {
+                    setTimeout(removeLoadingScreen, 500);
+                });
+            } else {
+                setTimeout(removeLoadingScreen, 500);
+            }
             
-            // PERFORMANCE IMPROVEMENT: Send metrics to analytics (non-blocking)
-            this.trackPerformanceMetrics(metrics);
-        } catch (error) {
-            console.warn('Performance reporting failed:', error);
+            setTimeout(() => {
+                if (loadingScreen && !loadingScreen.classList.contains('fade-out')) {
+                    console.warn('Loading screen removal fallback triggered');
+                    removeLoadingScreen();
+                }
+            }, maxLoadTime);
+            
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    if (loadingScreen && !loadingScreen.classList.contains('fade-out')) {
+                        removeLoadingScreen();
+                    }
+                }, 200);
+            });
+        } else {
+            console.warn('Loading screen element not found');
+            this.isLoaded = true;
+            this.triggerEntryAnimations();
         }
     }
-
-    /**
-     * PERFORMANCE IMPROVEMENT: Optimized event listeners with passive events
-     */
+    
     setupEventListeners() {
-        // PERFORMANCE IMPROVEMENT: Throttled mouse movement
-        const mouseMoveThrottled = this.throttle((e) => {
+        let mouseMoveThrottled = this.throttle((e) => {
             this.mousePosition.x = e.clientX;
             this.mousePosition.y = e.clientY;
-            if (!this.isMobile && !this.performanceMode) {
+            if (!this.isMobile) {
                 this.updateInteractiveEffects();
             }
-        }, 32); // Increased from 16ms for better performance
-
+        }, 16);
+        
         if (!this.isMobile) {
-            document.addEventListener('mousemove', mouseMoveThrottled, { passive: true });
+            document.addEventListener('mousemove', mouseMoveThrottled);
         }
-
-        // PERFORMANCE IMPROVEMENT: Optimized touch events
+        
         if (this.isMobile) {
-            const touchMoveThrottled = this.throttle((e) => {
+            let touchMoveThrottled = this.throttle((e) => {
                 if (e.touches[0]) {
                     this.mousePosition.x = e.touches[0].clientX;
                     this.mousePosition.y = e.touches[0].clientY;
                 }
-            }, 64); // Increased throttling for mobile
+            }, 32);
             
             document.addEventListener('touchmove', touchMoveThrottled, { passive: true });
         }
-
-        // PERFORMANCE IMPROVEMENT: Debounced resize handler
-        const resizeDebounced = this.debounce(() => {
+        
+        let resizeDebounced = this.debounce(() => {
             this.handleResize();
-        }, 300); // Increased from 250ms
+        }, 250);
         
-        window.addEventListener('resize', resizeDebounced, { passive: true });
-        
-        // PERFORMANCE IMPROVEMENT: Optimized orientation change
+        window.addEventListener('resize', resizeDebounced);
         window.addEventListener('orientationchange', () => {
-            setTimeout(() => this.handleResize(), 300);
-        }, { passive: true });
+            setTimeout(() => {
+                this.handleResize();
+            }, 200);
+        });
         
-        // PERFORMANCE IMPROVEMENT: Visibility change optimization
         document.addEventListener('visibilitychange', () => {
             this.isVisible = !document.hidden;
             if (this.isVisible) {
@@ -479,9 +636,8 @@ class DutchUndergroundPortalOptimized {
             } else {
                 this.pauseAnimations();
             }
-        }, { passive: true });
+        });
         
-        // Keyboard events
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && e.target.classList.contains('feature-card')) {
                 e.preventDefault();
@@ -494,24 +650,149 @@ class DutchUndergroundPortalOptimized {
             }
         });
         
-        // PERFORMANCE IMPROVEMENT: Throttled scroll handler
-        const scrollThrottled = this.throttle(() => {
+        let scrollThrottled = this.throttle(() => {
             this.handleScroll();
-        }, 32); // Increased from 16ms
+        }, 16);
         
         window.addEventListener('scroll', scrollThrottled, { passive: true });
     }
-
-    /**
-     * PERFORMANCE IMPROVEMENT: Optimized animation loop with frame rate adaptation
-     */
-    startAnimationLoop() {
+    
+    initCanvas() {
+        this.canvas = document.getElementById('background-canvas');
+        if (!this.canvas) {
+            console.warn('Background canvas not found');
+            return;
+        }
+        
+        this.ctx = this.canvas.getContext('2d');
+        
+        if (this.isMobile) {
+            this.ctx.imageSmoothingEnabled = false;
+        }
+        
+        this.handleResize();
+    }
+    
+    handleResize() {
         if (!this.canvas || !this.ctx) return;
+        
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        
+        const devicePixelRatio = window.devicePixelRatio || 1;
+        const backingStoreRatio = this.ctx.webkitBackingStorePixelRatio ||
+                                  this.ctx.mozBackingStorePixelRatio ||
+                                  this.ctx.msBackingStorePixelRatio ||
+                                  this.ctx.oBackingStorePixelRatio ||
+                                  this.ctx.backingStorePixelRatio || 1;
+        
+        const ratio = devicePixelRatio / backingStoreRatio;
+        
+        this.canvas.width = width * ratio;
+        this.canvas.height = height * ratio;
+        this.canvas.style.width = width + 'px';
+        this.canvas.style.height = height + 'px';
+        
+        this.ctx.scale(ratio, ratio);
+        
+        this.redistributeElements();
+    }
+    
+    redistributeElements() {
+        this.particles.forEach(particle => {
+            if (particle.x > window.innerWidth) particle.x = window.innerWidth;
+            if (particle.y > window.innerHeight) particle.y = window.innerHeight;
+        });
+        
+        this.stars.forEach(star => {
+            if (star.x > window.innerWidth) star.x = window.innerWidth;
+            if (star.y > window.innerHeight) star.y = window.innerHeight;
+        });
+    }
+    
+    createParticles() {
+        this.particles = [];
+        for (let i = 0; i < this.config.particles.count; i++) {
+            this.particles.push(this.createParticle());
+        }
+    }
+    
+    createParticle() {
+        return {
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            vx: (Math.random() - 0.5) * this.config.particles.maxSpeed,
+            vy: (Math.random() - 0.5) * this.config.particles.maxSpeed,
+            size: Math.random() * (this.config.particles.sizes.max - this.config.particles.sizes.min) + this.config.particles.sizes.min,
+            color: this.config.particles.colors[Math.floor(Math.random() * this.config.particles.colors.length)],
+            opacity: Math.random() * 0.5 + 0.1,
+            life: Math.random() * 200 + 100,
+            maxLife: Math.random() * 200 + 100
+        };
+    }
+    
+    createStars() {
+        this.stars = [];
+        for (let i = 0; i < this.config.stars.count; i++) {
+            this.stars.push({
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+                size: Math.random() * 2 + 0.5,
+                color: this.config.stars.colors[Math.floor(Math.random() * this.config.stars.colors.length)],
+                twinkle: Math.random(),
+                twinkleDirection: Math.random() > 0.5 ? 1 : -1
+            });
+        }
+    }
+    
+    createFloatingElements() {
+        this.floatingElements = [];
+        const container = document.querySelector('.floating-elements');
+        if (!container) return;
+        
+        container.innerHTML = '';
+        
+        for (let i = 0; i < this.config.floatingElements.count; i++) {
+            const element = document.createElement('div');
+            element.className = 'floating-element';
+            element.textContent = this.config.floatingElements.symbols[Math.floor(Math.random() * this.config.floatingElements.symbols.length)];
+            element.style.cssText = `
+                position: absolute;
+                font-size: ${Math.random() * (this.isMobile ? 15 : 20) + (this.isMobile ? 10 : 15)}px;
+                opacity: ${Math.random() * 0.3 + 0.1};
+                pointer-events: none;
+                z-index: 1;
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 100}%;
+                animation: floatUnderground ${Math.random() * 10 + 15}s infinite linear;
+                will-change: transform;
+            `;
+            
+            container.appendChild(element);
+        }
+        
+        if (!document.getElementById('floating-styles')) {
+            const style = document.createElement('style');
+            style.id = 'floating-styles';
+            style.textContent = `
+                @keyframes floatUnderground {
+                    0% { transform: translateY(100vh) rotate(0deg); }
+                    100% { transform: translateY(-100px) rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    }
+    
+    startAnimationLoop() {
+        if (!this.canvas || !this.ctx) {
+            console.warn('Canvas not available for animation loop');
+            return;
+        }
         
         let lastTime = 0;
         let frameCount = 0;
         let fps = 60;
-        let skipFrames = 0;
         
         const animate = (currentTime) => {
             if (!this.isVisible) {
@@ -520,30 +801,35 @@ class DutchUndergroundPortalOptimized {
             }
             
             const deltaTime = currentTime - lastTime;
-            const targetFrameTime = this.isMobile ? 33.33 : 16.67; // 30fps mobile, 60fps desktop
+            const targetFrameTime = this.isMobile ? 33.33 : 16.67;
             
-            // PERFORMANCE IMPROVEMENT: Adaptive frame skipping
-            if (deltaTime >= targetFrameTime - skipFrames) {
+            if (deltaTime >= targetFrameTime) {
                 frameCount++;
                 
-                // PERFORMANCE IMPROVEMENT: Dynamic quality adjustment
                 if (frameCount % 60 === 0) {
                     fps = Math.round(1000 / deltaTime);
                     
-                    if (fps < 20 && !this.performanceMode) {
+                    if (fps < 25 && !this.performanceMode) {
                         this.enablePerformanceMode();
-                        skipFrames = 5; // Skip frames more aggressively
-                    } else if (fps > 45 && this.performanceMode && !this.isMobile) {
+                    } else if (fps > 50 && this.performanceMode && !this.isMobile) {
                         this.disablePerformanceMode();
-                        skipFrames = 0;
                     }
                 }
                 
                 try {
-                    this.renderFrame();
+                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                    
+                    this.updateStars();
+                    this.updateParticles();
+                    
+                    this.drawStars();
+                    this.drawParticles();
+                    
+                    if (!this.isMobile && !this.performanceMode) {
+                        this.drawConnections();
+                    }
                 } catch (error) {
                     console.error('Animation error:', error);
-                    this.enablePerformanceMode(); // Fallback to performance mode
                 }
                 
                 lastTime = currentTime;
@@ -554,298 +840,680 @@ class DutchUndergroundPortalOptimized {
         
         this.animationId = requestAnimationFrame(animate);
     }
-
-    /**
-     * PERFORMANCE IMPROVEMENT: Optimized rendering with batch operations
-     */
-    renderFrame() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        
-        // PERFORMANCE IMPROVEMENT: Batch similar operations
-        this.updateAndDrawStars();
-        this.updateAndDrawParticles();
-        
-        // PERFORMANCE IMPROVEMENT: Conditional connection drawing
-        if (!this.isMobile && !this.performanceMode && this.particles.length < 50) {
-            this.drawConnections();
-        }
-    }
-
-    /**
-     * PERFORMANCE IMPROVEMENT: Combined update and draw operations
-     */
-    updateAndDrawStars() {
-        this.ctx.save();
-        
-        this.stars.forEach(star => {
-            // Update
-            star.twinkle += this.config.stars.twinkleSpeed * star.twinkleDirection;
-            if (star.twinkle >= 1 || star.twinkle <= 0) {
-                star.twinkleDirection *= -1;
-            }
-            
-            // Draw
-            this.ctx.globalAlpha = star.twinkle * 0.8;
-            this.ctx.fillStyle = star.color;
-            
-            if (!this.performanceMode) {
-                this.ctx.shadowBlur = 3; // Reduced from 5
-                this.ctx.shadowColor = star.color;
-            }
-            
-            this.ctx.beginPath();
-            this.ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-            this.ctx.fill();
-        });
-        
-        this.ctx.restore();
-    }
-
-    updateAndDrawParticles() {
-        this.ctx.save();
+    
+    updateParticles() {
+        if (!this.ctx) return;
         
         this.particles.forEach((particle, index) => {
-            // Update
             particle.x += particle.vx;
             particle.y += particle.vy;
             
-            // PERFORMANCE IMPROVEMENT: Simplified mouse interaction
-            if (!this.isMobile && !this.performanceMode) {
+            if (!this.isMobile) {
                 const dx = this.mousePosition.x - particle.x;
                 const dy = this.mousePosition.y - particle.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
                 
-                if (distance < 80) { // Reduced from 100
-                    const force = (80 - distance) / 80;
-                    particle.vx += dx * force * 0.005; // Reduced from 0.01
-                    particle.vy += dy * force * 0.005;
+                if (distance < 100) {
+                    const force = (100 - distance) / 100;
+                    particle.vx += dx * force * 0.01;
+                    particle.vy += dy * force * 0.01;
                 }
             }
             
-            // Boundary wrapping
             if (particle.x < 0) particle.x = window.innerWidth;
             if (particle.x > window.innerWidth) particle.x = 0;
             if (particle.y < 0) particle.y = window.innerHeight;
             if (particle.y > window.innerHeight) particle.y = 0;
             
-            // Lifecycle
             particle.life--;
             particle.opacity = (particle.life / particle.maxLife) * 0.5;
             
             if (particle.life <= 0) {
                 this.particles[index] = this.createParticle();
             }
-            
-            // Draw
+        });
+    }
+    
+    updateStars() {
+        this.stars.forEach(star => {
+            star.twinkle += this.config.stars.twinkleSpeed * star.twinkleDirection;
+            if (star.twinkle >= 1 || star.twinkle <= 0) {
+                star.twinkleDirection *= -1;
+            }
+        });
+    }
+    
+    drawParticles() {
+        if (!this.ctx) return;
+        
+        this.particles.forEach(particle => {
+            this.ctx.save();
             this.ctx.globalAlpha = particle.opacity;
             this.ctx.fillStyle = particle.color;
             
             if (!this.performanceMode) {
-                this.ctx.shadowBlur = 8; // Reduced from 10
+                this.ctx.shadowBlur = 10;
                 this.ctx.shadowColor = particle.color;
             }
             
             this.ctx.beginPath();
             this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
             this.ctx.fill();
+            this.ctx.restore();
         });
-        
-        this.ctx.restore();
     }
-
-    /**
-     * PERFORMANCE IMPROVEMENT: Optimized analytics tracking
-     */
-    trackEventOptimized(eventName, properties = {}) {
-        // PERFORMANCE IMPROVEMENT: Queue analytics calls
-        this.apiCallQueue.push({
-            type: 'analytics',
-            eventName,
-            properties,
-            timestamp: Date.now()
-        });
+    
+    drawStars() {
+        if (!this.ctx) return;
         
-        this.processApiQueue();
-    }
-
-    trackPerformanceMetrics(metrics) {
-        this.trackEventOptimized('performance_metrics', metrics);
-    }
-
-    /**
-     * PERFORMANCE IMPROVEMENT: Batch API calls
-     */
-    async processApiQueue() {
-        if (this.isProcessingQueue || this.apiCallQueue.length === 0) return;
-        
-        this.isProcessingQueue = true;
-        
-        try {
-            // PERFORMANCE IMPROVEMENT: Process analytics in batches
-            const batchSize = 5;
-            const batch = this.apiCallQueue.splice(0, batchSize);
+        this.stars.forEach(star => {
+            this.ctx.save();
+            this.ctx.globalAlpha = star.twinkle * 0.8;
+            this.ctx.fillStyle = star.color;
             
-            if (batch.length > 0) {
-                console.log('Processing analytics batch:', batch.length, 'events');
-                
-                // Send batch to analytics (non-blocking)
-                if (window.gtag) {
-                    batch.forEach(item => {
-                        window.gtag('event', item.eventName, item.properties);
-                    });
-                }
+            if (!this.performanceMode) {
+                this.ctx.shadowBlur = 5;
+                this.ctx.shadowColor = star.color;
             }
-        } catch (error) {
-            console.warn('Analytics batch processing failed:', error);
-        } finally {
-            this.isProcessingQueue = false;
             
-            // Process remaining queue after delay
-            if (this.apiCallQueue.length > 0) {
-                setTimeout(() => this.processApiQueue(), 1000);
+            this.ctx.beginPath();
+            this.ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+            this.ctx.fill();
+            this.ctx.restore();
+        });
+    }
+    
+    drawConnections() {
+        if (!this.ctx || this.performanceMode) return;
+        
+        for (let i = 0; i < this.particles.length; i++) {
+            for (let j = i + 1; j < this.particles.length; j++) {
+                const dx = this.particles[i].x - this.particles[j].x;
+                const dy = this.particles[i].y - this.particles[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < 80) {
+                    this.ctx.save();
+                    this.ctx.strokeStyle = '#FF9500';
+                    this.ctx.globalAlpha = (80 - distance) / 80 * 0.2;
+                    this.ctx.lineWidth = 1;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
+                    this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
+                    this.ctx.stroke();
+                    this.ctx.restore();
+                }
             }
         }
     }
+    
+    handleScroll() {
+        if (this.isMobile) return;
+        
+        const scrollY = window.pageYOffset;
+        const scrollPercent = scrollY / (document.body.scrollHeight - window.innerHeight);
+        
+        const backgroundGradient = document.querySelector('.background-gradient');
+        if (backgroundGradient) {
+            backgroundGradient.style.transform = `translateY(${scrollY * 0.3}px)`;
+        }
+        
+        this.particles.forEach(particle => {
+            particle.vy += scrollPercent * 0.1;
+        });
+    }
+    
+    updateInteractiveEffects() {
+        if (this.isMobile) return;
+        
+        const cursor = document.querySelector('.cursor-glow') || this.createCursorGlow();
+        if (cursor) {
+            cursor.style.left = this.mousePosition.x - 50 + 'px';
+            cursor.style.top = this.mousePosition.y - 50 + 'px';
+        }
+    }
+    
+    createCursorGlow() {
+        if (this.isMobile) return null;
+        
+        const cursor = document.createElement('div');
+        cursor.className = 'cursor-glow';
+        cursor.style.cssText = `
+            position: fixed;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255, 149, 0, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            will-change: transform;
+        `;
+        
+        document.body.appendChild(cursor);
+        
+        document.addEventListener('mousemove', () => {
+            cursor.style.opacity = '1';
+        });
+        
+        return cursor;
+    }
+    
+    triggerEntryAnimations() {
+        console.log('Triggering entry animations...');
+        
+        const elements = [
+            '.neon-title',
+            '.teaser',
+            '.audio-mystery',
+            '.access-request-section',
+            '.login-form',
+            '.features-preview',
+            '.neon-footer'
+        ];
+        
+        elements.forEach((selector, index) => {
+            const element = document.querySelector(selector);
+            if (element) {
+                setTimeout(() => {
+                    element.style.animation = `fadeInUp 1s ease-out forwards`;
+                }, index * (this.isMobile ? 100 : 200));
+            }
+        });
+        
+        if (!document.getElementById('entry-animations')) {
+            const style = document.createElement('style');
+            style.id = 'entry-animations';
+            style.textContent = `
+                @keyframes fadeInUp {
+                    0% { opacity: 0; transform: translateY(30px); }
+                    100% { opacity: 1; transform: translateY(0); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    }
+    
+    initFormEffects() {
+        const form = document.getElementById('loginForm');
+        
+        if (!form) return;
+        
+        const inputs = form.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', (e) => {
+                if (!this.isMobile) {
+                    this.createInputParticles(e.target);
+                }
+            });
+            
+            input.addEventListener('blur', (e) => {
+                if (!this.isMobile) {
+                    this.removeInputParticles(e.target);
+                }
+            });
+            
+            input.addEventListener('input', (e) => {
+                this.validateInput(e.target);
+            });
+        });
+        
+        const featureCards = document.querySelectorAll('.feature-card');
+        featureCards.forEach(card => {
+            card.addEventListener('click', () => {
+                this.triggerFeaturePreview(card);
+            });
+            
+            if (!this.isMobile) {
+                card.addEventListener('mouseenter', () => {
+                    this.createCardGlow(card);
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    this.removeCardGlow(card);
+                });
+            }
+        });
+        
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleLoginSubmission(form);
+        });
+    }
+    
+    handleLoginSubmission(form) {
+        const username = form.querySelector('#username').value.trim();
+        const password = form.querySelector('#password').value.trim();
+        
+        if (!username || !password) {
+            this.showMessage('Please enter both identity and frequency to access the underground.', 'warning');
+            return;
+        }
+        
+        // Updated login credentials: "void / enter"
+        if (username.toLowerCase() === 'void' && password === 'enter') {
+            this.showMessage('Access granted! Welcome to the underground collective...', 'success');
+            this.triggerSuccessEffects();
+            
+            setTimeout(() => {
+                this.showMessage('Redirecting to the vault...', 'info');
+                setTimeout(() => {
+                    window.location.href = '/ade-2025-guide';
+                }, 1000);
+            }, 2000);
+        } else {
+            this.showMessage('Invalid credentials. The underground remains sealed.', 'error');
+        }
+    }
+    
+    initMobileOptimizations() {
+        if (!this.isMobile) return;
+        
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                const viewport = document.querySelector('meta[name="viewport"]');
+                if (viewport) {
+                    viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0';
+                }
+            });
+            
+            input.addEventListener('blur', () => {
+                const viewport = document.querySelector('meta[name="viewport"]');
+                if (viewport) {
+                    viewport.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes';
+                }
+            });
+        });
+        
+        if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+            const setViewportHeight = () => {
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            };
+            
+            setViewportHeight();
+            window.addEventListener('resize', setViewportHeight);
+            window.addEventListener('orientationchange', () => {
+                setTimeout(setViewportHeight, 200);
+            });
+        }
+        
+        document.addEventListener('touchstart', () => {}, { passive: true });
+        document.addEventListener('touchmove', () => {}, { passive: true });
+        document.addEventListener('touchend', () => {}, { passive: true });
+    }
+    
+    showMessage(text, type = 'info') {
+        const message = document.getElementById('message');
+        if (!message) return;
+        
+        message.textContent = text;
+        message.className = `show ${type}`;
+        
+        setTimeout(() => {
+            message.classList.remove('show');
+        }, this.isMobile ? 3000 : 5000);
+        
+        this.announceToScreenReader(text);
+    }
+    
+    triggerSuccessEffects() {
+        this.createParticleBurst(window.innerWidth / 2, window.innerHeight / 2, '#00FF00');
+        
+        if (!this.isMobile) {
+            const flash = document.createElement('div');
+            flash.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(45deg, #00FF00, #00FFFF);
+                opacity: 0;
+                pointer-events: none;
+                z-index: 9998;
+                animation: flashSuccess 0.5s ease-out;
+            `;
+            
+            document.body.appendChild(flash);
+            setTimeout(() => flash.remove(), 500);
+        }
+        
+        if (!document.getElementById('success-styles')) {
+            const style = document.createElement('style');
+            style.id = 'success-styles';
+            style.textContent = `
+                @keyframes flashSuccess {
+                    0% { opacity: 0; }
+                    50% { opacity: 0.3; }
+                    100% { opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    }
+    
+    triggerFeaturePreview(card) {
+        const feature = card.dataset.feature;
+        const messages = {
+            events: 'Warehouse Events: Underground techno experiences in industrial spaces await...',
+            sound: 'Sound Systems: Cutting-edge audio technology and bass frequencies unleashed...',
+            collective: 'Electronic Collective: Underground artist network and electronic mysteries revealed...'
+        };
+        
+        this.showMessage(messages[feature] || 'Underground feature revealed...', 'info');
+        
+        if (!this.isMobile) {
+            this.createParticleBurst(
+                card.getBoundingClientRect().left + card.offsetWidth / 2,
+                card.getBoundingClientRect().top + card.offsetHeight / 2,
+                '#FFD700'
+            );
+        }
+    }
+    
+    createParticleBurst(x, y, color) {
+        if (this.performanceMode || !this.ctx) return;
+        
+        const burstParticles = [];
+        const particleCount = this.isMobile ? 8 : 15;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const angle = (Math.PI * 2 / particleCount) * i;
+            const speed = Math.random() * 5 + 2;
+            
+            burstParticles.push({
+                x: x,
+                y: y,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                size: Math.random() * 4 + 2,
+                color: color,
+                opacity: 1,
+                life: this.isMobile ? 30 : 60
+            });
+        }
+        
+        const animateBurst = () => {
+            burstParticles.forEach((particle, index) => {
+                particle.x += particle.vx;
+                particle.y += particle.vy;
+                particle.vx *= 0.98;
+                particle.vy *= 0.98;
+                particle.opacity -= this.isMobile ? 0.04 : 0.02;
+                particle.life--;
+                
+                if (particle.life > 0) {
+                    this.ctx.save();
+                    this.ctx.globalAlpha = particle.opacity;
+                    this.ctx.fillStyle = particle.color;
+                    
+                    if (!this.performanceMode) {
+                        this.ctx.shadowBlur = 10;
+                        this.ctx.shadowColor = particle.color;
+                    }
+                    
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    this.ctx.restore();
+                } else {
+                    burstParticles.splice(index, 1);
+                }
+            });
+            
+            if (burstParticles.length > 0) {
+                requestAnimationFrame(animateBurst);
+            }
+        };
+        
+        animateBurst();
+    }
+    
+    enablePerformanceMode() {
+        this.performanceMode = true;
+        this.config.particles.count = Math.floor(this.config.particles.count * 0.5);
+        this.config.stars.count = Math.floor(this.config.stars.count * 0.5);
+        this.particles = this.particles.slice(0, this.config.particles.count);
+        this.stars = this.stars.slice(0, this.config.stars.count);
+        console.log('Performance mode enabled');
+    }
+    
+    disablePerformanceMode() {
+        this.performanceMode = false;
+        this.config.particles.count = this.isMobile ? 30 : 100;
+        this.config.stars.count = this.isMobile ? 50 : 150;
+        this.createParticles();
+        this.createStars();
+        console.log('Performance mode disabled');
+    }
+    
+    createInputParticles(input) {
+        if (this.isMobile || this.performanceMode) return;
+        
+        const rect = input.getBoundingClientRect();
+        const particles = [];
+        
+        for (let i = 0; i < 8; i++) {
+            particles.push({
+                x: rect.left + Math.random() * rect.width,
+                y: rect.top + rect.height,
+                vy: -Math.random() * 2 - 1,
+                size: Math.random() * 2 + 1,
+                opacity: Math.random() * 0.5 + 0.5,
+                life: 60
+            });
+        }
+        
+        input._particles = particles;
+        this.animateInputParticles(input);
+    }
+    
+    animateInputParticles(input) {
+        if (!input._particles) return;
+        
+        const animate = () => {
+            if (!input._particles || input._particles.length === 0) return;
+            
+            input._particles.forEach((particle, index) => {
+                particle.y += particle.vy;
+                particle.opacity -= 0.02;
+                particle.life--;
+                
+                if (particle.life <= 0) {
+                    input._particles.splice(index, 1);
+                }
+            });
+            
+            if (input._particles.length > 0) {
+                requestAnimationFrame(animate);
+            }
+        };
+        
+        animate();
+    }
+    
+    removeInputParticles(input) {
+        if (input._particles) {
+            input._particles = [];
+        }
+    }
+    
+    validateInput(input) {
+        const value = input.value.trim();
+        const inputGroup = input.closest('.input-group');
+        
+        if (inputGroup) {
+            inputGroup.classList.remove('valid', 'invalid');
+            
+            if (value.length > 0) {
+                inputGroup.classList.add('valid');
+            }
+        }
+    }
+    
+    createCardGlow(card) {
+        if (card._glowElement || this.isMobile) return;
+        
+        const glow = document.createElement('div');
+        glow.style.cssText = `
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: radial-gradient(circle, rgba(0, 191, 255, 0.2) 0%, transparent 70%);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            will-change: opacity;
+        `;
+        
+        card.style.position = 'relative';
+        card.appendChild(glow);
+        card._glowElement = glow;
+        
+        setTimeout(() => {
+            glow.style.opacity = '1';
+        }, 50);
+    }
+    
+    removeCardGlow(card) {
+        if (card._glowElement) {
+            card._glowElement.style.opacity = '0';
+            setTimeout(() => {
+                if (card._glowElement) {
+                    card._glowElement.remove();
+                    card._glowElement = null;
+                }
+            }, 300);
+        }
+    }
+    
+    initAccessibilityFeatures() {
+        const featureCards = document.querySelectorAll('.feature-card');
+        featureCards.forEach(card => {
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('role', 'button');
+        });
+        
+        const skipLink = document.querySelector('.skip-link');
+        if (skipLink) {
+            skipLink.style.cssText += `
+                position: fixed;
+                top: -40px;
+                left: 6px;
+                background: #000;
+                color: #fff;
+                padding: 8px;
+                text-decoration: none;
+                z-index: 10000;
+                transition: top 0.3s;
+                border: 2px solid #fff;
+            `;
+            
+            skipLink.addEventListener('focus', () => {
+                skipLink.style.top = '6px';
+            });
+            
+            skipLink.addEventListener('blur', () => {
+                skipLink.style.top = '-40px';
+            });
+        }
+    }
+    
+    announceToScreenReader(message) {
+        const announcement = document.createElement('div');
+        announcement.setAttribute('aria-live', 'polite');
+        announcement.setAttribute('aria-atomic', 'true');
+        announcement.className = 'sr-only';
+        announcement.textContent = message;
+        
+        document.body.appendChild(announcement);
+        
+        setTimeout(() => {
+            if (announcement.parentNode) {
+                document.body.removeChild(announcement);
+            }
+        }, 1000);
+    }
+    
+    pauseAnimations() {
+        if (this.animationId) {
+            cancelAnimationFrame(this.animationId);
+            this.animationId = null;
+        }
+    }
+    
+    resumeAnimations() {
+        if (!this.animationId) {
+            this.startAnimationLoop();
+        }
+    }
+    
+    resetInteractiveStates() {
+        const message = document.getElementById('message');
+        if (message) {
+            message.classList.remove('show');
+        }
+        
+        const tempElements = document.querySelectorAll('.cursor-glow, [id*="success-"], [id*="error-"]');
+        tempElements.forEach(el => el.remove());
+    }
 
-    // Include optimized utility functions
+    closeAdminLogin() {
+        const modal = document.getElementById('adminLoginModal');
+        if (modal) {
+            modal.style.display = 'none';
+            
+            // Clear form
+            const form = document.getElementById('adminLoginForm');
+            if (form) form.reset();
+            
+            // Clear error
+            const errorDiv = document.getElementById('adminLoginError');
+            if (errorDiv) errorDiv.style.display = 'none';
+        }
+    }
+    
     throttle(func, limit) {
         let inThrottle;
-        return function(...args) {
+        return function() {
+            const args = arguments;
+            const context = this;
             if (!inThrottle) {
-                func.apply(this, args);
+                func.apply(context, args);
                 inThrottle = true;
                 setTimeout(() => inThrottle = false, limit);
             }
         };
     }
     
-    debounce(func, wait) {
+    debounce(func, wait, immediate) {
         let timeout;
-        return function(...args) {
+        return function() {
+            const context = this, args = arguments;
+            const later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            const callNow = immediate && !timeout;
             clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(this, args), wait);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
         };
     }
-
-    // Include other essential methods from original code
-    validateField(field) {
-        // Existing validation logic but optimized
-        const value = field.value.trim();
-        const fieldName = field.name;
-        
-        // Use cached validation rules
-        const rules = this.getValidationRules(fieldName);
-        const isValid = rules.every(rule => rule.test(value));
-        
-        if (isValid) {
-            field.parentElement.classList.add('valid');
-            field.parentElement.classList.remove('invalid');
-        } else {
-            field.parentElement.classList.add('invalid');
-            field.parentElement.classList.remove('valid');
-        }
-        
-        return isValid;
-    }
-    
-    getValidationRules(fieldName) {
-        // Cache validation rules
-        if (!this.validationCache) {
-            this.validationCache = {
-                fullName: [
-                    { test: (v) => v.length >= 2 },
-                    { test: (v) => v.length <= 100 }
-                ],
-                email: [
-                    { test: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
-                    { test: (v) => v.length <= 150 }
-                ],
-                phone: [
-                    { test: (v) => v.length >= 8 },
-                    { test: (v) => v.length <= 20 }
-                ],
-                country: [
-                    { test: (v) => v.length > 0 }
-                ]
-            };
-        }
-        
-        return this.validationCache[fieldName] || [];
-    }
-
-    // Include other essential methods (simplified for space)
-    showMessage(text, type) { /* Existing implementation */ }
-    clearFieldError(field) { /* Existing implementation */ }
-    setFormLoading(loading) { /* Existing implementation */ }
-    showFormSuccess() { /* Existing implementation */ }
-    triggerSuccessEffects() { /* Existing implementation */ }
-    handleAccessRequestError(response) { /* Existing implementation */ }
-    performHealthCheck() { /* Existing implementation */ }
-    initAdminAuth() { /* Existing implementation */ }
-    initFormEffects() { /* Existing implementation */ }
-    initAccessibilityFeatures() { /* Existing implementation */ }
-    initMobileOptimizations() { /* Existing implementation */ }
-    initCanvas() { /* Existing implementation */ }
-    createParticles() { /* Existing implementation */ }
-    createStars() { /* Existing implementation */ }
-    createFloatingElements() { /* Existing implementation */ }
-    createParticle() { /* Existing implementation */ }
-    handleResize() { /* Existing implementation */ }
-    triggerEntryAnimations() { /* Existing implementation */ }
-    updateInteractiveEffects() { /* Existing implementation */ }
-    handleScroll() { /* Existing implementation */ }
-    drawConnections() { /* Existing implementation */ }
-    enablePerformanceMode() { /* Existing implementation */ }
-    disablePerformanceMode() { /* Existing implementation */ }
-    pauseAnimations() { /* Existing implementation */ }
-    resumeAnimations() { /* Existing implementation */ }
-    resetInteractiveStates() { /* Existing implementation */ }
-    closeAdminLogin() { /* Existing implementation */ }
 }
 
-// PERFORMANCE IMPROVEMENT: Optimized initialization
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM loaded, initializing Optimized Underground Portal v5.0.0...');
-    
-    try {
-        // PERFORMANCE IMPROVEMENT: Check if critical resources are loaded
-        if (document.fonts && document.fonts.ready) {
-            document.fonts.ready.then(() => {
-                initializePortal();
-            });
-        } else {
-            // Fallback for browsers without font loading API
-            setTimeout(initializePortal, 100);
-        }
-        
-        function initializePortal() {
-            window.DutchMysteryPortal = new DutchUndergroundPortalOptimized();
-            
-            // PERFORMANCE IMPROVEMENT: Initialize smoke system only if needed
-            if (!window.DutchMysteryPortal.isLowEndDevice()) {
-                const smokeSystem = new UndergroundSmokeSystemOptimized();
-            }
-            
-            console.log('Optimized Underground Portal systems initialized');
-        }
-        
-    } catch (error) {
-        console.error('Error initializing Portal:', error);
-        
-        // PERFORMANCE IMPROVEMENT: Graceful fallback
-        const loadingScreen = document.getElementById('loadingScreen');
-        if (loadingScreen) {
-            setTimeout(() => loadingScreen.style.display = 'none', 500);
-        }
-    }
-});
-
-// PERFORMANCE IMPROVEMENT: Optimized smoke system
-class UndergroundSmokeSystemOptimized {
+// Enhanced Smoke Particle System
+class UndergroundSmokeSystem {
     constructor() {
         this.container = document.querySelector('.smoke');
         this.particles = [];
-        this.maxParticles = this.detectMobile() ? 3 : 8; // Reduced from 5/15
+        this.maxParticles = this.detectMobile() ? 5 : 15;
         this.isMobile = this.detectMobile();
         this.init();
     }
@@ -858,34 +1526,18 @@ class UndergroundSmokeSystemOptimized {
     init() {
         if (!this.container) return;
         
-        // PERFORMANCE IMPROVEMENT: Intersection Observer for smoke
-        const smokeObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    this.startSmokeGeneration();
-                } else {
-                    this.stopSmokeGeneration();
-                }
-            });
-        }, { threshold: 0.1 });
-        
-        smokeObserver.observe(this.container);
-    }
-    
-    startSmokeGeneration() {
-        if (this.smokeInterval) return;
-        
-        this.createParticle(); // Create initial particle
-        
-        this.smokeInterval = setInterval(() => {
+        this.createParticles();
+        setInterval(() => {
             this.createParticle();
-        }, this.isMobile ? 4000 : 2000); // Increased interval
+        }, this.isMobile ? 2000 : 1000);
     }
     
-    stopSmokeGeneration() {
-        if (this.smokeInterval) {
-            clearInterval(this.smokeInterval);
-            this.smokeInterval = null;
+    createParticles() {
+        const initialCount = this.isMobile ? 2 : 3;
+        for (let i = 0; i < initialCount; i++) {
+            setTimeout(() => {
+                this.createParticle();
+            }, i * 300);
         }
     }
     
@@ -895,10 +1547,11 @@ class UndergroundSmokeSystemOptimized {
         const particle = document.createElement('div');
         particle.className = 'smoke-particle';
         
-        // PERFORMANCE IMPROVEMENT: Reduced particle complexity
-        const size = Math.random() * (this.isMobile ? 40 : 60) + (this.isMobile ? 20 : 30);
-        const opacity = Math.random() * 0.2 + 0.05; // Reduced opacity
-        const duration = Math.random() * (this.isMobile ? 8000 : 12000) + (this.isMobile ? 6000 : 8000);
+        const size = Math.random() * (this.isMobile ? 60 : 100) + (this.isMobile ? 30 : 50);
+        const startX = Math.random() * 100;
+        const endX = startX + (Math.random() - 0.5) * 30;
+        const opacity = Math.random() * 0.3 + 0.1;
+        const duration = Math.random() * (this.isMobile ? 12000 : 18000) + (this.isMobile ? 8000 : 12000);
         
         particle.style.cssText = `
             position: absolute;
@@ -906,10 +1559,10 @@ class UndergroundSmokeSystemOptimized {
             height: ${size}px;
             background: radial-gradient(circle, rgba(255, 149, 0, ${opacity}) 0%, transparent 70%);
             border-radius: 50%;
-            left: ${Math.random() * 100}%;
+            left: ${startX}%;
             top: 100%;
             pointer-events: none;
-            filter: blur(${Math.random() * 6 + 4}px);
+            filter: blur(${Math.random() * 10 + 8}px);
             z-index: 1;
             will-change: transform;
         `;
@@ -917,14 +1570,13 @@ class UndergroundSmokeSystemOptimized {
         this.container.appendChild(particle);
         this.particles.push(particle);
         
-        // PERFORMANCE IMPROVEMENT: Use transform instead of changing top/left
         const animation = particle.animate([
             {
-                transform: 'translateY(0) scale(0.5)',
+                transform: 'translateY(0) scale(0.5) rotate(0deg)',
                 opacity: opacity
             },
             {
-                transform: `translateY(-${window.innerHeight + 50}px) scale(1.2)`,
+                transform: `translateY(-${window.innerHeight + 100}px) translateX(${endX - startX}%) scale(${Math.random() + 1.2}) rotate(${Math.random() * 360}deg)`,
                 opacity: 0
             }
         ], {
@@ -944,15 +1596,285 @@ class UndergroundSmokeSystemOptimized {
     }
 }
 
-// Include existing global functions (optimized)
-function toggleAudioPlayer() {
-    // Existing implementation with performance improvements
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded, initializing Underground Portal v4.0.1...');
+    
+    try {
+        window.DutchMysteryPortal = new DutchUndergroundPortal();
+        const smokeSystem = new UndergroundSmokeSystem();
+        
+        console.log('Underground Portal systems initialized successfully');
+    } catch (error) {
+        console.error('Error initializing Underground Portal:', error);
+        
+        const loadingScreen = document.getElementById('loadingScreen');
+        if (loadingScreen) {
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 1000);
+        }
+    }
+    
+    setTimeout(() => {
+        const loadingScreen = document.getElementById('loadingScreen');
+        if (loadingScreen && loadingScreen.style.display !== 'none') {
+            console.log('Fallback: Removing loading screen');
+            loadingScreen.style.display = 'none';
+        }
+    }, 5000);
+    
+    window.addEventListener('error', (e) => {
+        console.warn('Underground Portal:', e.error?.message || 'Unknown error');
+    });
+    
+    if ('performance' in window) {
+        window.addEventListener('load', () => {
+            const loadTime = performance.now();
+            if (loadTime > 5000) {
+                console.warn('Portal loading slowly. Performance mode may be beneficial.');
+            }
+        });
+    }
+    
+    const dynamicStyles = document.createElement('style');
+    dynamicStyles.textContent = `
+        .input-group.valid input {
+            border-color: #00FF00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+        
+        .input-group.invalid input {
+            border-color: #FF0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+        }
+        
+        #message.success {
+            color: #00FF00;
+            text-shadow: 0 0 10px #00FF00;
+        }
+        
+        #message.error {
+            color: #FF0000;
+            text-shadow: 0 0 10px #FF0000;
+        }
+        
+        #message.warning {
+            color: #FFD700;
+            text-shadow: 0 0 10px #FFD700;
+        }
+        
+        #message.info {
+            color: #00BFFF;
+            text-shadow: 0 0 10px #00BFFF;
+        }
+        
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .admin-modal-content {
+            background: linear-gradient(145deg, #1a1a1a, #2d1810);
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid rgba(255, 149, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .admin-modal h3 {
+            color: #FF9500;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-family: var(--font-title);
+            text-shadow: 0 0 10px #FF9500;
+        }
+        
+        .admin-close {
+            color: #FF9500;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: -10px;
+        }
+        
+        .admin-close:hover {
+            color: #FFD700;
+        }
+        
+        .admin-input-group {
+            margin-bottom: 1rem;
+        }
+        
+        .admin-input-group input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(255, 149, 0, 0.3);
+            color: #fff;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-input-group input:focus {
+            outline: none;
+            border-color: #00BFFF;
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.4);
+        }
+        
+        .admin-login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #FF9500, #FFD700);
+            color: #000;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 149, 0, 0.4);
+        }
+        
+        .admin-error {
+            color: #FF0000;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .cursor-glow {
+                display: none !important;
+            }
+            
+            .admin-modal-content {
+                margin: 20% auto;
+                width: 95%;
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .floating-element {
+                animation: none !important;
+            }
+            
+            .smoke-particle {
+                animation: none !important;
+            }
+        }
+    `;
+    document.head.appendChild(dynamicStyles);
+});
+
+// Global functions for HTML interactions
+function showComingSoon() {
+    if (window.DutchMysteryPortal) {
+        window.DutchMysteryPortal.showMessage('More underground frequencies are being crafted... Stay tuned for exclusive releases!', 'info');
+    }
 }
 
+// FIXED: Audio player functions with correct SoundCloud URL
+function toggleAudioPlayer() {
+    console.log('Audio player toggle requested');
+    
+    const button = document.getElementById('audioPlayButton');
+    const buttonText = document.getElementById('buttonText');
+    const playerContainer = document.getElementById('audioPlayerContainer');
+    const soundcloudPlayer = document.getElementById('soundcloudPlayer');
+    
+    if (!playerContainer || !soundcloudPlayer) {
+        console.warn('Audio player elements not found');
+        return;
+    }
+    
+    if (playerContainer.style.display === 'none' || !playerContainer.style.display) {
+        // FIXED: Show audio player - Halform x Rico Winter Live Set (Correct URL)
+        soundcloudPlayer.src = 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/halform/halform-x-rico-winter-live-set-o01&color=%23ff9500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true';
+        playerContainer.style.display = 'block';
+        
+        if (buttonText) buttonText.textContent = 'DISCONNECT TRANSMISSION';
+        if (button) button.style.background = 'linear-gradient(135deg, #FF0000, #FF9500)';
+        
+        if (window.DutchMysteryPortal) {
+            window.DutchMysteryPortal.showMessage('Underground transmission intercepted... Audio portal activated!', 'success');
+            window.DutchMysteryPortal.trackEvent('audio_player_opened', { track: 'halform_rico_winter_live_set' });
+        }
+        
+        // Handle potential SoundCloud loading issues gracefully
+        setTimeout(() => {
+            const iframe = document.getElementById('soundcloudPlayer');
+            if (iframe) {
+                iframe.onload = () => console.log('SoundCloud player loaded successfully');
+                iframe.onerror = (e) => console.warn('SoundCloud player load issue (non-critical):', e);
+            }
+        }, 2000);
+    } else {
+        // Hide audio player
+        playerContainer.style.display = 'none';
+        soundcloudPlayer.src = '';
+        
+        if (buttonText) buttonText.textContent = 'INTERCEPT TRANSMISSION';
+        if (button) button.style.background = 'linear-gradient(135deg, #FF9500, #00BFFF)';
+        
+        if (window.DutchMysteryPortal) {
+            window.DutchMysteryPortal.showMessage('Transmission disconnected... Returning to underground silence.', 'info');
+        }
+    }
+}
+
+// Admin login modal functions
 function showAdminLogin(event) {
-    // Existing implementation
+    if (event) event.preventDefault();
+    const modal = document.getElementById('adminLoginModal');
+    if (modal) {
+        modal.style.display = 'block';
+        
+        // Focus on username input
+        const usernameInput = document.getElementById('adminUsername');
+        if (usernameInput) {
+            setTimeout(() => usernameInput.focus(), 100);
+        }
+    }
 }
 
 function closeAdminLogin() {
-    // Existing implementation
+    const modal = document.getElementById('adminLoginModal');
+    if (modal) {
+        modal.style.display = 'none';
+        
+        // Clear form
+        const form = document.getElementById('adminLoginForm');
+        if (form) form.reset();
+        
+        // Clear error
+        const errorDiv = document.getElementById('adminLoginError');
+        if (errorDiv) errorDiv.style.display = 'none';
+    }
 }
+
+// Close modal when clicking outside
+window.addEventListener('click', (event) => {
+    const modal = document.getElementById('adminLoginModal');
+    if (event.target === modal) {
+        closeAdminLogin();
+    }
+});
