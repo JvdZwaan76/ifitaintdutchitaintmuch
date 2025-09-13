@@ -1,6 +1,6 @@
 /**
  * Enhanced Dutch Underground Techno Website - Interactive JavaScript
- * Fixed version with proper loading screen handling
+ * Fixed version with proper video loading and loading screen handling
  */
 
 class DutchUndergroundPortal {
@@ -23,7 +23,48 @@ class DutchUndergroundPortal {
                 maxSpeed: this.performanceMode ? 1 : 2,
                 colors: ['#FF9500', '#00BFFF', '#00FFFF', '#FFD700'],
                 sizes: { min: 1, max: this.performanceMode ? 3 : 4 }
+            },
+            stars: {
+                count: this.performanceMode ? 50 : 150,
+                twinkleSpeed: 0.02,
+                colors: ['#FFFFFF', '#FFD700', '#00BFFF', '#FF9500']
+            },
+            floatingElements: {
+                count: this.performanceMode ? 10 : 20,
+                symbols: ['⚡', '🔊', '🏭', '🎛️', '💎', '🌟'],
+                speed: { min: 0.5, max: 2 }
             }
+        };
+        
+        this.init();
+    }
+    
+    detectMobile() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+               window.innerWidth <= 768 ||
+               ('ontouchstart' in window) ||
+               (navigator.maxTouchPoints > 0);
+    }
+    
+    init() {
+        console.log('Initializing Dutch Underground Portal...');
+        
+        // Handle loading screen immediately
+        this.handleLoadingScreen();
+        
+        this.setupEventListeners();
+        this.initBackgroundVideo();
+        this.initCanvas();
+        this.createParticles();
+        this.createStars();
+        this.createFloatingElements();
+        this.startAnimationLoop();
+        this.initFormEffects();
+        this.initAccessibilityFeatures();
+        this.initMobileOptimizations();
+        
+        console.log('Dutch Underground Portal initialized successfully');
+    }
     
     initBackgroundVideo() {
         const video = document.getElementById('backgroundVideo');
@@ -39,6 +80,7 @@ class DutchUndergroundPortal {
         video.muted = true;
         video.playsInline = true;
         video.controls = false;
+        video.preload = 'auto';
         
         // Performance optimizations for mobile
         if (this.isMobile) {
@@ -86,62 +128,37 @@ class DutchUndergroundPortal {
         });
         
         // Try to play the video
-        video.play().then(() => {
-            console.log('Underground video started playing successfully');
-        }).catch((error) => {
-            console.error('Video autoplay failed:', error.name, error.message);
-            // Autoplay blocked - video will start on user interaction
-            document.addEventListener('click', () => {
-                video.play().catch(e => console.warn('Manual video start failed:', e));
-            }, { once: true });
-        });
-    },
-            stars: {
-                count: this.performanceMode ? 50 : 150,
-                twinkleSpeed: 0.02,
-                colors: ['#FFFFFF', '#FFD700', '#00BFFF', '#FF9500']
-            },
-            floatingElements: {
-                count: this.performanceMode ? 10 : 20,
-                symbols: ['⚡', '🔊', '🏭', '🎛️', '💎', '🌟'],
-                speed: { min: 0.5, max: 2 }
-            }
+        const playVideo = () => {
+            video.play().then(() => {
+                console.log('Underground video started playing successfully');
+            }).catch((error) => {
+                console.error('Video autoplay failed:', error.name, error.message);
+                // Autoplay blocked - video will start on user interaction
+                document.addEventListener('click', () => {
+                    video.play().catch(e => console.warn('Manual video start failed:', e));
+                }, { once: true });
+                
+                document.addEventListener('touchstart', () => {
+                    video.play().catch(e => console.warn('Manual video start failed:', e));
+                }, { once: true });
+            });
         };
         
-        this.init();
-    }
-    
-    detectMobile() {
-        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-               window.innerWidth <= 768 ||
-               ('ontouchstart' in window) ||
-               (navigator.maxTouchPoints > 0);
-    }
-    
-    init() {
-        console.log('Initializing Dutch Underground Portal...');
-        
-        // FIXED: Handle loading screen immediately
-        this.handleLoadingScreen();
-        
-        this.setupEventListeners();
-        this.initCanvas();
-        this.createParticles();
-        this.createStars();
-        this.createFloatingElements();
-        this.startAnimationLoop();
-        this.initFormEffects();
-        this.initAccessibilityFeatures();
-        this.initMobileOptimizations();
-        
-        console.log('Dutch Underground Portal initialized successfully');
+        // Start video playback
+        if (video.readyState >= 3) {
+            // Video is already loaded enough to play
+            playVideo();
+        } else {
+            // Wait for video to be ready
+            video.addEventListener('canplay', playVideo, { once: true });
+        }
     }
     
     handleLoadingScreen() {
         const loadingScreen = document.getElementById('loadingScreen');
         
         if (loadingScreen) {
-            // FIXED: Set a maximum loading time to prevent infinite loading
+            // Set a maximum loading time to prevent infinite loading
             const maxLoadTime = this.isMobile ? 2000 : 3000;
             
             const removeLoadingScreen = () => {
@@ -156,7 +173,7 @@ class DutchUndergroundPortal {
                 }, 1000);
             };
             
-            // FIXED: Multiple triggers to ensure loading screen is removed
+            // Multiple triggers to ensure loading screen is removed
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', () => {
                     setTimeout(removeLoadingScreen, 500);
@@ -166,7 +183,7 @@ class DutchUndergroundPortal {
                 setTimeout(removeLoadingScreen, 500);
             }
             
-            // FIXED: Fallback timer in case other methods fail
+            // Fallback timer in case other methods fail
             setTimeout(() => {
                 if (loadingScreen && !loadingScreen.classList.contains('fade-out')) {
                     console.warn('Loading screen removal fallback triggered');
@@ -174,7 +191,7 @@ class DutchUndergroundPortal {
                 }
             }, maxLoadTime);
             
-            // FIXED: Window load event as additional trigger
+            // Window load event as additional trigger
             window.addEventListener('load', () => {
                 setTimeout(() => {
                     if (loadingScreen && !loadingScreen.classList.contains('fade-out')) {
@@ -1158,7 +1175,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (error) {
         console.error('Error initializing Underground Portal:', error);
         
-        // FIXED: Fallback loading screen removal if initialization fails
+        // Fallback loading screen removal if initialization fails
         const loadingScreen = document.getElementById('loadingScreen');
         if (loadingScreen) {
             setTimeout(() => {
@@ -1167,7 +1184,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // FIXED: Ensure loading screen is removed regardless
+    // Ensure loading screen is removed regardless
     setTimeout(() => {
         const loadingScreen = document.getElementById('loadingScreen');
         if (loadingScreen && loadingScreen.style.display !== 'none') {
@@ -1253,3 +1270,34 @@ function showComingSoon() {
         window.DutchMysteryPortal.showMessage('More underground frequencies are being crafted... Stay tuned for exclusive releases!', 'info');
     }
 }
+
+// Audio player functions
+function toggleAudioPlayer() {
+    console.log('Audio player toggle requested');
+    // Audio player functionality would go here
+    if (window.DutchMysteryPortal) {
+        window.DutchMysteryPortal.showMessage('Underground transmission intercepted... Audio portal activated!', 'success');
+    }
+}
+
+// Access request form handling
+document.addEventListener('DOMContentLoaded', () => {
+    const accessForm = document.getElementById('accessRequestForm');
+    if (accessForm) {
+        accessForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            console.log('Access request form submitted');
+            
+            if (window.DutchMysteryPortal) {
+                window.DutchMysteryPortal.showMessage('Access request transmitted to the underground collective...', 'success');
+            }
+            
+            // Show success section
+            const successSection = document.getElementById('accessFormSuccess');
+            if (successSection) {
+                successSection.style.display = 'block';
+                accessForm.style.display = 'none';
+            }
+        });
+    }
+});
