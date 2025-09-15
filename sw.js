@@ -1,13 +1,13 @@
 /**
  * Production Service Worker for If It Ain't Dutch, It Ain't Much
  * Optimized for performance, offline support, and Cloudflare integration
- * Version: 4.0.0 - Production Ready
+ * Version: 4.2.0 - Production Ready
  */
 
-const CACHE_NAME = 'dutch-underground-v4.0.0';
-const STATIC_CACHE_NAME = 'dutch-static-v4.0.0';
-const DYNAMIC_CACHE_NAME = 'dutch-dynamic-v4.0.0';
-const API_CACHE_NAME = 'dutch-api-v4.0.0';
+const CACHE_NAME = 'dutch-underground-v4.2.0';
+const STATIC_CACHE_NAME = 'dutch-static-v4.2.0';
+const DYNAMIC_CACHE_NAME = 'dutch-dynamic-v4.2.0';
+const API_CACHE_NAME = 'dutch-api-v4.2.0';
 
 // Critical files to cache immediately
 const STATIC_FILES = [
@@ -26,33 +26,9 @@ const STATIC_FILES = [
   'https://fonts.gstatic.com/s/inter/v18/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7SUc.woff2'
 ];
 
-// Runtime caching strategies
-const CACHE_STRATEGIES = {
-  images: {
-    strategy: 'CacheFirst',
-    maxEntries: 100,
-    maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
-  },
-  api: {
-    strategy: 'NetworkFirst', 
-    maxEntries: 50,
-    maxAgeSeconds: 5 * 60, // 5 minutes
-  },
-  pages: {
-    strategy: 'StaleWhileRevalidate',
-    maxEntries: 20,
-    maxAgeSeconds: 24 * 60 * 60, // 24 hours
-  },
-  audio: {
-    strategy: 'CacheFirst',
-    maxEntries: 10,
-    maxAgeSeconds: 7 * 24 * 60 * 60, // 7 days
-  }
-};
-
 // Install event - cache critical resources
 self.addEventListener('install', (event) => {
-  console.log('🌷 Dutch Underground Service Worker v4.0.0: Installing...');
+  console.log('🌷 Dutch Underground Service Worker v4.2.0: Installing...');
   
   event.waitUntil(
     Promise.all([
@@ -73,7 +49,7 @@ self.addEventListener('install', (event) => {
 
 // Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
-  console.log('🎵 Dutch Underground Service Worker v4.0.0: Activating...');
+  console.log('🎵 Dutch Underground Service Worker v4.2.0: Activating...');
   
   event.waitUntil(
     Promise.all([
@@ -129,7 +105,7 @@ self.addEventListener('fetch', (event) => {
   }
   
   // Handle blog content with stale-while-revalidate
-  if (url.pathname.startsWith('/ade-2025-guide') || url.pathname.startsWith('/blog/')) {
+  if (url.pathname.startsWith('/ade-2025-guide') || url.pathname.startsWith('/blog')) {
     event.respondWith(handleBlogRequest(request));
     return;
   }
@@ -175,8 +151,6 @@ self.addEventListener('fetch', (event) => {
 // Enhanced request handlers
 
 async function handleApiRequest(request) {
-  const url = new URL(request.url);
-  
   try {
     // Always try network first for API requests
     const response = await fetch(request);
@@ -228,8 +202,6 @@ async function handleApiRequest(request) {
 }
 
 async function handleBlogRequest(request) {
-  const url = new URL(request.url);
-  
   try {
     // Stale-while-revalidate strategy
     const cachedResponse = await caches.match(request);
@@ -263,11 +235,7 @@ async function handleBlogRequest(request) {
       return cachedResponse;
     }
     
-    return caches.match('/offline.html') || new Response('Offline - Content not available', {
-      status: 503,
-      statusText: 'Service Unavailable',
-      headers: { 'Content-Type': 'text/plain' }
-    });
+    return caches.match('/offline.html') || createOfflinePage();
   }
 }
 
@@ -383,8 +351,6 @@ async function handleAudioRequest(request) {
 }
 
 async function handlePageRequest(request) {
-  const url = new URL(request.url);
-  
   try {
     // Try network first for pages
     const response = await fetch(request);
@@ -581,126 +547,6 @@ function createOfflinePage() {
   });
 }
 
-// Background sync for offline form submissions
-self.addEventListener('sync', (event) => {
-  if (event.tag === 'access-request-sync') {
-    event.waitUntil(syncAccessRequests());
-  }
-});
-
-async function syncAccessRequests() {
-  try {
-    const cache = await caches.open(DYNAMIC_CACHE_NAME);
-    const pendingRequests = await cache.match('pending-access-requests');
-    
-    if (pendingRequests) {
-      const requests = await pendingRequests.json();
-      
-      for (const requestData of requests) {
-        try {
-          const response = await fetch('/api/access-request', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(requestData)
-          });
-          
-          if (response.ok) {
-            console.log('✅ Access request synced successfully');
-          }
-        } catch (error) {
-          console.log('❌ Access request sync failed:', error);
-          // Keep request for next sync attempt
-          break;
-        }
-      }
-      
-      // Clear synced requests
-      await cache.delete('pending-access-requests');
-    }
-  } catch (error) {
-    console.log('🔄 Background sync failed:', error);
-  }
-}
-
-// Push notification handling
-self.addEventListener('push', (event) => {
-  if (!event.data) return;
-  
-  let data;
-  try {
-    data = event.data.json();
-  } catch (error) {
-    data = { title: 'Dutch Underground Portal', body: event.data.text() };
-  }
-  
-  const options = {
-    body: data.body || 'New underground mysteries await...',
-    icon: '/images/icon-192x192.png',
-    badge: '/images/badge-72x72.png',
-    image: data.image,
-    data: data.url || '/',
-    actions: [
-      {
-        action: 'open',
-        title: 'Enter Portal',
-        icon: '/images/action-open.png'
-      },
-      {
-        action: 'close',
-        title: 'Later',
-        icon: '/images/action-close.png'
-      }
-    ],
-    tag: 'dutch-underground-notification',
-    renotify: true,
-    requireInteraction: false,
-    silent: false,
-    vibrate: [200, 100, 200]
-  };
-  
-  event.waitUntil(
-    self.registration.showNotification(
-      data.title || 'If It Ain\'t Dutch, It Ain\'t Much',
-      options
-    )
-  );
-});
-
-// Notification click handling
-self.addEventListener('notificationclick', (event) => {
-  event.notification.close();
-  
-  const action = event.action;
-  const data = event.notification.data;
-  
-  if (action === 'close') {
-    return;
-  }
-  
-  const urlToOpen = data || '/';
-  
-  event.waitUntil(
-    self.clients.matchAll({ type: 'window', includeUncontrolled: true })
-      .then((clientList) => {
-        // Check if portal is already open
-        for (const client of clientList) {
-          if (client.url.includes(self.location.origin) && 'focus' in client) {
-            client.focus();
-            if (urlToOpen !== '/') {
-              client.navigate(urlToOpen);
-            }
-            return;
-          }
-        }
-        
-        // Open new window
-        if (self.clients.openWindow) {
-          return self.clients.openWindow(urlToOpen);
-        }
-      })
-  );
-});
-
 // Message handling for client communication
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
@@ -711,47 +557,9 @@ self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'GET_VERSION') {
     event.ports[0].postMessage({ 
       version: CACHE_NAME,
-      features: ['offline_support', 'background_sync', 'push_notifications', 'performance_optimized']
+      features: ['offline_support', 'blog_caching', 'auth_aware', 'performance_optimized']
     });
   }
-  
-  if (event.data && event.data.type === 'CLEAR_CACHE') {
-    event.waitUntil(
-      caches.keys().then(cacheNames => {
-        return Promise.all(
-          cacheNames.map(cacheName => caches.delete(cacheName))
-        );
-      })
-    );
-  }
 });
 
-// Periodic background sync (where supported)
-self.addEventListener('periodicsync', (event) => {
-  if (event.tag === 'update-content') {
-    event.waitUntil(updateCriticalContent());
-  }
-});
-
-async function updateCriticalContent() {
-  try {
-    // Update critical pages in background
-    const criticalPages = ['/', '/ade-2025-guide'];
-    
-    for (const page of criticalPages) {
-      try {
-        const response = await fetch(page);
-        if (response.status === 200) {
-          cacheResponse(page, response, DYNAMIC_CACHE_NAME);
-          console.log('🔄 Updated cached page:', page);
-        }
-      } catch (error) {
-        console.log('❌ Failed to update page:', page);
-      }
-    }
-  } catch (error) {
-    console.log('🔄 Background content update failed:', error);
-  }
-}
-
-console.log('🌷 Dutch Underground Service Worker v4.0.0 loaded successfully');
+console.log('🌷 Dutch Underground Service Worker v4.2.0 loaded successfully');
