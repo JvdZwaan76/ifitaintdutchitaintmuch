@@ -3,11 +3,12 @@ main = "worker.js"
 compatibility_date = "2024-05-15"
 compatibility_flags = ["nodejs_compat"]
 
-# Updated routes - added wildcards to handle query parameters
+# Production routes - all working with wildcards
 routes = [
   { pattern = "ifitaintdutchitaintmuch.com/api/*", zone_name = "ifitaintdutchitaintmuch.com" },
   { pattern = "ifitaintdutchitaintmuch.com/admin*", zone_name = "ifitaintdutchitaintmuch.com" },
-  { pattern = "ifitaintdutchitaintmuch.com/ade-2025-guide*", zone_name = "ifitaintdutchitaintmuch.com" }
+  { pattern = "ifitaintdutchitaintmuch.com/ade-2025-guide*", zone_name = "ifitaintdutchitaintmuch.com" },
+  { pattern = "ifitaintdutchitaintmuch.com/blog*", zone_name = "ifitaintdutchitaintmuch.com" }
 ]
 
 # Production environment configuration
