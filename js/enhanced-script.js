@@ -1880,3 +1880,52 @@ function toggleAudioPlayer() {
     
     if (playerContainer.style.display === 'none' || !playerContainer.style.display) {
         soundcloudPlayer.src = 'https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/halform/halform-x-rico-winter-live-set-o01&color=%23ff9500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true';
+        playerContainer.style.display = 'block';
+        
+        if (buttonText) buttonText.textContent = 'DISCONNECT TRANSMISSION';
+        if (button) button.style.background = 'linear-gradient(135deg, #FF0000, #FF9500)';
+        
+        if (window.DutchMysteryPortal) {
+            window.DutchMysteryPortal.showMessage('Underground transmission intercepted... Audio portal activated!', 'success');
+            window.DutchMysteryPortal.trackEvent('audio_player_opened', { track: 'halform_rico_winter_live_set' });
+        }
+    } else {
+        playerContainer.style.display = 'none';
+        soundcloudPlayer.src = '';
+        
+        if (buttonText) buttonText.textContent = 'INTERCEPT TRANSMISSION';
+        if (button) button.style.background = 'linear-gradient(135deg, #FF9500, #00BFFF)';
+        
+        if (window.DutchMysteryPortal) {
+            window.DutchMysteryPortal.showMessage('Transmission disconnected... Returning to underground silence.', 'info');
+        }
+    }
+}
+
+// Admin login modal functions
+function showAdminLogin(event) {
+    if (event) event.preventDefault();
+    const modal = document.getElementById('adminLoginModal');
+    if (modal) {
+        modal.style.display = 'block';
+        
+        const usernameInput = document.getElementById('adminUsername');
+        if (usernameInput) {
+            setTimeout(() => usernameInput.focus(), 100);
+        }
+    }
+}
+
+function closeAdminLogin() {
+    if (window.DutchMysteryPortal) {
+        window.DutchMysteryPortal.closeAdminLogin();
+    }
+}
+
+// Close modal when clicking outside
+window.addEventListener('click', (event) => {
+    const modal = document.getElementById('adminLoginModal');
+    if (event.target === modal) {
+        closeAdminLogin();
+    }
+});
