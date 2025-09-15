@@ -1,10 +1,11 @@
 {
   "version": 1,
+  "description": "Routes configuration to exclude Worker-handled paths from Pages",
   "include": ["/*"],
   "exclude": [
-    "/api/*",
-    "/ade-2025-guide",
-    "/blog/*", 
-    "/admin"
+    "/api/*", 
+    "/ade-2025-guide*",
+    "/blog*",
+    "/admin*"
   ]
 }
