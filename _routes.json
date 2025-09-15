@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "include": ["/*"],
+  "exclude": [
+    "/api/*",
+    "/ade-2025-guide",
+    "/blog/*", 
+    "/admin"
+  ]
+}
