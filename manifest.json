@@ -1,16 +1,16 @@
 {
   "name": "If It Ain't Dutch, It Ain't Much - Underground Techno Portal",
   "short_name": "Dutch Underground",
-  "description": "Amsterdam's underground techno scene portal. Exclusive access to warehouse events, cutting-edge sound experiences, and electronic mysteries. Where bass meets consciousness.",
+  "description": "Amsterdam's underground techno scene. Exclusive access to warehouse events, cutting-edge sound experiences, and electronic mysteries.",
   "start_url": "/",
-  "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "theme_color": "#FF9500",
   "background_color": "#000000",
-  "categories": ["music", "entertainment", "lifestyle", "nightlife", "events"],
+  "categories": ["music", "entertainment", "lifestyle"],
   "lang": "en-US",
   "dir": "ltr",
+  "scope": "/",
   
   "icons": [
     {
@@ -60,32 +60,27 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
-    },
-    {
-      "src": "/images/icon-maskable-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/images/icon-maskable-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/images/icon-monochrome-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "monochrome"
     }
   ],
   
   "shortcuts": [
     {
+      "name": "Underground Archives",
+      "short_name": "Blog",
+      "description": "Browse underground electronic music articles and guides",
+      "url": "/blog",
+      "icons": [
+        {
+          "src": "/images/shortcut-blog.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
       "name": "ADE 2025 Guide",
       "short_name": "ADE Guide",
-      "description": "Amsterdam Dance Event 2025 complete underground guide with exclusive venues and events",
+      "description": "Amsterdam Dance Event 2025 complete underground guide",
       "url": "/ade-2025-guide",
       "icons": [
         {
@@ -96,35 +91,9 @@
       ]
     },
     {
-      "name": "Underground Events",
-      "short_name": "Events",
-      "description": "Discover current underground techno events and warehouse parties in Amsterdam",
-      "url": "/events",
-      "icons": [
-        {
-          "src": "/images/shortcut-events.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Music Collection",
-      "short_name": "Music",
-      "description": "Curated Dutch underground electronic music and artist collection",
-      "url": "/music",
-      "icons": [
-        {
-          "src": "/images/shortcut-music.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
       "name": "Admin Portal",
       "short_name": "Admin",
-      "description": "Access portal management dashboard and request administration",
+      "description": "Access portal management dashboard",
       "url": "/admin",
       "icons": [
         {
@@ -138,54 +107,25 @@
   
   "screenshots": [
     {
-      "src": "/images/screenshot-mobile-home.png",
+      "src": "/images/screenshot-mobile.png",
       "sizes": "375x812",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Dutch Underground Portal - Mobile Home Experience"
+      "label": "Dutch Underground Portal - Mobile Experience"
     },
     {
-      "src": "/images/screenshot-mobile-ade.png",
-      "sizes": "375x812",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "ADE 2025 Guide - Mobile View"
-    },
-    {
-      "src": "/images/screenshot-mobile-events.png",
-      "sizes": "375x812",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Underground Events - Mobile Interface"
-    },
-    {
-      "src": "/images/screenshot-desktop-home.png",
+      "src": "/images/screenshot-desktop.png",
       "sizes": "1920x1080",
       "type": "image/png",
-      "form_factor": "wide",
+      "form_factor": "wide", 
       "label": "Dutch Underground Portal - Desktop Experience"
-    },
-    {
-      "src": "/images/screenshot-desktop-ade.png",
-      "sizes": "1920x1080",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "ADE 2025 Guide - Desktop View"
-    },
-    {
-      "src": "/images/screenshot-tablet.png",
-      "sizes": "768x1024",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Dutch Underground Portal - Tablet Experience"
     }
   ],
   
   "related_applications": [
     {
       "platform": "webapp",
-      "url": "https://ifitaintdutchitaintmuch.com/",
-      "id": "dutch-underground-portal"
+      "url": "https://ifitaintdutchitaintmuch.com/"
     }
   ],
   
@@ -195,42 +135,8 @@
     {
       "protocol": "web+dutchportal",
       "url": "/?action=%s"
-    },
-    {
-      "protocol": "web+techno",
-      "url": "/events?genre=%s"
     }
   ],
-  
-  "file_handlers": [
-    {
-      "action": "/music/upload",
-      "accept": {
-        "audio/*": [".mp3", ".wav", ".flac", ".m4a"]
-      }
-    }
-  ],
-  
-  "share_target": {
-    "action": "/share",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url",
-      "files": [
-        {
-          "name": "music",
-          "accept": ["audio/*", "video/*"]
-        },
-        {
-          "name": "images",
-          "accept": ["image/*"]
-        }
-      ]
-    }
-  },
   
   "edge_side_panel": {
     "preferred_width": 400
@@ -240,87 +146,5 @@
     "client_mode": "navigate-existing"
   },
   
-  "handle_links": "preferred",
-  
-  "display_override": ["window-controls-overlay", "minimal-ui", "standalone", "browser"],
-  
-  "capture_links": "existing-client-navigate",
-  
-  "id": "dutch-underground-portal",
-  
-  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
-  
-  "note_taking": {
-    "new_note_url": "/notes/new"
-  },
-  
-  "tabs": {
-    "icons": [
-      {
-        "src": "/images/tab-icon-16x16.png",
-        "sizes": "16x16",
-        "type": "image/png"
-      }
-    ]
-  },
-  
-  "widgets": [
-    {
-      "name": "upcoming-events",
-      "tag": "upcoming-events",
-      "template": "upcoming-events-template",
-      "ms_ac_template": "widgets/upcoming-events.json",
-      "data": "/api/widgets/upcoming-events",
-      "description": "Shows upcoming underground techno events in Amsterdam",
-      "screenshots": [
-        {
-          "src": "/images/widget-events.png",
-          "sizes": "320x200",
-          "label": "Upcoming Events Widget"
-        }
-      ],
-      "icons": [
-        {
-          "src": "/images/widget-icon.png",
-          "sizes": "64x64"
-        }
-      ],
-      "auth": false,
-      "update": 300000
-    },
-    {
-      "name": "now-playing",
-      "tag": "now-playing",
-      "template": "now-playing-template",
-      "ms_ac_template": "widgets/now-playing.json",
-      "data": "/api/widgets/now-playing",
-      "description": "Currently playing track from the underground collection",
-      "screenshots": [
-        {
-          "src": "/images/widget-music.png",
-          "sizes": "320x120",
-          "label": "Now Playing Widget"
-        }
-      ],
-      "icons": [
-        {
-          "src": "/images/widget-music-icon.png",
-          "sizes": "64x64"
-        }
-      ],
-      "auth": false,
-      "update": 30000
-    }
-  ],
-  
-  "user_preferences": {
-    "color_scheme_dark": {
-      "theme_color": "#FF9500",
-      "background_color": "#000000"
-    },
-    "color_scheme_light": {
-      "theme_color": "#FF7700",
-      "background_color": "#FFFFFF"
-    }
-  }
+  "handle_links": "preferred"
 }
