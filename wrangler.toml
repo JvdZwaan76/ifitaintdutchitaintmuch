@@ -3,12 +3,17 @@ main = "worker.js"
 compatibility_date = "2024-05-15"
 compatibility_flags = ["nodejs_compat"]
 
-# Production routes - all working with wildcards
+# FIXED: More specific routes - only handle what the worker should handle
 routes = [
   { pattern = "ifitaintdutchitaintmuch.com/api/*", zone_name = "ifitaintdutchitaintmuch.com" },
   { pattern = "ifitaintdutchitaintmuch.com/admin*", zone_name = "ifitaintdutchitaintmuch.com" },
   { pattern = "ifitaintdutchitaintmuch.com/ade-2025-guide*", zone_name = "ifitaintdutchitaintmuch.com" },
-  { pattern = "ifitaintdutchitaintmuch.com/blog*", zone_name = "ifitaintdutchitaintmuch.com" }
+  { pattern = "ifitaintdutchitaintmuch.com/full-history-techno-netherlands-ade-2025*", zone_name = "ifitaintdutchitaintmuch.com" },
+  { pattern = "ifitaintdutchitaintmuch.com/amsterdam-dance-event-2025-complete-guide*", zone_name = "ifitaintdutchitaintmuch.com" },
+  { pattern = "ifitaintdutchitaintmuch.com/underground-warehouse-events-guide*", zone_name = "ifitaintdutchitaintmuch.com" },
+  { pattern = "ifitaintdutchitaintmuch.com/dutch-techno-history-preview*", zone_name = "ifitaintdutchitaintmuch.com" },
+  { pattern = "ifitaintdutchitaintmuch.com/dutch-techno-history-complete*", zone_name = "ifitaintdutchitaintmuch.com" },
+  { pattern = "ifitaintdutchitaintmuch.com/blog/*", zone_name = "ifitaintdutchitaintmuch.com" }
 ]
 
 # Production environment configuration
