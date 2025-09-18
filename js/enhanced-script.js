@@ -1929,3 +1929,677 @@ window.addEventListener('click', (event) => {
         closeAdminLogin();
     }
 });
+/**
+ * Enhanced Frontend Integration for Dutch Underground Portal
+ * Version: 5.0.0 - Complete Authentication & Blog System Integration
+ * 
+ * Add this to your existing enhanced-script.js file
+ */
+
+// Enhanced Portal Authentication Integration
+class EnhancedPortalAuth {
+    constructor() {
+        this.baseUrl = window.location.origin;
+        this.endpoints = {
+            portalAuth: '/api/portal-auth',
+            health: '/api/health'
+        };
+        
+        this.init();
+    }
+    
+    init() {
+        console.log('Enhanced Portal Auth v5.0.0 initializing...');
+        this.setupAuthenticationListeners();
+        this.checkAuthenticationState();
+    }
+    
+    setupAuthenticationListeners() {
+        // Enhanced login form handler
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.handleEnhancedLogin(loginForm);
+            });
+        }
+        
+        // Handle return URLs from blog previews
+        this.handleReturnUrls();
+    }
+    
+    async handleEnhancedLogin(form) {
+        const username = form.querySelector('#username').value.trim();
+        const password = form.querySelector('#password').value.trim();
+        
+        if (!username || !password) {
+            this.showMessage('Please enter both identity and frequency to access the underground.', 'warning');
+            return;
+        }
+        
+        try {
+            this.setButtonLoading(true);
+            
+            const response = await fetch(this.endpoints.portalAuth, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                console.log('✅ Enhanced login successful');
+                
+                // Set authentication state in multiple locations for compatibility
+                this.setAuthenticationState(result);
+                
+                this.showMessage('Access granted! Welcome to the underground collective...', 'success');
+                this.triggerSuccessEffects();
+                
+                // Handle return URL or redirect to exclusive content
+                const returnUrl = this.getReturnUrl();
+                
+                setTimeout(() => {
+                    if (returnUrl) {
+                        this.showMessage('Authentication confirmed. Redirecting to requested content...', 'info');
+                        setTimeout(() => {
+                            window.location.href = returnUrl;
+                        }, 1000);
+                    } else {
+                        this.showMessage('Authentication confirmed. Redirecting to exclusive content...', 'info');
+                        setTimeout(() => {
+                            window.location.href = '/ade-2025-guide?auth=1';
+                        }, 1000);
+                    }
+                }, 2000);
+                
+            } else {
+                console.log('❌ Enhanced login failed:', result.error);
+                this.showMessage(result.message || 'Invalid credentials. The underground remains sealed.', 'error');
+            }
+            
+        } catch (error) {
+            console.error('Enhanced login error:', error);
+            this.showMessage('Connection error. Please check your network and try again.', 'error');
+        } finally {
+            this.setButtonLoading(false);
+        }
+    }
+    
+    setAuthenticationState(authData) {
+        // Set in session storage
+        sessionStorage.setItem('dutchPortalAuth', 'authenticated');
+        sessionStorage.setItem('dutchPortalUser', JSON.stringify(authData.user));
+        sessionStorage.setItem('dutchPortalSession', authData.sessionId);
+        sessionStorage.setItem('dutchPortalTime', new Date().toISOString());
+        
+        // Set in local storage (backup)
+        localStorage.setItem('dutchPortalAuth', 'authenticated');
+        localStorage.setItem('dutchPortalUser', JSON.stringify(authData.user));
+        
+        // Cookies are set by the server response
+        console.log('✅ Authentication state set successfully');
+        console.log('Session ID:', authData.sessionId);
+    }
+    
+    checkAuthenticationState() {
+        const isAuthenticated = this.isUserAuthenticated();
+        console.log('Current authentication state:', isAuthenticated);
+        
+        if (isAuthenticated) {
+            console.log('User is authenticated, updating UI...');
+            this.updateUIForAuthenticatedUser();
+        }
+    }
+    
+    isUserAuthenticated() {
+        // Check session storage
+        const sessionAuth = sessionStorage.getItem('dutchPortalAuth');
+        if (sessionAuth === 'authenticated') {
+            return true;
+        }
+        
+        // Check local storage
+        const localAuth = localStorage.getItem('dutchPortalAuth');
+        if (localAuth === 'authenticated') {
+            return true;
+        }
+        
+        // Check cookies
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            const [name, value] = cookie.trim().split('=');
+            if (name === 'dutchPortalAuth' && value === 'authenticated') {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    handleReturnUrls() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const focus = urlParams.get('focus');
+        const returnTo = urlParams.get('returnTo');
+        
+        if (focus === 'login' && returnTo) {
+            // Store return URL and focus on login
+            sessionStorage.setItem('returnUrl', returnTo);
+            this.focusLoginForm();
+        } else if (focus === 'signup' && returnTo) {
+            // Store return URL and focus on signup
+            sessionStorage.setItem('returnUrl', returnTo);
+            this.focusSignupForm();
+        }
+    }
+    
+    getReturnUrl() {
+        const returnUrl = sessionStorage.getItem('returnUrl');
+        if (returnUrl) {
+            sessionStorage.removeItem('returnUrl');
+            return returnUrl;
+        }
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('returnTo');
+    }
+    
+    focusLoginForm() {
+        const loginForm = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        
+        if (loginForm && usernameInput) {
+            loginForm.scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => {
+                usernameInput.focus();
+            }, 500);
+        }
+    }
+    
+    focusSignupForm() {
+        const signupForm = document.getElementById('accessRequestForm');
+        const nameInput = document.getElementById('fullName');
+        
+        if (signupForm && nameInput) {
+            signupForm.scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => {
+                nameInput.focus();
+            }, 500);
+        }
+    }
+    
+    setButtonLoading(loading) {
+        const submitBtn = document.querySelector('.void-button');
+        const btnText = document.querySelector('.button-text');
+        
+        if (submitBtn && btnText) {
+            submitBtn.disabled = loading;
+            submitBtn.style.opacity = loading ? '0.7' : '1';
+            btnText.textContent = loading ? 'Connecting to Underground...' : 'Enter the Underground';
+        }
+    }
+    
+    updateUIForAuthenticatedUser() {
+        console.log('UI updated for authenticated user');
+        
+        // Add authenticated class to body
+        document.body.classList.add('authenticated');
+        
+        // Update any authentication-dependent UI elements
+        const authElements = document.querySelectorAll('[data-auth-required]');
+        authElements.forEach(element => {
+            element.style.display = 'block';
+        });
+    }
+    
+    showMessage(text, type = 'info') {
+        const message = document.getElementById('message');
+        if (!message) return;
+        
+        message.textContent = text;
+        message.className = `show ${type}`;
+        
+        setTimeout(() => {
+            message.classList.remove('show');
+        }, 5000);
+        
+        this.announceToScreenReader(text);
+    }
+    
+    triggerSuccessEffects() {
+        if (window.DutchMysteryPortal) {
+            window.DutchMysteryPortal.triggerSuccessEffects();
+        }
+    }
+    
+    announceToScreenReader(message) {
+        const announcement = document.createElement('div');
+        announcement.setAttribute('aria-live', 'polite');
+        announcement.setAttribute('aria-atomic', 'true');
+        announcement.className = 'sr-only';
+        announcement.textContent = message;
+        
+        document.body.appendChild(announcement);
+        
+        setTimeout(() => {
+            if (announcement.parentNode) {
+                document.body.removeChild(announcement);
+            }
+        }, 1000);
+    }
+}
+
+// Enhanced Blog System Integration
+class EnhancedBlogSystem {
+    constructor() {
+        this.init();
+    }
+    
+    init() {
+        this.setupSocialSharing();
+        this.setupContentInteractions();
+        this.trackEngagement();
+    }
+    
+    setupSocialSharing() {
+        // Global sharing functions for blog pages
+        window.shareContent = (platform) => {
+            const url = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent(document.title);
+            const description = encodeURIComponent(
+                document.querySelector('meta[name="description"]')?.content || 
+                'Exclusive underground electronic music content from Amsterdam'
+            );
+            
+            let shareUrl = '';
+            
+            switch(platform) {
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${title}&hashtags=Amsterdam,Techno,Underground`;
+                    break;
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+                    break;
+                case 'linkedin':
+                    shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+                    break;
+                case 'reddit':
+                    shareUrl = `https://www.reddit.com/submit?url=${url}&title=${title}`;
+                    break;
+            }
+            
+            if (shareUrl) {
+                window.open(shareUrl, 'share-window', 'width=600,height=400,scrollbars=yes,resizable=yes');
+            }
+            
+            // Track sharing
+            this.trackEvent('share', {
+                method: platform,
+                content_type: 'blog_post',
+                content_url: window.location.href
+            });
+        };
+        
+        window.copyLink = () => {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                this.showShareFeedback('Link copied to clipboard!');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = window.location.href;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                this.showShareFeedback('Link copied!');
+            });
+        };
+    }
+    
+    setupContentInteractions() {
+        // Enhanced reading experience
+        this.initReadingProgress();
+        this.initScrollEffects();
+        this.initKeyboardNavigation();
+    }
+    
+    initReadingProgress() {
+        const progressBar = document.createElement('div');
+        progressBar.id = 'reading-progress';
+        progressBar.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #FF9500, #FFD700);
+            z-index: 1001;
+            transition: width 0.3s ease;
+        `;
+        document.body.appendChild(progressBar);
+        
+        window.addEventListener('scroll', () => {
+            const article = document.querySelector('.blog-content') || document.querySelector('article');
+            if (article) {
+                const articleTop = article.offsetTop;
+                const articleHeight = article.offsetHeight;
+                const scrollTop = window.pageYOffset;
+                const windowHeight = window.innerHeight;
+                
+                const progress = Math.min(100, Math.max(0, 
+                    ((scrollTop - articleTop + windowHeight) / articleHeight) * 100
+                ));
+                
+                progressBar.style.width = progress + '%';
+            }
+        });
+    }
+    
+    initScrollEffects() {
+        // Parallax effect for background elements
+        let ticking = false;
+        
+        function updateScrollEffects() {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.parallax-element');
+            
+            parallaxElements.forEach(element => {
+                const speed = element.dataset.speed || 0.5;
+                const yPos = -(scrolled * speed);
+                element.style.transform = `translateY(${yPos}px)`;
+            });
+            
+            ticking = false;
+        }
+        
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateScrollEffects);
+                ticking = true;
+            }
+        });
+    }
+    
+    initKeyboardNavigation() {
+        document.addEventListener('keydown', (e) => {
+            // Escape key to close modals/overlays
+            if (e.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal, .overlay');
+                modals.forEach(modal => {
+                    modal.style.display = 'none';
+                });
+            }
+            
+            // Arrow keys for navigation
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const navLinks = document.querySelectorAll('.related-link');
+                if (navLinks.length > 0) {
+                    // Navigate between related content
+                    const currentIndex = Array.from(navLinks).findIndex(link => 
+                        link === document.activeElement
+                    );
+                    
+                    if (currentIndex !== -1) {
+                        const nextIndex = e.key === 'ArrowRight' ? 
+                            (currentIndex + 1) % navLinks.length :
+                            (currentIndex - 1 + navLinks.length) % navLinks.length;
+                        
+                        navLinks[nextIndex].focus();
+                        e.preventDefault();
+                    }
+                }
+            }
+        });
+    }
+    
+    trackEngagement() {
+        let startTime = Date.now();
+        let maxScroll = 0;
+        let engagementEvents = [];
+        
+        // Track scroll depth
+        window.addEventListener('scroll', () => {
+            const scrollPercent = (window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            maxScroll = Math.max(maxScroll, scrollPercent);
+            
+            // Track milestone scrolls
+            if (scrollPercent > 25 && !engagementEvents.includes('scroll_25')) {
+                engagementEvents.push('scroll_25');
+                this.trackEvent('scroll_milestone', { milestone: 25 });
+            }
+            if (scrollPercent > 50 && !engagementEvents.includes('scroll_50')) {
+                engagementEvents.push('scroll_50');
+                this.trackEvent('scroll_milestone', { milestone: 50 });
+            }
+            if (scrollPercent > 75 && !engagementEvents.includes('scroll_75')) {
+                engagementEvents.push('scroll_75');
+                this.trackEvent('scroll_milestone', { milestone: 75 });
+            }
+        });
+        
+        // Track time on page
+        setInterval(() => {
+            const timeOnPage = Math.round((Date.now() - startTime) / 1000);
+            
+            // Track engagement milestones
+            if (timeOnPage === 30 && !engagementEvents.includes('time_30')) {
+                engagementEvents.push('time_30');
+                this.trackEvent('engagement_milestone', { time: 30 });
+            }
+            if (timeOnPage === 60 && !engagementEvents.includes('time_60')) {
+                engagementEvents.push('time_60');
+                this.trackEvent('engagement_milestone', { time: 60 });
+            }
+            if (timeOnPage === 180 && !engagementEvents.includes('time_180')) {
+                engagementEvents.push('time_180');
+                this.trackEvent('engagement_milestone', { time: 180 });
+            }
+        }, 1000);
+        
+        // Send final engagement data on page unload
+        window.addEventListener('beforeunload', () => {
+            const readingTime = Math.round((Date.now() - startTime) / 1000);
+            
+            this.trackEvent('reading_behavior', {
+                reading_time: readingTime,
+                scroll_depth: Math.round(maxScroll),
+                engagement_events: engagementEvents.length,
+                page_url: window.location.href
+            });
+        });
+    }
+    
+    showShareFeedback(message) {
+        const feedback = document.createElement('div');
+        feedback.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 255, 0, 0.9);
+            color: #000;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            z-index: 10000;
+            font-family: 'Rajdhani', sans-serif;
+        `;
+        feedback.textContent = message;
+        
+        document.body.appendChild(feedback);
+        
+        setTimeout(() => {
+            feedback.remove();
+        }, 2000);
+    }
+    
+    trackEvent(eventName, properties = {}) {
+        try {
+            console.log('Tracking event:', eventName, properties);
+            
+            // Google Analytics
+            if (typeof gtag !== 'undefined') {
+                gtag('event', eventName, properties);
+            }
+            
+            // Custom analytics (could send to your own endpoint)
+            // fetch('/api/analytics', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ event: eventName, properties })
+            // });
+            
+        } catch (error) {
+            console.warn('Analytics tracking failed:', error);
+        }
+    }
+}
+
+// Enhanced Admin Panel Integration
+class EnhancedAdminPanel {
+    constructor() {
+        this.baseUrl = window.location.origin;
+        this.sessionToken = localStorage.getItem('adminSessionToken');
+        this.init();
+    }
+    
+    init() {
+        if (window.location.pathname === '/admin') {
+            this.initAdminDashboard();
+        }
+    }
+    
+    async initAdminDashboard() {
+        // Initialize sample content button
+        this.addInitContentButton();
+        
+        // Enhanced blog management
+        this.enhanceBlogManagement();
+    }
+    
+    addInitContentButton() {
+        const overviewTab = document.getElementById('overview');
+        if (overviewTab) {
+            const initButton = document.createElement('button');
+            initButton.className = 'btn';
+            initButton.style.cssText = 'margin: 1rem; padding: 1rem 2rem; background: linear-gradient(135deg, #00BFFF, #0080FF);';
+            initButton.innerHTML = '🚀 Initialize Sample Blog Content';
+            
+            initButton.addEventListener('click', async () => {
+                if (confirm('This will create sample blog posts for your underground portal. Continue?')) {
+                    try {
+                        initButton.disabled = true;
+                        initButton.textContent = 'Creating content...';
+                        
+                        const response = await fetch('/api/admin/init-content', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-Session-Token': this.sessionToken
+                            }
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            alert(`Sample content initialized! ${result.created} posts created, ${result.skipped} skipped.`);
+                            location.reload();
+                        } else {
+                            alert('Error initializing content: ' + result.error);
+                        }
+                        
+                    } catch (error) {
+                        alert('Error: ' + error.message);
+                    } finally {
+                        initButton.disabled = false;
+                        initButton.innerHTML = '🚀 Initialize Sample Blog Content';
+                    }
+                }
+            });
+            
+            overviewTab.appendChild(initButton);
+        }
+    }
+    
+    enhanceBlogManagement() {
+        // Add rich text editing capabilities
+        // Add bulk operations
+        // Add preview functionality
+        console.log('Enhanced blog management initialized');
+    }
+}
+
+// Global logout function with enhanced cleanup
+function logout() {
+    console.log('🔓 Enhanced logout requested');
+    
+    if (confirm('Are you sure you want to logout from the underground portal?')) {
+        // Clear all authentication data
+        
+        // Clear session storage
+        sessionStorage.removeItem('dutchPortalAuth');
+        sessionStorage.removeItem('dutchPortalUser');
+        sessionStorage.removeItem('dutchPortalSession');
+        sessionStorage.removeItem('dutchPortalTime');
+        sessionStorage.removeItem('returnUrl');
+        
+        // Clear local storage
+        localStorage.removeItem('dutchPortalAuth');
+        localStorage.removeItem('dutchPortalUser');
+        
+        // Clear cookies
+        const expiredDate = 'Thu, 01 Jan 1970 00:00:01 GMT';
+        document.cookie = `dutchPortalAuth=; expires=${expiredDate}; path=/;`;
+        document.cookie = `dutchPortalSession=; expires=${expiredDate}; path=/;`;
+        document.cookie = `dutchPortalUser=; expires=${expiredDate}; path=/;`;
+        
+        // Show logout feedback
+        const message = document.getElementById('message');
+        if (message) {
+            message.textContent = 'Disconnected from underground portal...';
+            message.className = 'show warning';
+        }
+        
+        // Update UI
+        document.body.classList.remove('authenticated');
+        
+        // Redirect after a moment
+        setTimeout(() => {
+            window.location.href = '/?logout=success';
+        }, 1500);
+    }
+}
+
+// Initialize enhanced systems when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('🌟 Enhanced Dutch Underground Portal v5.0.0 initializing...');
+    
+    try {
+        // Initialize enhanced authentication
+        window.EnhancedPortalAuth = new EnhancedPortalAuth();
+        
+        // Initialize enhanced blog system
+        window.EnhancedBlogSystem = new EnhancedBlogSystem();
+        
+        // Initialize enhanced admin panel
+        window.EnhancedAdminPanel = new EnhancedAdminPanel();
+        
+        console.log('✅ All enhanced systems initialized successfully');
+        
+    } catch (error) {
+        console.error('❌ Error initializing enhanced systems:', error);
+    }
+});
+
+// Export for use in other scripts
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        EnhancedPortalAuth,
+        EnhancedBlogSystem,
+        EnhancedAdminPanel
+    };
+}
