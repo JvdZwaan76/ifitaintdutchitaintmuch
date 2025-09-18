@@ -1,6 +1,6 @@
 /**
  * Enhanced Frontend JavaScript for Dutch Underground Portal
- * Version: 6.0.0 - Complete Feature Set - PRODUCTION READY
+ * Version: 6.1.0 - FIXED ANALYTICS AND ROBUST ERROR HANDLING
  * Author: If it ain't Dutch it ain't Much
  * Deploy: Replace your current /js/enhanced-script.js file with this code
  */
@@ -22,10 +22,10 @@ class EnhancedPortalAuth {
     }
     
     init() {
-        console.log('Enhanced Portal Auth v6.0.0 initializing...');
+        console.log('Enhanced Portal Auth v6.1.0 initializing...');
         this.setupAuthenticationListeners();
         this.checkAuthenticationState();
-        this.initAnalytics();
+        this.initAnalyticsRobust(); // FIXED: Robust analytics
         this.initSearch();
         this.initNewsletter();
         this.initComments();
@@ -80,8 +80,8 @@ class EnhancedPortalAuth {
                 this.showMessage('Access granted! Welcome to the underground collective...', 'success');
                 this.triggerSuccessEffects();
                 
-                // Track login event
-                this.trackEvent('user_login', { username });
+                // Track login event (with robust error handling)
+                this.trackEventRobust('user_login', { username });
                 
                 const returnUrl = this.getReturnUrl();
                 
@@ -143,7 +143,7 @@ class EnhancedPortalAuth {
             
             if (result.success) {
                 this.showAccessSuccess();
-                this.trackEvent('access_request_submitted', { email: data.email, country: data.country });
+                this.trackEventRobust('access_request_submitted', { email: data.email, country: data.country });
                 
                 // Show newsletter signup option
                 this.showNewsletterOption(data.email);
@@ -342,92 +342,125 @@ class EnhancedPortalAuth {
         }, 30000);
     }
     
-    initAnalytics() {
-        // Track page view
-        this.trackEvent('page_view', {
-            url: window.location.href,
-            title: document.title,
-            referrer: document.referrer
-        });
-        
-        // Track reading behavior
-        this.initReadingAnalytics();
-        
-        // Track user interactions
-        this.initInteractionTracking();
+    // FIXED: Robust Analytics System
+    initAnalyticsRobust() {
+        try {
+            // Track page view
+            this.trackEventRobust('page_view', {
+                url: window.location.href,
+                title: document.title,
+                referrer: document.referrer
+            });
+            
+            // Track reading behavior
+            this.initReadingAnalytics();
+            
+            // Track user interactions
+            this.initInteractionTracking();
+        } catch (error) {
+            console.log('Analytics initialization failed (non-critical):', error);
+        }
     }
     
     initReadingAnalytics() {
-        let startTime = Date.now();
-        let maxScroll = 0;
-        let milestones = [];
-        
-        // Track scroll depth
-        window.addEventListener('scroll', () => {
-            const scrollPercent = (window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            maxScroll = Math.max(maxScroll, scrollPercent);
+        try {
+            let startTime = Date.now();
+            let maxScroll = 0;
+            let milestones = [];
             
-            // Track scroll milestones
-            const checkpoints = [25, 50, 75, 90];
-            checkpoints.forEach(checkpoint => {
-                if (scrollPercent > checkpoint && !milestones.includes(checkpoint)) {
-                    milestones.push(checkpoint);
-                    this.trackEvent('scroll_milestone', { milestone: checkpoint });
+            // Track scroll depth
+            window.addEventListener('scroll', () => {
+                try {
+                    const scrollPercent = (window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+                    maxScroll = Math.max(maxScroll, scrollPercent);
+                    
+                    // Track scroll milestones
+                    const checkpoints = [25, 50, 75, 90];
+                    checkpoints.forEach(checkpoint => {
+                        if (scrollPercent > checkpoint && !milestones.includes(checkpoint)) {
+                            milestones.push(checkpoint);
+                            this.trackEventRobust('scroll_milestone', { milestone: checkpoint });
+                        }
+                    });
+                } catch (error) {
+                    console.log('Scroll tracking failed (non-critical):', error);
                 }
             });
-        });
-        
-        // Track time spent on page
-        const intervals = [30, 60, 120, 300]; // seconds
-        intervals.forEach(interval => {
-            setTimeout(() => {
-                if (document.visibilityState === 'visible') {
-                    this.trackEvent('time_milestone', { seconds: interval });
-                }
-            }, interval * 1000);
-        });
-        
-        // Track when user leaves
-        window.addEventListener('beforeunload', () => {
-            const readingTime = Math.round((Date.now() - startTime) / 1000);
-            this.trackEvent('session_end', {
-                reading_time: readingTime,
-                max_scroll: Math.round(maxScroll),
-                milestones: milestones
+            
+            // Track time spent on page
+            const intervals = [30, 60, 120, 300]; // seconds
+            intervals.forEach(interval => {
+                setTimeout(() => {
+                    try {
+                        if (document.visibilityState === 'visible') {
+                            this.trackEventRobust('time_milestone', { seconds: interval });
+                        }
+                    } catch (error) {
+                        console.log('Time tracking failed (non-critical):', error);
+                    }
+                }, interval * 1000);
             });
-        });
+            
+            // Track when user leaves
+            window.addEventListener('beforeunload', () => {
+                try {
+                    const readingTime = Math.round((Date.now() - startTime) / 1000);
+                    this.trackEventRobust('session_end', {
+                        reading_time: readingTime,
+                        max_scroll: Math.round(maxScroll),
+                        milestones: milestones
+                    });
+                } catch (error) {
+                    console.log('Session end tracking failed (non-critical):', error);
+                }
+            });
+        } catch (error) {
+            console.log('Reading analytics initialization failed (non-critical):', error);
+        }
     }
     
     initInteractionTracking() {
-        // Track button clicks
-        document.addEventListener('click', (e) => {
-            if (e.target.matches('button, .btn, .cta-button')) {
-                this.trackEvent('button_click', {
-                    button_text: e.target.textContent?.trim(),
-                    button_id: e.target.id,
-                    button_class: e.target.className
-                });
-            }
+        try {
+            // Track button clicks
+            document.addEventListener('click', (e) => {
+                try {
+                    if (e.target.matches('button, .btn, .cta-button')) {
+                        this.trackEventRobust('button_click', {
+                            button_text: e.target.textContent?.trim(),
+                            button_id: e.target.id,
+                            button_class: e.target.className
+                        });
+                    }
+                    
+                    // Track link clicks
+                    if (e.target.matches('a[href]')) {
+                        this.trackEventRobust('link_click', {
+                            link_text: e.target.textContent?.trim(),
+                            link_url: e.target.href,
+                            is_external: !e.target.href.includes(window.location.hostname)
+                        });
+                    }
+                } catch (error) {
+                    console.log('Click tracking failed (non-critical):', error);
+                }
+            });
             
-            // Track link clicks
-            if (e.target.matches('a[href]')) {
-                this.trackEvent('link_click', {
-                    link_text: e.target.textContent?.trim(),
-                    link_url: e.target.href,
-                    is_external: !e.target.href.includes(window.location.hostname)
-                });
-            }
-        });
-        
-        // Track form interactions
-        document.addEventListener('focus', (e) => {
-            if (e.target.matches('input, textarea, select')) {
-                this.trackEvent('form_field_focus', {
-                    field_name: e.target.name || e.target.id,
-                    field_type: e.target.type
-                });
-            }
-        }, true);
+            // Track form interactions
+            document.addEventListener('focus', (e) => {
+                try {
+                    if (e.target.matches('input, textarea, select')) {
+                        this.trackEventRobust('form_field_focus', {
+                            field_name: e.target.name || e.target.id,
+                            field_type: e.target.type
+                        });
+                    }
+                } catch (error) {
+                    console.log('Form tracking failed (non-critical):', error);
+                }
+            }, true);
+        } catch (error) {
+            console.log('Interaction tracking initialization failed (non-critical):', error);
+        }
     }
     
     initSearch() {
@@ -465,80 +498,6 @@ class EnhancedPortalAuth {
             blogContainer.insertAdjacentHTML('afterbegin', searchHtml);
         }
         
-        // Add search styles
-        const searchStyles = `
-            <style>
-                .blog-search-widget {
-                    position: fixed;
-                    top: 80px;
-                    right: 20px;
-                    background: rgba(26, 26, 26, 0.9);
-                    border: 1px solid rgba(255, 149, 0, 0.3);
-                    border-radius: 10px;
-                    padding: 1rem;
-                    min-width: 300px;
-                    max-width: 400px;
-                    backdrop-filter: blur(15px);
-                    z-index: 1000;
-                }
-                .blog-search-widget input {
-                    width: calc(100% - 50px);
-                    padding: 0.8rem;
-                    background: rgba(0, 0, 0, 0.6);
-                    border: 1px solid rgba(255, 149, 0, 0.3);
-                    border-radius: 6px;
-                    color: #fff;
-                    font-size: 0.9rem;
-                }
-                .search-btn {
-                    width: 40px;
-                    height: 40px;
-                    background: rgba(255, 149, 0, 0.2);
-                    border: 1px solid rgba(255, 149, 0, 0.3);
-                    border-radius: 6px;
-                    color: #FF9500;
-                    cursor: pointer;
-                    margin-left: 0.5rem;
-                }
-                .search-results {
-                    margin-top: 1rem;
-                    max-height: 400px;
-                    overflow-y: auto;
-                }
-                .search-result-item {
-                    padding: 0.8rem;
-                    border-bottom: 1px solid rgba(255, 149, 0, 0.2);
-                    cursor: pointer;
-                    transition: background 0.3s;
-                }
-                .search-result-item:hover {
-                    background: rgba(255, 149, 0, 0.1);
-                }
-                .search-result-title {
-                    color: #FF9500;
-                    font-weight: 600;
-                    margin-bottom: 0.3rem;
-                }
-                .search-result-snippet {
-                    color: rgba(255, 255, 255, 0.8);
-                    font-size: 0.85rem;
-                    line-height: 1.4;
-                }
-                @media (max-width: 768px) {
-                    .blog-search-widget {
-                        position: relative;
-                        top: 0;
-                        right: 0;
-                        margin: 1rem 0;
-                        width: 100%;
-                        min-width: auto;
-                        max-width: none;
-                    }
-                }
-            </style>
-        `;
-        document.head.insertAdjacentHTML('beforeend', searchStyles);
-        
         // Add search functionality
         const searchInput = document.getElementById('blogSearch');
         if (searchInput) {
@@ -569,7 +528,7 @@ class EnhancedPortalAuth {
             const results = await response.json();
             
             this.displaySearchResults(results.results || []);
-            this.trackEvent('search_performed', { query, results_count: results.results?.length || 0 });
+            this.trackEventRobust('search_performed', { query, results_count: results.results?.length || 0 });
             
         } catch (error) {
             console.error('Search error:', error);
@@ -605,85 +564,7 @@ class EnhancedPortalAuth {
     }
     
     addNewsletterWidgets() {
-        // Add newsletter signup in footer if not already present
-        const footer = document.querySelector('.neon-footer');
-        if (footer && !footer.querySelector('.newsletter-signup')) {
-            const newsletterHtml = `
-                <div class="newsletter-signup">
-                    <h4>Join the Underground</h4>
-                    <p>Get exclusive content and event notifications</p>
-                    <div class="newsletter-form">
-                        <input type="email" id="footerNewsletterEmail" placeholder="your@email.com" />
-                        <button onclick="subscribeToNewsletterFooter()" class="newsletter-subscribe-btn">Subscribe</button>
-                    </div>
-                </div>
-            `;
-            
-            footer.insertAdjacentHTML('afterbegin', newsletterHtml);
-            
-            // Add newsletter styles
-            const newsletterStyles = `
-                <style>
-                    .newsletter-signup {
-                        background: rgba(255, 149, 0, 0.1);
-                        border: 1px solid rgba(255, 149, 0, 0.3);
-                        border-radius: 10px;
-                        padding: 1.5rem;
-                        margin-bottom: 2rem;
-                        text-align: center;
-                    }
-                    .newsletter-signup h4 {
-                        color: #FF9500;
-                        margin-bottom: 0.5rem;
-                        font-family: 'Orbitron', sans-serif;
-                    }
-                    .newsletter-signup p {
-                        color: rgba(255, 255, 255, 0.8);
-                        margin-bottom: 1rem;
-                        font-size: 0.9rem;
-                    }
-                    .newsletter-form {
-                        display: flex;
-                        gap: 0.5rem;
-                        max-width: 400px;
-                        margin: 0 auto;
-                    }
-                    .newsletter-form input {
-                        flex: 1;
-                        padding: 0.8rem;
-                        background: rgba(0, 0, 0, 0.6);
-                        border: 1px solid rgba(255, 149, 0, 0.3);
-                        border-radius: 6px;
-                        color: #fff;
-                        font-size: 0.9rem;
-                    }
-                    .newsletter-subscribe-btn {
-                        background: linear-gradient(135deg, #FF9500, #FFD700);
-                        color: #000;
-                        border: none;
-                        padding: 0.8rem 1.2rem;
-                        border-radius: 6px;
-                        cursor: pointer;
-                        font-weight: 600;
-                        font-size: 0.9rem;
-                        transition: transform 0.2s;
-                        white-space: nowrap;
-                    }
-                    .newsletter-subscribe-btn:hover {
-                        transform: translateY(-1px);
-                    }
-                    @media (max-width: 768px) {
-                        .newsletter-form {
-                            flex-direction: column;
-                        }
-                        .newsletter-subscribe-btn {
-                            width: 100%;
-                        }
-                    }
-                </style>
-            `;
-            document.head.insertAdjacentHTML('beforeend', newsletterStyles);
-        }
+        // Newsletter functionality is handled by the modal system
     }
     
     initComments() {
@@ -870,8 +751,10 @@ class EnhancedPortalAuth {
         }
     }
     
-    async trackEvent(eventType, data = {}) {
+    // FIXED: Robust Analytics Tracking
+    async trackEventRobust(eventType, data = {}) {
         try {
+            // Don't fail if analytics fails
             await fetch(this.endpoints.analytics, {
                 method: 'POST',
                 headers: {
@@ -889,8 +772,14 @@ class EnhancedPortalAuth {
                 })
             });
         } catch (error) {
-            console.warn('Analytics tracking failed:', error);
+            // Silently fail - analytics should never break functionality
+            console.log('Analytics tracking failed (non-critical):', error.message);
         }
+    }
+    
+    // FIXED: Fallback for old trackEvent method
+    async trackEvent(eventType, data = {}) {
+        return this.trackEventRobust(eventType, data);
     }
     
     getCurrentBlogId() {
@@ -1100,7 +989,7 @@ class EnhancedBlogSystem {
             
             // Track sharing
             if (window.EnhancedPortalAuth) {
-                window.EnhancedPortalAuth.trackEvent('share_content', {
+                window.EnhancedPortalAuth.trackEventRobust('share_content', {
                     platform: platform,
                     content_type: 'blog_post',
                     content_url: window.location.href
@@ -1227,19 +1116,19 @@ class EnhancedBlogSystem {
             if (scrollPercent > 25 && !engagementEvents.includes('scroll_25')) {
                 engagementEvents.push('scroll_25');
                 if (window.EnhancedPortalAuth) {
-                    window.EnhancedPortalAuth.trackEvent('scroll_milestone', { milestone: 25 });
+                    window.EnhancedPortalAuth.trackEventRobust('scroll_milestone', { milestone: 25 });
                 }
             }
             if (scrollPercent > 50 && !engagementEvents.includes('scroll_50')) {
                 engagementEvents.push('scroll_50');
                 if (window.EnhancedPortalAuth) {
-                    window.EnhancedPortalAuth.trackEvent('scroll_milestone', { milestone: 50 });
+                    window.EnhancedPortalAuth.trackEventRobust('scroll_milestone', { milestone: 50 });
                 }
             }
             if (scrollPercent > 75 && !engagementEvents.includes('scroll_75')) {
                 engagementEvents.push('scroll_75');
                 if (window.EnhancedPortalAuth) {
-                    window.EnhancedPortalAuth.trackEvent('scroll_milestone', { milestone: 75 });
+                    window.EnhancedPortalAuth.trackEventRobust('scroll_milestone', { milestone: 75 });
                 }
             }
         });
@@ -1250,19 +1139,19 @@ class EnhancedBlogSystem {
             if (timeOnPage === 30 && !engagementEvents.includes('time_30')) {
                 engagementEvents.push('time_30');
                 if (window.EnhancedPortalAuth) {
-                    window.EnhancedPortalAuth.trackEvent('engagement_milestone', { time: 30 });
+                    window.EnhancedPortalAuth.trackEventRobust('engagement_milestone', { time: 30 });
                 }
             }
             if (timeOnPage === 60 && !engagementEvents.includes('time_60')) {
                 engagementEvents.push('time_60');
                 if (window.EnhancedPortalAuth) {
-                    window.EnhancedPortalAuth.trackEvent('engagement_milestone', { time: 60 });
+                    window.EnhancedPortalAuth.trackEventRobust('engagement_milestone', { time: 60 });
                 }
             }
             if (timeOnPage === 180 && !engagementEvents.includes('time_180')) {
                 engagementEvents.push('time_180');
                 if (window.EnhancedPortalAuth) {
-                    window.EnhancedPortalAuth.trackEvent('engagement_milestone', { time: 180 });
+                    window.EnhancedPortalAuth.trackEventRobust('engagement_milestone', { time: 180 });
                 }
             }
         }, 1000);
@@ -1271,7 +1160,7 @@ class EnhancedBlogSystem {
             const readingTime = Math.round((Date.now() - startTime) / 1000);
             
             if (window.EnhancedPortalAuth) {
-                window.EnhancedPortalAuth.trackEvent('reading_behavior', {
+                window.EnhancedPortalAuth.trackEventRobust('reading_behavior', {
                     reading_time: readingTime,
                     scroll_depth: Math.round(maxScroll),
                     engagement_events: engagementEvents.length,
@@ -1464,7 +1353,7 @@ window.toggleAudioPlayer = function() {
         
         // Track audio interaction
         if (window.EnhancedPortalAuth) {
-            window.EnhancedPortalAuth.trackEvent('audio_play', {
+            window.EnhancedPortalAuth.trackEventRobust('audio_play', {
                 audio_source: 'soundcloud',
                 track_info: 'Halform x Rico Winter Live Set'
             });
@@ -1478,7 +1367,7 @@ window.toggleAudioPlayer = function() {
         document.getElementById('soundcloudPlayer').src = '';
         
         if (window.EnhancedPortalAuth) {
-            window.EnhancedPortalAuth.trackEvent('audio_stop');
+            window.EnhancedPortalAuth.trackEventRobust('audio_stop');
         }
     }
 };
@@ -1555,7 +1444,7 @@ window.closeAdminLogin = function() {
 
 // Initialize enhanced systems when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🌟 Enhanced Dutch Underground Portal v6.0.0 initializing...');
+    console.log('🌟 Enhanced Dutch Underground Portal v6.1.0 initializing...');
     
     try {
         window.EnhancedPortalAuth = new EnhancedPortalAuth();
