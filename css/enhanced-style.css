@@ -1,6 +1,359 @@
 /* Enhanced Dutch Underground Techno Website Styles - PRODUCTION READY 
    DEPLOY THIS FIRST - Fixes white box issue and optimizes without breaking functionality */
 /* Version: 4.0.0 - Complete Backend Integration & Mobile-First Responsive */
+/* CRITICAL CSS FIXES for Dutch Underground Portal v6.1.0 
+   Add these styles to your existing enhanced-style.css or create a new section */
+
+/* FIXED: Loading Screen - Prevents hanging spinner */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, var(--pure-black), var(--warehouse-gray));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 1s ease-out, visibility 1s ease-out;
+    pointer-events: all;
+}
+
+.loading-screen.fade-out {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateZ(0); /* Force hardware acceleration */
+}
+
+/* FIXED: Ensure loading screen is properly hidden */
+body.loaded .loading-screen {
+    display: none !important;
+}
+
+/* Enhanced JavaScript trigger */
+.js-loading-complete .loading-screen {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* FIXED: Admin Modal Styles - Better visibility */
+.admin-modal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0, 0, 0, 0.9) !important;
+    z-index: 10000 !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.admin-modal-content {
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a) !important;
+    border: 2px solid rgba(255, 149, 0, 0.5) !important;
+    border-radius: 15px !important;
+    padding: 2rem !important;
+    max-width: 400px !important;
+    width: 90% !important;
+    text-align: center !important;
+    color: #fff !important;
+    position: relative !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* FIXED: Portal Authentication Visual Feedback */
+.login-form.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.login-form.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(255, 149, 0, 0.3);
+    border-top: 3px solid var(--primary-orange);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+/* FIXED: Access Request Form Loading State */
+.access-request-form.loading {
+    position: relative;
+    opacity: 0.8;
+}
+
+.access-request-form.loading::before {
+    content: 'Submitting to Underground...';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: var(--primary-orange);
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    border: 1px solid var(--primary-orange);
+    font-family: var(--font-title);
+    font-weight: 600;
+    z-index: 1000;
+    animation: pulse 1s infinite;
+}
+
+/* ENHANCED: Mobile Optimization - Critical for user experience */
+@media (max-width: 768px) {
+    /* Ensure full viewport usage on mobile */
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+    }
+    
+    /* Loading screen mobile fix */
+    .loading-screen {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        height: calc(var(--vh, 1vh) * 100);
+    }
+    
+    /* Container mobile optimization */
+    .container {
+        padding: clamp(1rem, 4vw, 1.5rem);
+        width: 100%;
+        max-width: 100vw;
+        box-sizing: border-box;
+    }
+    
+    /* Title mobile scaling */
+    .neon-title {
+        font-size: clamp(1.5rem, 6vw, 3rem) !important;
+        line-height: 1.2;
+        margin-bottom: clamp(1.5rem, 4vw, 2rem);
+    }
+    
+    /* Form mobile optimization */
+    .login-form,
+    .access-request-form {
+        padding: clamp(1.5rem, 4vw, 2rem);
+        margin: 0 clamp(0.5rem, 2vw, 1rem);
+        width: calc(100% - clamp(1rem, 4vw, 2rem));
+        max-width: none;
+        box-sizing: border-box;
+    }
+    
+    /* Button mobile optimization */
+    .void-button,
+    .access-submit-btn,
+    .mystery-transmission-button {
+        padding: clamp(1rem, 3vw, 1.5rem) clamp(1.5rem, 4vw, 2rem);
+        font-size: max(16px, clamp(1rem, 2.5vw, 1.2rem));
+        width: 100%;
+        min-height: 48px; /* iOS touch target */
+    }
+    
+    /* Admin modal mobile fix */
+    .admin-modal-content {
+        width: calc(100% - 2rem) !important;
+        margin: 1rem !important;
+        max-width: none !important;
+    }
+}
+
+/* FIXED: Landscape mobile optimization */
+@media (max-height: 500px) and (orientation: landscape) {
+    .container {
+        min-height: auto;
+        padding: clamp(0.5rem, 2vh, 1rem) clamp(1rem, 3vw, 2rem);
+    }
+    
+    .neon-title {
+        font-size: clamp(1.2rem, 4vh, 2rem);
+        margin-bottom: clamp(0.5rem, 1vh, 1rem);
+    }
+    
+    .loading-screen {
+        height: 100vh;
+        height: calc(var(--vh, 1vh) * 100);
+    }
+}
+
+/* ENHANCED: Portal Authentication Success Animation */
+.portal-success {
+    animation: successPulse 2s ease-in-out;
+}
+
+@keyframes successPulse {
+    0% { 
+        background: rgba(255, 149, 0, 0.1);
+        border-color: rgba(255, 149, 0, 0.3);
+    }
+    50% { 
+        background: rgba(0, 255, 0, 0.2);
+        border-color: rgba(0, 255, 0, 0.8);
+        box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+    }
+    100% { 
+        background: rgba(255, 149, 0, 0.1);
+        border-color: rgba(255, 149, 0, 0.3);
+    }
+}
+
+/* ENHANCED: Error State Styling */
+.form-error-state {
+    border-color: #ff4444 !important;
+    box-shadow: 0 0 15px rgba(255, 68, 68, 0.4) !important;
+    background: rgba(255, 68, 68, 0.1) !important;
+}
+
+.error-message {
+    background: rgba(255, 68, 68, 0.2);
+    border: 1px solid #ff4444;
+    color: #ff6b6b;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    font-family: var(--font-body);
+    font-weight: 500;
+}
+
+.success-message {
+    background: rgba(0, 255, 0, 0.2);
+    border: 1px solid #00ff00;
+    color: #00ff44;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    font-family: var(--font-body);
+    font-weight: 500;
+}
+
+/* ENHANCED: Skip Link - Better accessibility */
+.skip-link:focus {
+    top: 6px !important;
+    left: 6px !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    outline: 3px solid var(--golden-yellow) !important;
+    outline-offset: 2px !important;
+    z-index: 10002 !important;
+}
+
+/* ENHANCED: High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-orange: #FFAA00;
+        --electric-blue: #0099FF;
+        --pure-white: #FFFFFF;
+        --pure-black: #000000;
+    }
+    
+    .login-form,
+    .access-request-form {
+        border-width: 3px;
+        background: rgba(0, 0, 0, 0.95);
+    }
+    
+    input, select, textarea {
+        border-width: 2px;
+        background: rgba(0, 0, 0, 0.9);
+    }
+}
+
+/* ENHANCED: Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .loading-screen {
+        transition: none !important;
+    }
+    
+    .loading-screen.fade-out {
+        display: none !important;
+    }
+}
+
+/* FIXED: Print Styles - Hidden elements */
+@media print {
+    .loading-screen,
+    .admin-modal,
+    #background-canvas,
+    .floating-elements {
+        display: none !important;
+    }
+    
+    body {
+        background: white !important;
+        color: black !important;
+    }
+}
+
+/* ENHANCED: Focus Management */
+.focus-trap {
+    outline: 3px solid var(--golden-yellow);
+    outline-offset: 2px;
+}
+
+/* CRITICAL: Ensure spinner disappears on all browsers */
+.dutch-loader {
+    transition: opacity 0.5s ease-out;
+}
+
+body.app-ready .loading-screen {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* ENHANCED: Newsletter Modal Improvements */
+.newsletter-modal {
+    backdrop-filter: blur(15px) !important;
+}
+
+.newsletter-modal-content {
+    animation: modalSlideIn 0.3s ease-out;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@keyframes modalSlideIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ENHANCED: iOS Safari Fixes */
+@supports (-webkit-touch-callout: none) {
+    body {
+        min-height: -webkit-fill-available;
+    }
+    
+    .loading-screen {
+        height: -webkit-fill-available;
+    }
+    
+    input, select, textarea, button {
+        font-size: 16px; /* Prevents zoom on focus */
+        -webkit-appearance: none;
+        border-radius: 0;
+    }
+}
 
 :root {
     /* Color Palette - Underground Techno/Industrial */
