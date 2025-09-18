@@ -423,5 +423,17 @@
     
     <!-- Enhanced JavaScript -->
     <script src="/js/enhanced-script.js" defer></script>
+    <script>
+// Force loading screen dismissal
+setTimeout(() => {
+    const loadingScreen = document.getElementById('loadingScreen');
+    if (loadingScreen) {
+        loadingScreen.style.opacity = '0';
+        loadingScreen.style.visibility = 'hidden'; 
+        loadingScreen.style.pointerEvents = 'none';
+        loadingScreen.style.transition = 'opacity 1s ease-out';
+    }
+}, 2000);
+</script>
 </body>
 </html>
