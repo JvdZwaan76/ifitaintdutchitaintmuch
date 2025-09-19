@@ -1,11 +1,11 @@
 /**
- * Enhanced Frontend JavaScript for Dutch Underground Portal
- * Version: 6.2.1 - FIXES AUTHENTICATION FLOW AND BACKEND AVAILABILITY TIMING
- * Author: If it ain't Dutch it ain't Much
- * Deploy: Replace your current /js/enhanced-script.js file with this code
+ * FIXED: Enhanced Frontend JavaScript for Dutch Underground Portal
+ * Version: 6.2.2 - FIXES BACKEND COMPATIBILITY AND REDUCES ERRORS
+ * Deploy: Replace your /js/enhanced-script.js with this fixed version
+ * Matches the fixed backend worker v6.2.2
  */
 
-// Enhanced Portal Authentication Integration
+// Enhanced Portal Authentication Integration - FIXED VERSION
 class EnhancedPortalAuth {
     constructor() {
         this.baseUrl = window.location.origin;
@@ -22,12 +22,13 @@ class EnhancedPortalAuth {
         this.retryCount = 0;
         this.maxRetries = 3;
         this.backendConnected = false;
+        this.analyticsQueue = [];
         
         this.init();
     }
     
     async init() {
-        console.log('Enhanced Portal Auth v6.2.1 initializing...');
+        console.log('Enhanced Portal Auth v6.2.2 FIXED initializing...');
         
         try {
             // Test backend connectivity first
@@ -116,7 +117,6 @@ class EnhancedPortalAuth {
     }
     
     isBackendAvailable() {
-        // Backend is available if connectivity test passed
         return this.backendConnected || this.retryCount < this.maxRetries;
     }
     
@@ -467,7 +467,7 @@ class EnhancedPortalAuth {
         }, 30000);
     }
     
-    // FIXED: Robust Analytics System with Better Error Handling
+    // FIXED: Robust Analytics System - ELIMINATES "Failed to fetch" errors
     initAnalyticsRobust() {
         if (!this.isBackendAvailable()) {
             console.log('Analytics disabled - backend unavailable');
@@ -498,23 +498,28 @@ class EnhancedPortalAuth {
             let maxScroll = 0;
             let milestones = [];
             
-            // Track scroll depth
+            // Track scroll depth with throttling
+            let scrollTimeout;
             window.addEventListener('scroll', () => {
-                try {
-                    const scrollPercent = (window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-                    maxScroll = Math.max(maxScroll, scrollPercent);
-                    
-                    // Track scroll milestones
-                    const checkpoints = [25, 50, 75, 90];
-                    checkpoints.forEach(checkpoint => {
-                        if (scrollPercent > checkpoint && !milestones.includes(checkpoint)) {
-                            milestones.push(checkpoint);
-                            this.trackEventRobust('scroll_milestone', { milestone: checkpoint });
-                        }
-                    });
-                } catch (error) {
-                    console.log('Scroll tracking failed (non-critical):', error);
-                }
+                if (scrollTimeout) return;
+                scrollTimeout = setTimeout(() => {
+                    try {
+                        const scrollPercent = (window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+                        maxScroll = Math.max(maxScroll, scrollPercent);
+                        
+                        // Track scroll milestones
+                        const checkpoints = [25, 50, 75, 90];
+                        checkpoints.forEach(checkpoint => {
+                            if (scrollPercent > checkpoint && !milestones.includes(checkpoint)) {
+                                milestones.push(checkpoint);
+                                this.trackEventRobust('scroll_milestone', { milestone: checkpoint });
+                            }
+                        });
+                    } catch (error) {
+                        console.log('Scroll tracking failed (non-critical):', error);
+                    }
+                    scrollTimeout = null;
+                }, 100); // Throttle to every 100ms
             });
             
             // Track time spent on page
@@ -539,7 +544,7 @@ class EnhancedPortalAuth {
                         reading_time: readingTime,
                         max_scroll: Math.round(maxScroll),
                         milestones: milestones
-                    });
+                    }, false); // Don't wait for response on page unload
                 } catch (error) {
                     console.log('Session end tracking failed (non-critical):', error);
                 }
@@ -551,28 +556,33 @@ class EnhancedPortalAuth {
     
     initInteractionTracking() {
         try {
-            // Track button clicks
+            // Track button clicks with throttling
+            let clickTimeout;
             document.addEventListener('click', (e) => {
-                try {
-                    if (e.target.matches('button, .btn, .cta-button')) {
-                        this.trackEventRobust('button_click', {
-                            button_text: e.target.textContent?.trim(),
-                            button_id: e.target.id,
-                            button_class: e.target.className
-                        });
+                if (clickTimeout) return;
+                clickTimeout = setTimeout(() => {
+                    try {
+                        if (e.target.matches('button, .btn, .cta-button')) {
+                            this.trackEventRobust('button_click', {
+                                button_text: e.target.textContent?.trim(),
+                                button_id: e.target.id,
+                                button_class: e.target.className
+                            });
+                        }
+                        
+                        // Track link clicks
+                        if (e.target.matches('a[href]')) {
+                            this.trackEventRobust('link_click', {
+                                link_text: e.target.textContent?.trim(),
+                                link_url: e.target.href,
+                                is_external: !e.target.href.includes(window.location.hostname)
+                            });
+                        }
+                    } catch (error) {
+                        console.log('Click tracking failed (non-critical):', error);
                     }
-                    
-                    // Track link clicks
-                    if (e.target.matches('a[href]')) {
-                        this.trackEventRobust('link_click', {
-                            link_text: e.target.textContent?.trim(),
-                            link_url: e.target.href,
-                            is_external: !e.target.href.includes(window.location.hostname)
-                        });
-                    }
-                } catch (error) {
-                    console.log('Click tracking failed (non-critical):', error);
-                }
+                    clickTimeout = null;
+                }, 50); // Throttle clicks
             });
             
             // Track form interactions
@@ -593,15 +603,47 @@ class EnhancedPortalAuth {
         }
     }
     
-    // FIXED: Robust Analytics Tracking with Better Error Handling
-    async trackEventRobust(eventType, data = {}) {
+    // FIXED: Robust Analytics Tracking - ELIMINATES "Failed to fetch" errors
+    async trackEventRobust(eventType, data = {}, waitForResponse = true) {
+        // Always queue analytics for offline processing
+        this.analyticsQueue.push({
+            event_type: eventType,
+            blog_post_id: this.getCurrentBlogId(),
+            data: {
+                ...data,
+                timestamp: new Date().toISOString(),
+                url: window.location.href,
+                user_agent: navigator.userAgent
+            }
+        });
+        
         if (!this.isBackendAvailable()) {
             this.storeAnalyticsLocally(eventType, data);
             return;
         }
         
         try {
-            // Check if analytics endpoint is available first
+            // Use sendBeacon for page unload events (non-blocking)
+            if (!waitForResponse && navigator.sendBeacon) {
+                const payload = JSON.stringify({
+                    event_type: eventType,
+                    blog_post_id: this.getCurrentBlogId(),
+                    data: {
+                        ...data,
+                        timestamp: new Date().toISOString(),
+                        url: window.location.href,
+                        user_agent: navigator.userAgent
+                    }
+                });
+                
+                navigator.sendBeacon(this.endpoints.analytics, payload);
+                return;
+            }
+            
+            // Regular fetch with timeout for normal events
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+            
             const response = await fetch(this.endpoints.analytics, {
                 method: 'POST',
                 headers: {
@@ -616,12 +658,18 @@ class EnhancedPortalAuth {
                         url: window.location.href,
                         user_agent: navigator.userAgent
                     }
-                })
+                }),
+                signal: controller.signal
             });
+
+            clearTimeout(timeoutId);
 
             if (!response.ok) {
                 throw new Error(`Analytics endpoint responded with ${response.status}`);
             }
+            
+            // Success - remove from local queue if it exists
+            this.clearLocalAnalytics();
             
         } catch (error) {
             // Silently fail - analytics should never break functionality
@@ -651,6 +699,14 @@ class EnhancedPortalAuth {
             localStorage.setItem('pendingAnalytics', JSON.stringify(analytics));
         } catch (error) {
             console.log('Local analytics storage failed (non-critical):', error.message);
+        }
+    }
+    
+    clearLocalAnalytics() {
+        try {
+            localStorage.removeItem('pendingAnalytics');
+        } catch (error) {
+            console.log('Clear local analytics failed (non-critical):', error.message);
         }
     }
     
@@ -967,7 +1023,7 @@ class EnhancedPortalAuth {
     }
 }
 
-// Enhanced Blog System Integration (same as before but with error handling)
+// Enhanced Blog System Integration
 class EnhancedBlogSystem {
     constructor() {
         this.init();
@@ -1060,20 +1116,26 @@ class EnhancedBlogSystem {
         `;
         document.body.appendChild(progressBar);
         
+        // Throttled scroll handler
+        let scrollTimeout;
         window.addEventListener('scroll', () => {
-            const article = document.querySelector('.blog-content') || document.querySelector('article');
-            if (article) {
-                const articleTop = article.offsetTop;
-                const articleHeight = article.offsetHeight;
-                const scrollTop = window.pageYOffset;
-                const windowHeight = window.innerHeight;
-                
-                const progress = Math.min(100, Math.max(0, 
-                    ((scrollTop - articleTop + windowHeight) / articleHeight) * 100
-                ));
-                
-                progressBar.style.width = progress + '%';
-            }
+            if (scrollTimeout) return;
+            scrollTimeout = setTimeout(() => {
+                const article = document.querySelector('.blog-content') || document.querySelector('article');
+                if (article) {
+                    const articleTop = article.offsetTop;
+                    const articleHeight = article.offsetHeight;
+                    const scrollTop = window.pageYOffset;
+                    const windowHeight = window.innerHeight;
+                    
+                    const progress = Math.min(100, Math.max(0, 
+                        ((scrollTop - articleTop + windowHeight) / articleHeight) * 100
+                    ));
+                    
+                    progressBar.style.width = progress + '%';
+                }
+                scrollTimeout = null;
+            }, 16); // ~60fps
         });
     }
     
@@ -1135,28 +1197,34 @@ class EnhancedBlogSystem {
         let maxScroll = 0;
         let engagementEvents = [];
         
+        // Throttled scroll handler
+        let scrollTimeout;
         window.addEventListener('scroll', () => {
-            const scrollPercent = (window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            maxScroll = Math.max(maxScroll, scrollPercent);
-            
-            if (scrollPercent > 25 && !engagementEvents.includes('scroll_25')) {
-                engagementEvents.push('scroll_25');
-                if (window.EnhancedPortalAuth) {
-                    window.EnhancedPortalAuth.trackEventRobust('scroll_milestone', { milestone: 25 });
+            if (scrollTimeout) return;
+            scrollTimeout = setTimeout(() => {
+                const scrollPercent = (window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+                maxScroll = Math.max(maxScroll, scrollPercent);
+                
+                if (scrollPercent > 25 && !engagementEvents.includes('scroll_25')) {
+                    engagementEvents.push('scroll_25');
+                    if (window.EnhancedPortalAuth) {
+                        window.EnhancedPortalAuth.trackEventRobust('scroll_milestone', { milestone: 25 });
+                    }
                 }
-            }
-            if (scrollPercent > 50 && !engagementEvents.includes('scroll_50')) {
-                engagementEvents.push('scroll_50');
-                if (window.EnhancedPortalAuth) {
-                    window.EnhancedPortalAuth.trackEventRobust('scroll_milestone', { milestone: 50 });
+                if (scrollPercent > 50 && !engagementEvents.includes('scroll_50')) {
+                    engagementEvents.push('scroll_50');
+                    if (window.EnhancedPortalAuth) {
+                        window.EnhancedPortalAuth.trackEventRobust('scroll_milestone', { milestone: 50 });
+                    }
                 }
-            }
-            if (scrollPercent > 75 && !engagementEvents.includes('scroll_75')) {
-                engagementEvents.push('scroll_75');
-                if (window.EnhancedPortalAuth) {
-                    window.EnhancedPortalAuth.trackEventRobust('scroll_milestone', { milestone: 75 });
+                if (scrollPercent > 75 && !engagementEvents.includes('scroll_75')) {
+                    engagementEvents.push('scroll_75');
+                    if (window.EnhancedPortalAuth) {
+                        window.EnhancedPortalAuth.trackEventRobust('scroll_milestone', { milestone: 75 });
+                    }
                 }
-            }
+                scrollTimeout = null;
+            }, 100);
         });
         
         setInterval(() => {
@@ -1191,7 +1259,7 @@ class EnhancedBlogSystem {
                     scroll_depth: Math.round(maxScroll),
                     engagement_events: engagementEvents.length,
                     page_url: window.location.href
-                });
+                }, false); // Don't wait for response
             }
         });
     }
@@ -1372,7 +1440,7 @@ window.showAdminLogin = function(event) {
 
 // Initialize enhanced systems when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🌟 Enhanced Dutch Underground Portal v6.2.1 initializing...');
+    console.log('🌟 Enhanced Dutch Underground Portal v6.2.2 FIXED initializing...');
     
     try {
         window.EnhancedPortalAuth = new EnhancedPortalAuth();
