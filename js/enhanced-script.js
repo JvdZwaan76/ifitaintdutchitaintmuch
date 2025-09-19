@@ -1,6 +1,6 @@
 /**
  * Enhanced Frontend JavaScript for Dutch Underground Portal
- * Version: 6.2.0 - FIXES AUTHENTICATION FLOW AND ERROR HANDLING
+ * Version: 6.2.1 - FIXES AUTHENTICATION FLOW AND BACKEND AVAILABILITY TIMING
  * Author: If it ain't Dutch it ain't Much
  * Deploy: Replace your current /js/enhanced-script.js file with this code
  */
@@ -21,12 +21,13 @@ class EnhancedPortalAuth {
         this.isInitialized = false;
         this.retryCount = 0;
         this.maxRetries = 3;
+        this.backendConnected = false;
         
         this.init();
     }
     
     async init() {
-        console.log('Enhanced Portal Auth v6.2.0 initializing...');
+        console.log('Enhanced Portal Auth v6.2.1 initializing...');
         
         try {
             // Test backend connectivity first
@@ -64,6 +65,7 @@ class EnhancedPortalAuth {
             if (response.ok) {
                 const healthData = await response.json();
                 console.log('✅ Backend connectivity confirmed:', healthData.version);
+                this.backendConnected = true;
                 return true;
             } else {
                 throw new Error(`Backend returned ${response.status}`);
@@ -114,8 +116,8 @@ class EnhancedPortalAuth {
     }
     
     isBackendAvailable() {
-        // Simple check - could be enhanced with actual connectivity test
-        return this.isInitialized && this.retryCount < this.maxRetries;
+        // Backend is available if connectivity test passed
+        return this.backendConnected || this.retryCount < this.maxRetries;
     }
     
     setupAuthenticationListeners() {
@@ -705,8 +707,112 @@ class EnhancedPortalAuth {
         }
     }
     
-    // All other existing methods remain the same...
-    // [Continuing with existing methods for brevity]
+    createSearchInterface() {
+        // Add search functionality to the site
+        this.createSearchWidget();
+    }
+    
+    createSearchWidget() {
+        // Check if we're on a blog page or main site
+        if (window.location.pathname.startsWith('/blog/') || document.querySelector('.blog-content')) {
+            this.addBlogSearch();
+        }
+        
+        // Add global search shortcut
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                this.showSearchModal();
+            }
+        });
+    }
+    
+    addBlogSearch() {
+        const searchHtml = `
+            <div class="blog-search-widget">
+                <input type="text" id="blogSearch" placeholder="Search underground content..." />
+                <button onclick="performSearch()" class="search-btn">🔍</button>
+                <div id="searchResults" class="search-results"></div>
+            </div>
+        `;
+        
+        // Insert search widget
+        const blogContainer = document.querySelector('.blog-container, .container');
+        if (blogContainer) {
+            blogContainer.insertAdjacentHTML('afterbegin', searchHtml);
+        }
+        
+        // Add search functionality
+        const searchInput = document.getElementById('blogSearch');
+        if (searchInput) {
+            let searchTimeout;
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    if (e.target.value.length > 2) {
+                        this.performSearch(e.target.value);
+                    } else {
+                        document.getElementById('searchResults').innerHTML = '';
+                    }
+                }, 300);
+            });
+        }
+    }
+    
+    async performSearch(query) {
+        if (!query) {
+            const searchInput = document.getElementById('blogSearch');
+            query = searchInput ? searchInput.value : '';
+        }
+        
+        if (query.length < 2) return;
+        
+        try {
+            const response = await fetch(`${this.endpoints.search}?q=${encodeURIComponent(query)}&limit=8`);
+            const results = await response.json();
+            
+            this.displaySearchResults(results.results || []);
+            this.trackEventRobust('search_performed', { query, results_count: results.results?.length || 0 });
+            
+        } catch (error) {
+            console.error('Search error:', error);
+            this.displaySearchResults([]);
+        }
+    }
+    
+    displaySearchResults(results) {
+        const resultsContainer = document.getElementById('searchResults');
+        if (!resultsContainer) return;
+        
+        if (results.length === 0) {
+            resultsContainer.innerHTML = '<div style="color: rgba(255, 255, 255, 0.6); text-align: center; padding: 1rem;">No results found</div>';
+            return;
+        }
+        
+        const resultsHtml = results.map(result => `
+            <div class="search-result-item" onclick="navigateToResult('${result.slug}')">
+                <div class="search-result-title">${result.title}</div>
+                <div class="search-result-snippet">${result.snippet || result.description || ''}</div>
+                <div style="font-size: 0.75rem; color: rgba(255, 149, 0, 0.6); margin-top: 0.3rem;">
+                    ${result.category} • ${new Date(result.published_at).toLocaleDateString()}
+                </div>
+            </div>
+        `).join('');
+        
+        resultsContainer.innerHTML = resultsHtml;
+    }
+    
+    addNewsletterWidgets() {
+        // Newsletter functionality is handled by the modal system
+    }
+    
+    loadComments() {
+        // Placeholder for comment loading
+    }
+    
+    setupCommentForm() {
+        // Placeholder for comment form setup
+    }
     
     setAuthenticationState(authData) {
         sessionStorage.setItem('dutchPortalAuth', 'authenticated');
@@ -859,12 +965,6 @@ class EnhancedPortalAuth {
             }
         }, 1000);
     }
-    
-    // Placeholder methods for remaining functionality
-    createSearchInterface() { /* Implementation */ }
-    addNewsletterWidgets() { /* Implementation */ }
-    loadComments() { /* Implementation */ }
-    setupCommentForm() { /* Implementation */ }
 }
 
 // Enhanced Blog System Integration (same as before but with error handling)
@@ -883,10 +983,242 @@ class EnhancedBlogSystem {
         }
     }
     
-    // All existing methods remain the same...
-    setupSocialSharing() { /* Implementation */ }
-    setupContentInteractions() { /* Implementation */ }
-    trackEngagement() { /* Implementation */ }
+    setupSocialSharing() {
+        window.shareContent = (platform) => {
+            const url = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent(document.title);
+            const description = encodeURIComponent(
+                document.querySelector('meta[name="description"]')?.content || 
+                'Exclusive underground electronic music content from Amsterdam'
+            );
+            
+            let shareUrl = '';
+            
+            switch(platform) {
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${title}&hashtags=Amsterdam,Techno,Underground`;
+                    break;
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+                    break;
+                case 'linkedin':
+                    shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+                    break;
+                case 'reddit':
+                    shareUrl = `https://www.reddit.com/submit?url=${url}&title=${title}`;
+                    break;
+            }
+            
+            if (shareUrl) {
+                window.open(shareUrl, 'share-window', 'width=600,height=400,scrollbars=yes,resizable=yes');
+            }
+            
+            // Track sharing
+            if (window.EnhancedPortalAuth) {
+                window.EnhancedPortalAuth.trackEventRobust('share_content', {
+                    platform: platform,
+                    content_type: 'blog_post',
+                    content_url: window.location.href
+                });
+            }
+        };
+        
+        window.copyLink = () => {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                this.showShareFeedback('Link copied to clipboard!');
+            }).catch(() => {
+                const textArea = document.createElement('textarea');
+                textArea.value = window.location.href;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                this.showShareFeedback('Link copied!');
+            });
+        };
+    }
+    
+    setupContentInteractions() {
+        this.initReadingProgress();
+        this.initScrollEffects();
+        this.initKeyboardNavigation();
+    }
+    
+    initReadingProgress() {
+        const progressBar = document.createElement('div');
+        progressBar.id = 'reading-progress';
+        progressBar.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #FF9500, #FFD700);
+            z-index: 1001;
+            transition: width 0.3s ease;
+        `;
+        document.body.appendChild(progressBar);
+        
+        window.addEventListener('scroll', () => {
+            const article = document.querySelector('.blog-content') || document.querySelector('article');
+            if (article) {
+                const articleTop = article.offsetTop;
+                const articleHeight = article.offsetHeight;
+                const scrollTop = window.pageYOffset;
+                const windowHeight = window.innerHeight;
+                
+                const progress = Math.min(100, Math.max(0, 
+                    ((scrollTop - articleTop + windowHeight) / articleHeight) * 100
+                ));
+                
+                progressBar.style.width = progress + '%';
+            }
+        });
+    }
+    
+    initScrollEffects() {
+        let ticking = false;
+        
+        function updateScrollEffects() {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.parallax-element');
+            
+            parallaxElements.forEach(element => {
+                const speed = element.dataset.speed || 0.5;
+                const yPos = -(scrolled * speed);
+                element.style.transform = `translateY(${yPos}px)`;
+            });
+            
+            ticking = false;
+        }
+        
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateScrollEffects);
+                ticking = true;
+            }
+        });
+    }
+    
+    initKeyboardNavigation() {
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal, .overlay');
+                modals.forEach(modal => {
+                    modal.style.display = 'none';
+                });
+            }
+            
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const navLinks = document.querySelectorAll('.related-link');
+                if (navLinks.length > 0) {
+                    const currentIndex = Array.from(navLinks).findIndex(link => 
+                        link === document.activeElement
+                    );
+                    
+                    if (currentIndex !== -1) {
+                        const nextIndex = e.key === 'ArrowRight' ? 
+                            (currentIndex + 1) % navLinks.length :
+                            (currentIndex - 1 + navLinks.length) % navLinks.length;
+                        
+                        navLinks[nextIndex].focus();
+                        e.preventDefault();
+                    }
+                }
+            }
+        });
+    }
+    
+    trackEngagement() {
+        let startTime = Date.now();
+        let maxScroll = 0;
+        let engagementEvents = [];
+        
+        window.addEventListener('scroll', () => {
+            const scrollPercent = (window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            maxScroll = Math.max(maxScroll, scrollPercent);
+            
+            if (scrollPercent > 25 && !engagementEvents.includes('scroll_25')) {
+                engagementEvents.push('scroll_25');
+                if (window.EnhancedPortalAuth) {
+                    window.EnhancedPortalAuth.trackEventRobust('scroll_milestone', { milestone: 25 });
+                }
+            }
+            if (scrollPercent > 50 && !engagementEvents.includes('scroll_50')) {
+                engagementEvents.push('scroll_50');
+                if (window.EnhancedPortalAuth) {
+                    window.EnhancedPortalAuth.trackEventRobust('scroll_milestone', { milestone: 50 });
+                }
+            }
+            if (scrollPercent > 75 && !engagementEvents.includes('scroll_75')) {
+                engagementEvents.push('scroll_75');
+                if (window.EnhancedPortalAuth) {
+                    window.EnhancedPortalAuth.trackEventRobust('scroll_milestone', { milestone: 75 });
+                }
+            }
+        });
+        
+        setInterval(() => {
+            const timeOnPage = Math.round((Date.now() - startTime) / 1000);
+            
+            if (timeOnPage === 30 && !engagementEvents.includes('time_30')) {
+                engagementEvents.push('time_30');
+                if (window.EnhancedPortalAuth) {
+                    window.EnhancedPortalAuth.trackEventRobust('engagement_milestone', { time: 30 });
+                }
+            }
+            if (timeOnPage === 60 && !engagementEvents.includes('time_60')) {
+                engagementEvents.push('time_60');
+                if (window.EnhancedPortalAuth) {
+                    window.EnhancedPortalAuth.trackEventRobust('engagement_milestone', { time: 60 });
+                }
+            }
+            if (timeOnPage === 180 && !engagementEvents.includes('time_180')) {
+                engagementEvents.push('time_180');
+                if (window.EnhancedPortalAuth) {
+                    window.EnhancedPortalAuth.trackEventRobust('engagement_milestone', { time: 180 });
+                }
+            }
+        }, 1000);
+        
+        window.addEventListener('beforeunload', () => {
+            const readingTime = Math.round((Date.now() - startTime) / 1000);
+            
+            if (window.EnhancedPortalAuth) {
+                window.EnhancedPortalAuth.trackEventRobust('reading_behavior', {
+                    reading_time: readingTime,
+                    scroll_depth: Math.round(maxScroll),
+                    engagement_events: engagementEvents.length,
+                    page_url: window.location.href
+                });
+            }
+        });
+    }
+    
+    showShareFeedback(message) {
+        const feedback = document.createElement('div');
+        feedback.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 255, 0, 0.9);
+            color: #000;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            z-index: 10000;
+            font-family: 'Rajdhani', sans-serif;
+        `;
+        feedback.textContent = message;
+        
+        document.body.appendChild(feedback);
+        
+        setTimeout(() => {
+            feedback.remove();
+        }, 2000);
+    }
 }
 
 // Global Functions with Error Handling
@@ -916,11 +1248,50 @@ window.subscribeToNewsletter = async function() {
     }
 };
 
+window.subscribeToNewsletterFooter = async function() {
+    const email = document.getElementById('footerNewsletterEmail')?.value;
+    if (!email) {
+        alert('Please enter a valid email address');
+        return;
+    }
+    
+    try {
+        const response = await fetch('/api/newsletter/subscribe', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            alert('Newsletter subscription successful! Check your email to verify.');
+            document.getElementById('footerNewsletterEmail').value = '';
+        } else {
+            alert('Subscription failed: ' + result.error);
+        }
+    } catch (error) {
+        alert('Subscription failed. Please try again.');
+    }
+};
+
 window.closeNewsletterModal = function() {
     const modal = document.getElementById('newsletterModal');
     if (modal) {
         modal.remove();
     }
+};
+
+window.performSearch = function(query) {
+    if (window.EnhancedPortalAuth) {
+        window.EnhancedPortalAuth.performSearch(query);
+    }
+};
+
+window.navigateToResult = function(slug) {
+    window.location.href = `/blog/${slug}`;
 };
 
 window.logout = function() {
@@ -955,9 +1326,53 @@ window.logout = function() {
     }
 };
 
+// Audio Player Integration
+window.toggleAudioPlayer = function() {
+    const container = document.getElementById('audioPlayerContainer');
+    const button = document.getElementById('audioPlayButton');
+    const buttonText = document.getElementById('buttonText');
+    
+    if (container.style.display === 'none' || !container.style.display) {
+        // Show player
+        container.style.display = 'block';
+        buttonText.textContent = 'STOP TRANSMISSION';
+        
+        // Load SoundCloud player if not already loaded
+        if (!document.getElementById('soundcloudPlayer').src) {
+            document.getElementById('soundcloudPlayer').src = 
+                'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1914792203&color=%23ff9500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true';
+        }
+        
+        // Track audio interaction
+        if (window.EnhancedPortalAuth) {
+            window.EnhancedPortalAuth.trackEventRobust('audio_play', {
+                audio_source: 'soundcloud',
+                track_info: 'Halform x Rico Winter Live Set'
+            });
+        }
+    } else {
+        // Hide player
+        container.style.display = 'none';
+        buttonText.textContent = 'INTERCEPT TRANSMISSION';
+        
+        // Remove iframe to stop playback
+        document.getElementById('soundcloudPlayer').src = '';
+        
+        if (window.EnhancedPortalAuth) {
+            window.EnhancedPortalAuth.trackEventRobust('audio_stop');
+        }
+    }
+};
+
+// Admin login functionality
+window.showAdminLogin = function(event) {
+    event.preventDefault();
+    window.location.href = '/admin';
+};
+
 // Initialize enhanced systems when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🌟 Enhanced Dutch Underground Portal v6.2.0 initializing...');
+    console.log('🌟 Enhanced Dutch Underground Portal v6.2.1 initializing...');
     
     try {
         window.EnhancedPortalAuth = new EnhancedPortalAuth();
