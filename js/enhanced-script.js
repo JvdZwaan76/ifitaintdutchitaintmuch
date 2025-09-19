@@ -1,6 +1,6 @@
 /**
  * Enhanced Frontend JavaScript for Dutch Underground Portal
- * Version: 6.1.0 - FIXED ANALYTICS AND ROBUST ERROR HANDLING
+ * Version: 6.1.0 - FIXED ANALYTICS ENDPOINT AND ROBUST ERROR HANDLING
  * Author: If it ain't Dutch it ain't Much
  * Deploy: Replace your current /js/enhanced-script.js file with this code
  */
@@ -342,10 +342,10 @@ class EnhancedPortalAuth {
         }, 30000);
     }
     
-    // FIXED: Robust Analytics System
+    // FIXED: Robust Analytics System with Better Error Handling
     initAnalyticsRobust() {
         try {
-            // Track page view
+            // Track page view with error handling
             this.trackEventRobust('page_view', {
                 url: window.location.href,
                 title: document.title,
@@ -751,11 +751,11 @@ class EnhancedPortalAuth {
         }
     }
     
-    // FIXED: Robust Analytics Tracking
+    // FIXED: Robust Analytics Tracking with Better Error Handling
     async trackEventRobust(eventType, data = {}) {
         try {
-            // Don't fail if analytics fails
-            await fetch(this.endpoints.analytics, {
+            // Check if analytics endpoint is available first
+            const response = await fetch(this.endpoints.analytics, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -771,9 +771,39 @@ class EnhancedPortalAuth {
                     }
                 })
             });
+
+            if (!response.ok) {
+                throw new Error(`Analytics endpoint responded with ${response.status}`);
+            }
+            
         } catch (error) {
             // Silently fail - analytics should never break functionality
             console.log('Analytics tracking failed (non-critical):', error.message);
+            
+            // Fallback: Store analytics locally for later submission
+            this.storeAnalyticsLocally(eventType, data);
+        }
+    }
+    
+    // Fallback analytics storage
+    storeAnalyticsLocally(eventType, data) {
+        try {
+            const analytics = JSON.parse(localStorage.getItem('pendingAnalytics') || '[]');
+            analytics.push({
+                event_type: eventType,
+                data: data,
+                timestamp: new Date().toISOString(),
+                url: window.location.href
+            });
+            
+            // Keep only last 50 events to prevent storage overflow
+            if (analytics.length > 50) {
+                analytics.splice(0, analytics.length - 50);
+            }
+            
+            localStorage.setItem('pendingAnalytics', JSON.stringify(analytics));
+        } catch (error) {
+            console.log('Local analytics storage failed (non-critical):', error.message);
         }
     }
     
