@@ -183,7 +183,7 @@
                     <div class="loading-spinner"></div>
                 </div>
                 
-                <h2 id="access-request-heading" class="access-cta-title">🔐 Request Warehouse Access</h2>
+                <h2 id="access-request-heading" class="access-cta-title">🔓 Request Warehouse Access</h2>
                 <p class="access-cta-subtitle">
                     Join the underground collective. Submit your request to unlock exclusive warehouse events, 
                     underground electronic experiences, and access to Amsterdam's hidden techno scenes.
@@ -421,19 +421,77 @@
         </div>
     </div>
     
-    <!-- Enhanced JavaScript -->
+    <!-- Enhanced JavaScript with FIXED Loading Screen Dismissal -->
     <script src="/js/enhanced-script.js" defer></script>
     <script>
-// Force loading screen dismissal
-setTimeout(() => {
-    const loadingScreen = document.getElementById('loadingScreen');
-    if (loadingScreen) {
-        loadingScreen.style.opacity = '0';
-        loadingScreen.style.visibility = 'hidden'; 
-        loadingScreen.style.pointerEvents = 'none';
-        loadingScreen.style.transition = 'opacity 1s ease-out';
-    }
-}, 2000);
-</script>
+        // FIXED: Robust loading screen dismissal with multiple fallbacks
+        (function() {
+            let loadingDismissed = false;
+            
+            function dismissLoading() {
+                if (loadingDismissed) return;
+                loadingDismissed = true;
+                
+                console.log('🚀 Dismissing loading screen...');
+                
+                const loadingScreen = document.getElementById('loadingScreen');
+                if (loadingScreen) {
+                    // Add fade-out class
+                    loadingScreen.classList.add('fade-out');
+                    loadingScreen.style.opacity = '0';
+                    loadingScreen.style.visibility = 'hidden';
+                    loadingScreen.style.pointerEvents = 'none';
+                    
+                    // Remove completely after animation
+                    setTimeout(() => {
+                        if (loadingScreen.parentNode) {
+                            loadingScreen.remove();
+                        }
+                        document.body.classList.add('loaded', 'app-ready');
+                    }, 1000);
+                }
+                
+                // Ensure body is marked as loaded
+                document.body.classList.add('loaded', 'app-ready', 'js-loading-complete');
+            }
+            
+            // Multiple triggers to ensure loading dismissal
+            
+            // 1. When DOM is fully loaded
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', dismissLoading);
+            } else {
+                dismissLoading();
+            }
+            
+            // 2. When all resources are loaded
+            window.addEventListener('load', dismissLoading);
+            
+            // 3. Fallback timer - ALWAYS dismiss after 3 seconds
+            setTimeout(dismissLoading, 3000);
+            
+            // 4. When enhanced script initializes
+            document.addEventListener('enhanced-portal-ready', dismissLoading);
+            
+            // 5. Emergency fallback - dismiss if still visible after 5 seconds
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loadingScreen');
+                if (loadingScreen && loadingScreen.style.opacity !== '0') {
+                    console.warn('⚠️ Emergency loading screen dismissal');
+                    dismissLoading();
+                }
+            }, 5000);
+        })();
+
+        // Viewport height fix for mobile
+        function setVH() {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+
+        setVH();
+        window.addEventListener('resize', setVH);
+        window.addEventListener('orientationchange', setVH);
+    </script>
 </body>
 </html>
