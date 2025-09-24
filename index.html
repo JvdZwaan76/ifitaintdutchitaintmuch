@@ -10,10 +10,13 @@
     <meta name="keywords" content="Amsterdam techno, underground electronic music, warehouse parties, Dutch electronic scene, techno events Amsterdam, underground club access, electronic music Netherlands, bass culture, rave Amsterdam, techno collective, ADE 2025">
     <meta name="author" content="If It Ain't Dutch, It Ain't Much">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="bingbot" content="index, follow">
     
     <!-- Enhanced Canonical & Hreflang -->
     <link rel="canonical" href="https://ifitaintdutchitaintmuch.com/">
     <link rel="alternate" hreflang="en" href="https://ifitaintdutchitaintmuch.com/">
+    <link rel="alternate" hreflang="nl" href="https://ifitaintdutchitaintmuch.com/nl/">
     <link rel="alternate" hreflang="x-default" href="https://ifitaintdutchitaintmuch.com/">
     
     <!-- Enhanced Open Graph -->
@@ -27,104 +30,50 @@
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Underground techno scene - neon warehouse atmosphere">
+    <meta property="og:image:type" content="image/jpeg">
     
     <!-- Enhanced Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@DutchTechno">
+    <meta name="twitter:creator" content="@DutchTechno">
+    <meta name="twitter:url" content="https://ifitaintdutchitaintmuch.com/">
     <meta name="twitter:title" content="If It Ain't Dutch, It Ain't Much | Underground Techno Portal">
     <meta name="twitter:description" content="Enter the vault of Amsterdam's electronic underground: exclusive warehouse events, cutting-edge sound systems, and bass frequencies that resonate through abandoned industrial spaces.">
     <meta name="twitter:image" content="https://ifitaintdutchitaintmuch.com/images/twitter-techno-warehouse.jpg">
+    <meta name="twitter:image:alt" content="Underground warehouse techno scene with industrial atmosphere">
     
     <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
     
     <!-- Enhanced Font Loading -->
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     
     <!-- Favicons -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
     
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="/css/enhanced-style.css">
     
-    <!-- CRITICAL: Inline loading screen styles to prevent FOUC -->
-    <style>
-        /* CRITICAL: Inline loading screen to prevent white screen */
-        .loading-screen {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-            background: linear-gradient(45deg, #000000, #1a1a1a) !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            z-index: 9999 !important;
-            transition: opacity 1s ease-out, visibility 1s ease-out !important;
-        }
-        
-        .loading-screen.fade-out {
-            opacity: 0 !important;
-            visibility: hidden !important;
-            pointer-events: none !important;
-        }
-        
-        /* Ensure body doesn't show until loaded */
-        body:not(.loaded) .page-wrapper {
-            opacity: 0;
-        }
-        
-        body.loaded .page-wrapper {
-            opacity: 1;
-            transition: opacity 0.5s ease-in;
-        }
-        
-        /* Loading spinner */
-        .dutch-loader {
-            text-align: center;
-            animation: undergroundPulse 2s infinite ease-in-out;
-        }
-        
-        .windmill-spinner {
-            width: 60px;
-            height: 60px;
-            border: 3px solid transparent;
-            border-top: 3px solid #FF9500;
-            border-right: 3px solid #00BFFF;
-            border-radius: 50%;
-            animation: undergroundSpin 1.5s linear infinite;
-            margin: 0 auto 20px;
-        }
-        
-        .loading-text {
-            color: #FF9500;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
-            text-shadow: 0 0 20px #FF9500;
-            animation: textGlow 2s ease-in-out infinite alternate;
-        }
-        
-        @keyframes undergroundSpin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        @keyframes undergroundPulse {
-            0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
-            50% { transform: scale(1.1) rotate(5deg); opacity: 0.8; }
-        }
-        
-        @keyframes textGlow {
-            0% { text-shadow: 0 0 20px #FF9500; }
-            100% { text-shadow: 0 0 30px #FF9500, 0 0 40px rgba(255, 149, 0, 0.5); }
-        }
-    </style>
+    <!-- Bing Clarity Tracking -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "t9ydydlot9");
+    </script>
 </head>
 <body>
-    <!-- FIXED: Loading Screen with Multiple Dismissal Triggers -->
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link" tabindex="1">Skip to main content</a>
+    
+    <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen" aria-hidden="true">
         <div class="dutch-loader">
             <div class="windmill-spinner" aria-label="Loading"></div>
@@ -132,11 +81,29 @@
         </div>
     </div>
     
-    <!-- Skip Link for Accessibility -->
-    <a href="#main-content" class="skip-link" tabindex="1">Skip to main content</a>
-    
-    <!-- Enhanced Background Elements -->
+    <!-- Enhanced Background Elements with Video -->
     <div class="background-gradient" aria-hidden="true"></div>
+    
+    <!-- Underground Neon Video Background -->
+    <div class="video-background" aria-hidden="true">
+        <video 
+            id="backgroundVideo"
+            class="background-video"
+            autoplay 
+            muted 
+            loop 
+            playsinline
+            preload="auto"
+            poster=""
+            aria-label="Underground neon atmosphere background video">
+            <source src="/video/ifitaintdutchitaintmuch-neon.mp4" type="video/mp4">
+            <source src="/video/ifitaintdutchitaintmuch-neon.webm" type="video/webm">
+            <!-- Fallback for browsers that don't support video -->
+            <div class="video-fallback"></div>
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+    
     <canvas id="background-canvas" aria-hidden="true"></canvas>
     <div class="floating-elements" aria-hidden="true"></div>
     
@@ -216,7 +183,7 @@
                     <div class="loading-spinner"></div>
                 </div>
                 
-                <h2 id="access-request-heading" class="access-cta-title">🔓 Request Warehouse Access</h2>
+                <h2 id="access-request-heading" class="access-cta-title">🔐 Request Warehouse Access</h2>
                 <p class="access-cta-subtitle">
                     Join the underground collective. Submit your request to unlock exclusive warehouse events, 
                     underground electronic experiences, and access to Amsterdam's hidden techno scenes.
@@ -418,11 +385,11 @@
                    target="_blank" 
                    rel="noopener nofollow" 
                    aria-label="Listen to our underground frequencies">🎵</a>
-                <!-- Protected Admin Access -->
-                <a href="#" 
-                   onclick="showAdminLogin(event)"
+                <!-- Admin Portal Access - Updated to be more direct -->
+                <a href="/admin" 
                    class="admin-access-link"
-                   aria-label="Portal Management">⚙️</a>
+                   aria-label="Portal Management"
+                   title="Access Portal Management">⚙️</a>
             </div>
         </footer>
     </div>
@@ -436,128 +403,35 @@
         <div class="laser laser4" aria-hidden="true"></div>
     </div>
 
-    <!-- CRITICAL: Enhanced JavaScript with Robust Loading Screen Dismissal -->
-    <script>
-        // CRITICAL: Multiple loading screen dismissal triggers
-        (function() {
-            let loadingDismissed = false;
-            let dismissalAttempts = 0;
-            const maxAttempts = 10;
-            
-            function dismissLoading() {
-                if (loadingDismissed) return;
-                
-                dismissalAttempts++;
-                console.log('🚀 Dismissing loading screen (attempt ' + dismissalAttempts + ')...');
-                
-                const loadingScreen = document.getElementById('loadingScreen');
-                if (loadingScreen) {
-                    loadingDismissed = true;
-                    
-                    // Add multiple classes for CSS targeting
-                    loadingScreen.classList.add('fade-out', 'dismissing', 'hidden');
-                    loadingScreen.style.opacity = '0';
-                    loadingScreen.style.visibility = 'hidden';
-                    loadingScreen.style.pointerEvents = 'none';
-                    loadingScreen.style.display = 'none';
-                    
-                    // Mark body as loaded
-                    document.body.classList.add('loaded', 'app-ready', 'js-loading-complete');
-                    
-                    console.log('✅ Loading screen dismissed successfully');
-                    
-                    // Complete removal after delay
-                    setTimeout(() => {
-                        if (loadingScreen.parentNode) {
-                            loadingScreen.remove();
-                        }
-                    }, 1000);
-                } else {
-                    console.warn('⚠️ Loading screen element not found');
-                    document.body.classList.add('loaded', 'app-ready', 'js-loading-complete');
-                }
-            }
-            
-            // Multiple dismissal triggers for maximum reliability
-            
-            // 1. Immediate dismissal if DOM is already ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', dismissLoading);
-            } else {
-                // DOM is already ready
-                setTimeout(dismissLoading, 100);
-            }
-            
-            // 2. Window load event
-            window.addEventListener('load', dismissLoading);
-            
-            // 3. Enhanced script ready event
-            document.addEventListener('enhanced-portal-ready', dismissLoading);
-            
-            // 4. CRITICAL: Emergency fallback timers
-            setTimeout(dismissLoading, 2000);   // 2 seconds
-            setTimeout(dismissLoading, 4000);   // 4 seconds 
-            setTimeout(dismissLoading, 6000);   // 6 seconds (final fallback)
-            
-            // 5. Manual trigger if loading screen still visible after 8 seconds
-            setTimeout(() => {
-                if (!loadingDismissed && dismissalAttempts < maxAttempts) {
-                    console.warn('🚨 Emergency loading screen dismissal');
-                    dismissLoading();
-                }
-            }, 8000);
-            
-            // 6. User interaction trigger
-            document.addEventListener('click', dismissLoading, { once: true });
-            document.addEventListener('keydown', dismissLoading, { once: true });
-            
-            // 7. Visibility change trigger
-            document.addEventListener('visibilitychange', () => {
-                if (document.visibilityState === 'visible') {
-                    dismissLoading();
-                }
-            });
-        })();
-
-        // Viewport height fix for mobile
-        function setVH() {
-            const vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
-        }
-
-        setVH();
-        window.addEventListener('resize', setVH);
-        window.addEventListener('orientationchange', setVH);
-        
-        // Global admin login function
-        window.showAdminLogin = function(event) {
-            event.preventDefault();
-            window.location.href = '/admin';
-        };
-        
-        // Global audio player function
-        window.toggleAudioPlayer = function() {
-            const container = document.getElementById('audioPlayerContainer');
-            const button = document.getElementById('audioPlayButton');
-            const buttonText = document.getElementById('buttonText');
-            
-            if (container.style.display === 'none' || !container.style.display) {
-                container.style.display = 'block';
-                buttonText.textContent = 'STOP TRANSMISSION';
-                
-                if (!document.getElementById('soundcloudPlayer').src) {
-                    document.getElementById('soundcloudPlayer').src = 
-                        'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1914792203&color=%23ff9500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true';
-                }
-            } else {
-                container.style.display = 'none';
-                buttonText.textContent = 'INTERCEPT TRANSMISSION';
-                document.getElementById('soundcloudPlayer').src = '';
-            }
-        };
-    </script>
+    <!-- REMOVED: Admin Login Modal - No longer needed as popup -->
     
-    <!-- Load main JavaScript -->
+    <!-- Enhanced JavaScript -->
     <script src="/js/enhanced-script.js" defer></script>
+    <script>
+// Force loading screen dismissal
+setTimeout(() => {
+    const loadingScreen = document.getElementById('loadingScreen');
+    if (loadingScreen) {
+        loadingScreen.style.opacity = '0';
+        loadingScreen.style.visibility = 'hidden'; 
+        loadingScreen.style.pointerEvents = 'none';
+        loadingScreen.style.transition = 'opacity 1s ease-out';
+    }
+}, 2000);
+
+// Disable any automatic admin modal triggers
+document.addEventListener('DOMContentLoaded', function() {
+    // Override any showAdminLogin functions that might be called automatically
+    if (typeof showAdminLogin === 'function') {
+        const originalShowAdminLogin = showAdminLogin;
+        window.showAdminLogin = function(event) {
+            // Only allow manual clicks, prevent auto-triggers
+            if (event && event.isTrusted) {
+                originalShowAdminLogin(event);
+            }
+        };
+    }
+});
+</script>
 </body>
 </html>
