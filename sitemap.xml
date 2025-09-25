@@ -2,9 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"
-        xmlns:news="http://www.sitemaps.org/schemas/sitemap-news/0.9">
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
-  <!-- Existing URLs from previous sitemap -->
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
@@ -25,7 +24,7 @@
       <video:duration>30</video:duration>
       <video:view_count>1000</video:view_count>
       <video:publication_date>2025-01-15T10:00:00+00:00</video:publication_date>
-      <video:family_friendly>yes</video:family_friendly>
+      <video:requires_subscription>yes</video:requires_subscription>
       <video:tag>amsterdam techno</video:tag>
       <video:tag>underground electronic</video:tag>
       <video:tag>warehouse party</video:tag>
@@ -38,16 +37,7 @@
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
-    <news:news>
-      <news:publication>
-        <news:name>If It Ain't Dutch, It Ain't Much</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2025-01-15T10:00:00+00:00</news:publication_date>
-      <news:title>Amsterdam Dance Event 2025: Complete Underground Guide</news:title>
-      <news:keywords>ADE 2025, Amsterdam Dance Event 2025, underground techno, electronic music festival, warehouse parties amsterdam, techno events 2025, dutch electronic scene, ade guide 2025</news:keywords>
-      <news:genres>EDM, LIVE</news:genres>
-    </news:news>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ifitaintdutchitaintmuch.com/ade-2025-guide"/>
     <image:image>
       <image:loc>https://ifitaintdutchitaintmuch.com/images/ade-2025-guide-cover.jpg</image:loc>
       <image:title>ADE 2025 Complete Underground Guide Cover</image:title>
@@ -108,14 +98,12 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/events</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
-
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/contact</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
@@ -154,15 +142,7 @@
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
-    <news:news>
-      <news:publication>
-        <news:name>If It Ain't Dutch, It Ain't Much</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2025-01-15T10:00:00+00:00</news:publication_date>
-      <news:title>ADE 2025 Underground Events and Venues Guide</news:title>
-      <news:keywords>ADE 2025, Amsterdam Dance Event 2025, underground parties, techno events, warehouse venues, electronic music festival</news:keywords>
-    </news:news>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ifitaintdutchitaintmuch.com/ade-2025"/>
     <image:image>
       <image:loc>https://ifitaintdutchitaintmuch.com/images/ade-2025-events.jpg</image:loc>
       <image:title>ADE 2025 Underground Events Calendar</image:title>
@@ -176,15 +156,7 @@
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <news:news>
-      <news:publication>
-        <news:name>If It Ain't Dutch, It Ain't Much</news:name>
-        <news:language>en</news:language>
-      </news:publication>
-      <news:publication_date>2025-01-15T10:00:00+00:00</news:publication_date>
-      <news:title>New Year's Eve 2025 Underground Techno Events Amsterdam</news:title>
-      <news:keywords>NYE 2025, New Year Amsterdam, underground techno, warehouse parties, electronic music events</news:keywords>
-    </news:news>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ifitaintdutchitaintmuch.com/nye-2025"/>
   </url>
 
   <url>
@@ -193,7 +165,6 @@
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
-
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/music</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
@@ -219,7 +190,6 @@
       <image:geo_location>Amsterdam, Netherlands</image:geo_location>
     </image:image>
   </url>
-
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/venues/club-guide</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
@@ -233,176 +203,12 @@
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/forum</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/privacy-policy</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-
-  <url>
-    <loc>https://ifitaintdutchitaintmuch.com/terms-of-service</loc>
-    <lastmod>2025-01-15T10:00:00+00:00</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-
-  <url>
-    <loc>https://ifitaintdutchitaintmuch.com/accessibility</loc>
-    <lastmod>2025-01-15T10:00:00+00:00</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-
-  <url>
-    <loc>https://ifitaintdutchitaintmuch.com/archive/2025</loc>
-    <lastmod>2025-01-15T10:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-
-  <url>
-    <loc>https://ifitaintdutchitaintmuch.com/archive/2024</loc>
-    <lastmod>2025-01-15T10:00:00+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-  </url>
-
-  <url>
-    <loc>https://ifitaintdutchitaintmuch.com/nl/</loc>
-    <lastmod>2025-01-15T10:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://ifitaintdutchitaintmuch.com/de/</loc>
-    <lastmod>2025-01-15T10:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://ifitaintdutchitaintmuch.com/rss.xml</loc>
-    <lastmod>2025-01-15T10:00:00+00:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://ifitaintdutchitaintmuch.com/api/events</loc>
-    <lastmod>2025-01-15T10:00:00+00:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.4</priority>
-  </url>
-
-  <!-- Adding the teaser blog pages (ADE highlights and additional ones) -->
-  <url>
-    <loc>https://ifitaintdutchitaintmuch.com/ade-2024-highlights-the-ultimate-recap-for-electronic-music-fans-and-clubbers</loc>
-    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://ifitaintdutchitaintmuch.com/ade-2023-highlights-the-ultimate-recap-for-electronic-music-fans-and-clubbers</loc>
-    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://ifitaintdutchitaintmuch.com/ade-2022-highlights-the-ultimate-recap-for-electronic-music-fans-and-clubbers</loc>
-    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://ifitaintdutchitaintmuch.com/ade-2021-highlights-the-ultimate-recap-for-electronic-music-fans-and-clubbers</loc>
-    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://ifitaintdutchitaintmuch.com/ade-2020-highlights-the-ultimate-recap-for-electronic-music-fans-and-clubbers</loc>
-    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://ifitaintdutchitaintmuch.com/ade-2019-highlights-the-ultimate-recap-for-electronic-music-fans-and-clubbers</loc>
-    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://ifitaintdutchitaintmuch.com/ade-2018-highlights-the-ultimate-recap-for-electronic-music-fans-and-clubbers</loc>
-    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://ifitaintdutchitaintmuch.com/ade-2017-highlights-the-ultimate-recap-for-electronic-music-fans-and-clubbers</loc>
-    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://ifitaintdutchitaintmuch.com/ade-2016-highlights-the-ultimate-recap-for-electronic-music-fans-and-clubbers</loc>
-    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://ifitaintdutchitaintmuch.com/blog/underground-venues-amsterdam</loc>
-    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-</urlset>
-
-To get your teaser blog pages (like the ADE highlights recaps) indexed by Google Search Console (GSC) and other search engines, focus on updating these key files on your site's root directory. This assumes your pages are now live (no more 404 errors) and publicly accessible. Indexing isn't guaranteed, but these steps help discovery and crawling.
-
-### 1. **sitemap.xml** (Update or Replace)
-Upload this updated version to https://ifitaintdutchitaintmuch.com/sitemap.xml. I've combined your previous sitemap data with the original teaser URLs you mentioned (ADE 2016-2024 highlights, etc.). I used today's date (2025-09-24) for <lastmod> on the new ones—adjust if needed. For historical pages, set <changefreq> to "yearly" and <priority> to 0.6 as they're likely static.
-
-After uploading:
-- Submit it in GSC: Go to "Sitemaps" section, add "/sitemap.xml", and submit.
-- For other engines: Submit to Bing Webmaster Tools, Yandex.Webmaster, etc., via their dashboards.
-
-### 2. **robots.txt** (Create or Update if Blocking)
-If you don't have one or if it's restricting crawlers, upload this basic version to https://ifitaintdutchitaintmuch.com/robots.txt. This allows all bots to crawl everything while pointing to your sitemap.
-
-```
-User-agent: *
-Allow: /
-
-Sitemap: https://ifitaintdutchitaintmuch.com/sitemap.xml
-```
-
-- Test it: Use GSC's robots.txt tester to ensure it doesn't block your teaser pages.
-- Note: If your site has sensitive areas (e.g., /admin/), add Disallow: /admin/ lines.
-
-### Additional Steps (Not Files, But Essential)
-- **Page Content**: Ensure each teaser page has unique, high-quality content, meta tags (e.g., <meta name="robots" content="index,follow"> if needed), and internal links from your homepage or /blog/ to aid discovery.
-- **GSC Verification**: If not done, verify your site in GSC.
-- **Other Engines**: Sign up for Bing, etc., and submit sitemap there too.
-- **Monitor**: After updates, use GSC's URL Inspection for each page and request indexing if eligible.
-
-If your site uses a CMS (e.g., WordPress), use plugins to auto-generate/manage these files. Let me know if you need customizations!
