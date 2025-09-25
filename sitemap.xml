@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
-        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml" 
-        xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" 
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" 
-        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-  
-  <!-- SEO IMPROVEMENT: Homepage with enhanced metadata -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"
+        xmlns:news="http://www.sitemaps.org/schemas/sitemap-news/0.9">
+
+  <!-- Existing URLs from previous sitemap -->
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <mobile:mobile/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ifitaintdutchitaintmuch.com/" />
-    <xhtml:link rel="alternate" hreflang="nl" href="https://ifitaintdutchitaintmuch.com/nl/" />
-    <xhtml:link rel="alternate" hreflang="de" href="https://ifitaintdutchitaintmuch.com/de/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ifitaintdutchitaintmuch.com/" />
     <image:image>
       <image:loc>https://ifitaintdutchitaintmuch.com/images/og-techno-underground.jpg</image:loc>
       <image:title>Dutch Underground Techno Portal - Amsterdam Electronic Music Scene</image:title>
@@ -39,16 +32,12 @@
       <video:category>Music</video:category>
     </video:video>
   </url>
-  
-  <!-- SEO IMPROVEMENT: ADE 2025 Guide with enhanced structure -->
+
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/ade-2025-guide</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
-    <mobile:mobile/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ifitaintdutchitaintmuch.com/ade-2025-guide" />
-    <xhtml:link rel="alternate" hreflang="nl" href="https://ifitaintdutchitaintmuch.com/nl/ade-2025-gids" />
     <news:news>
       <news:publication>
         <news:name>If It Ain't Dutch, It Ain't Much</news:name>
@@ -57,7 +46,7 @@
       <news:publication_date>2025-01-15T10:00:00+00:00</news:publication_date>
       <news:title>Amsterdam Dance Event 2025: Complete Underground Guide</news:title>
       <news:keywords>ADE 2025, Amsterdam Dance Event 2025, underground techno, electronic music festival, warehouse parties amsterdam, techno events 2025, dutch electronic scene, ade guide 2025</news:keywords>
-      <news:stock_tickers>EDM, LIVE</news:stock_tickers>
+      <news:genres>EDM, LIVE</news:genres>
     </news:news>
     <image:image>
       <image:loc>https://ifitaintdutchitaintmuch.com/images/ade-2025-guide-cover.jpg</image:loc>
@@ -67,24 +56,18 @@
     </image:image>
   </url>
 
-  <!-- SEO IMPROVEMENT: Enhanced blog section with category structure -->
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/blog/</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <mobile:mobile/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ifitaintdutchitaintmuch.com/blog/" />
-    <xhtml:link rel="alternate" hreflang="nl" href="https://ifitaintdutchitaintmuch.com/nl/blog/" />
   </url>
-  
-  <!-- SEO IMPROVEMENT: Specific blog posts with enhanced metadata -->
+
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/blog/amsterdam-techno-scene-2025</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-    <mobile:mobile/>
     <image:image>
       <image:loc>https://ifitaintdutchitaintmuch.com/images/amsterdam-techno-scene-2025.jpg</image:loc>
       <image:title>Amsterdam Techno Scene 2025 - Underground Evolution</image:title>
@@ -92,13 +75,12 @@
       <image:geo_location>Amsterdam, Netherlands</image:geo_location>
     </image:image>
   </url>
-  
+
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/blog/underground-warehouse-events-guide</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-    <mobile:mobile/>
     <image:image>
       <image:loc>https://ifitaintdutchitaintmuch.com/images/warehouse-events-guide.jpg</image:loc>
       <image:title>Underground Warehouse Events Guide - Secret Venues</image:title>
@@ -106,13 +88,12 @@
       <image:geo_location>Amsterdam, Netherlands</image:geo_location>
     </image:image>
   </url>
-  
+
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/blog/dutch-electronic-music-history</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
-    <mobile:mobile/>
     <image:image>
       <image:loc>https://ifitaintdutchitaintmuch.com/images/dutch-electronic-history.jpg</image:loc>
       <image:title>Dutch Electronic Music History - From Gabber to Modern Techno</image:title>
@@ -121,44 +102,32 @@
     </image:image>
   </url>
 
-  <!-- SEO IMPROVEMENT: Enhanced static pages with geographic targeting -->
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/about</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <mobile:mobile/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ifitaintdutchitaintmuch.com/about" />
-    <xhtml:link rel="alternate" hreflang="nl" href="https://ifitaintdutchitaintmuch.com/nl/over-ons" />
   </url>
-  
+
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/events</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
-    <mobile:mobile/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ifitaintdutchitaintmuch.com/events" />
-    <xhtml:link rel="alternate" hreflang="nl" href="https://ifitaintdutchitaintmuch.com/nl/evenementen" />
   </url>
-  
+
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/contact</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
-    <mobile:mobile/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ifitaintdutchitaintmuch.com/contact" />
-    <xhtml:link rel="alternate" hreflang="nl" href="https://ifitaintdutchitaintmuch.com/nl/contact" />
   </url>
 
-  <!-- SEO IMPROVEMENT: Geographic and event-specific pages -->
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/amsterdam-events</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
-    <mobile:mobile/>
     <image:image>
       <image:loc>https://ifitaintdutchitaintmuch.com/images/amsterdam-events-2025.jpg</image:loc>
       <image:title>Amsterdam Underground Events 2025</image:title>
@@ -166,13 +135,12 @@
       <image:geo_location>Amsterdam, Netherlands</image:geo_location>
     </image:image>
   </url>
-  
+
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/netherlands-techno</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <mobile:mobile/>
     <image:image>
       <image:loc>https://ifitaintdutchitaintmuch.com/images/netherlands-techno-scene.jpg</image:loc>
       <image:title>Netherlands Techno Scene Overview</image:title>
@@ -181,13 +149,11 @@
     </image:image>
   </url>
 
-  <!-- SEO IMPROVEMENT: Time-sensitive event pages with news markup -->
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/ade-2025</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
-    <mobile:mobile/>
     <news:news>
       <news:publication>
         <news:name>If It Ain't Dutch, It Ain't Much</news:name>
@@ -204,13 +170,12 @@
       <image:geo_location>Amsterdam, Netherlands</image:geo_location>
     </image:image>
   </url>
-  
+
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/nye-2025</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <mobile:mobile/>
     <news:news>
       <news:publication>
         <news:name>If It Ain't Dutch, It Ain't Much</news:name>
@@ -222,23 +187,18 @@
     </news:news>
   </url>
 
-  <!-- SEO IMPROVEMENT: Artist and music discovery pages -->
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/artists</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <mobile:mobile/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ifitaintdutchitaintmuch.com/artists" />
-    <xhtml:link rel="alternate" hreflang="nl" href="https://ifitaintdutchitaintmuch.com/nl/artiesten" />
   </url>
-  
+
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/music</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <mobile:mobile/>
     <image:image>
       <image:loc>https://ifitaintdutchitaintmuch.com/images/dutch-electronic-music-collection.jpg</image:loc>
       <image:title>Dutch Underground Electronic Music Collection</image:title>
@@ -247,13 +207,11 @@
     </image:image>
   </url>
 
-  <!-- SEO IMPROVEMENT: Venue and location pages -->
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/venues/warehouse-locations</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-    <mobile:mobile/>
     <image:image>
       <image:loc>https://ifitaintdutchitaintmuch.com/images/underground-warehouse-venues.jpg</image:loc>
       <image:title>Underground Warehouse Venues Amsterdam</image:title>
@@ -261,105 +219,84 @@
       <image:geo_location>Amsterdam, Netherlands</image:geo_location>
     </image:image>
   </url>
-  
+
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/venues/club-guide</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <mobile:mobile/>
   </url>
 
-  <!-- SEO IMPROVEMENT: Community and social pages -->
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/community</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
-    <mobile:mobile/>
   </url>
-  
+
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/forum</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
-    <mobile:mobile/>
   </url>
 
-  <!-- SEO IMPROVEMENT: Legal and informational pages -->
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/privacy-policy</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <mobile:mobile/>
   </url>
-  
+
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/terms-of-service</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <mobile:mobile/>
   </url>
-  
+
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/accessibility</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <mobile:mobile/>
   </url>
 
-  <!-- SEO IMPROVEMENT: Archive and historical content -->
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/archive/2025</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
-    <mobile:mobile/>
   </url>
-  
+
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/archive/2024</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
-    <mobile:mobile/>
   </url>
 
-  <!-- SEO IMPROVEMENT: Multi-language support pages -->
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/nl/</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <mobile:mobile/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://ifitaintdutchitaintmuch.com/nl/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://ifitaintdutchitaintmuch.com/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ifitaintdutchitaintmuch.com/" />
   </url>
-  
+
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/de/</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <mobile:mobile/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://ifitaintdutchitaintmuch.com/de/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://ifitaintdutchitaintmuch.com/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ifitaintdutchitaintmuch.com/" />
   </url>
 
-  <!-- SEO IMPROVEMENT: RSS and API endpoints -->
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/rss.xml</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
-  
+
   <url>
     <loc>https://ifitaintdutchitaintmuch.com/api/events</loc>
     <lastmod>2025-01-15T10:00:00+00:00</lastmod>
@@ -367,4 +304,105 @@
     <priority>0.4</priority>
   </url>
 
+  <!-- Adding the teaser blog pages (ADE highlights and additional ones) -->
+  <url>
+    <loc>https://ifitaintdutchitaintmuch.com/ade-2024-highlights-the-ultimate-recap-for-electronic-music-fans-and-clubbers</loc>
+    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://ifitaintdutchitaintmuch.com/ade-2023-highlights-the-ultimate-recap-for-electronic-music-fans-and-clubbers</loc>
+    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://ifitaintdutchitaintmuch.com/ade-2022-highlights-the-ultimate-recap-for-electronic-music-fans-and-clubbers</loc>
+    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://ifitaintdutchitaintmuch.com/ade-2021-highlights-the-ultimate-recap-for-electronic-music-fans-and-clubbers</loc>
+    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://ifitaintdutchitaintmuch.com/ade-2020-highlights-the-ultimate-recap-for-electronic-music-fans-and-clubbers</loc>
+    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://ifitaintdutchitaintmuch.com/ade-2019-highlights-the-ultimate-recap-for-electronic-music-fans-and-clubbers</loc>
+    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://ifitaintdutchitaintmuch.com/ade-2018-highlights-the-ultimate-recap-for-electronic-music-fans-and-clubbers</loc>
+    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://ifitaintdutchitaintmuch.com/ade-2017-highlights-the-ultimate-recap-for-electronic-music-fans-and-clubbers</loc>
+    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://ifitaintdutchitaintmuch.com/ade-2016-highlights-the-ultimate-recap-for-electronic-music-fans-and-clubbers</loc>
+    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://ifitaintdutchitaintmuch.com/blog/underground-venues-amsterdam</loc>
+    <lastmod>2025-09-24T10:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
 </urlset>
+
+To get your teaser blog pages (like the ADE highlights recaps) indexed by Google Search Console (GSC) and other search engines, focus on updating these key files on your site's root directory. This assumes your pages are now live (no more 404 errors) and publicly accessible. Indexing isn't guaranteed, but these steps help discovery and crawling.
+
+### 1. **sitemap.xml** (Update or Replace)
+Upload this updated version to https://ifitaintdutchitaintmuch.com/sitemap.xml. I've combined your previous sitemap data with the original teaser URLs you mentioned (ADE 2016-2024 highlights, etc.). I used today's date (2025-09-24) for <lastmod> on the new ones—adjust if needed. For historical pages, set <changefreq> to "yearly" and <priority> to 0.6 as they're likely static.
+
+After uploading:
+- Submit it in GSC: Go to "Sitemaps" section, add "/sitemap.xml", and submit.
+- For other engines: Submit to Bing Webmaster Tools, Yandex.Webmaster, etc., via their dashboards.
+
+### 2. **robots.txt** (Create or Update if Blocking)
+If you don't have one or if it's restricting crawlers, upload this basic version to https://ifitaintdutchitaintmuch.com/robots.txt. This allows all bots to crawl everything while pointing to your sitemap.
+
+```
+User-agent: *
+Allow: /
+
+Sitemap: https://ifitaintdutchitaintmuch.com/sitemap.xml
+```
+
+- Test it: Use GSC's robots.txt tester to ensure it doesn't block your teaser pages.
+- Note: If your site has sensitive areas (e.g., /admin/), add Disallow: /admin/ lines.
+
+### Additional Steps (Not Files, But Essential)
+- **Page Content**: Ensure each teaser page has unique, high-quality content, meta tags (e.g., <meta name="robots" content="index,follow"> if needed), and internal links from your homepage or /blog/ to aid discovery.
+- **GSC Verification**: If not done, verify your site in GSC.
+- **Other Engines**: Sign up for Bing, etc., and submit sitemap there too.
+- **Monitor**: After updates, use GSC's URL Inspection for each page and request indexing if eligible.
+
+If your site uses a CMS (e.g., WordPress), use plugins to auto-generate/manage these files. Let me know if you need customizations!
