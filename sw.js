@@ -1,11 +1,11 @@
 /**
  * Dutch Underground Service Worker - FIXED VERSION
- * Version: 4.3.0 - RESOLVES CACHE FAILURES AND 404 ISSUES
+ * Version: 4.3.1 - RESOLVES CACHE FAILURES AND 404 ISSUES
  * Deploy: Replace your /sw.js file with this code
  */
 
-const CACHE_NAME = 'dutch-underground-v4.3.0';
-const SW_VERSION = '4.3.0';
+const CACHE_NAME = 'dutch-underground-v4.3.1';
+const SW_VERSION = '4.3.1';
 
 // FIXED: Only cache files that actually exist
 const STATIC_CACHE_URLS = [
@@ -17,7 +17,7 @@ const STATIC_CACHE_URLS = [
 ];
 
 // Dynamic cache for API responses and images
-const DYNAMIC_CACHE_NAME = 'dutch-underground-dynamic-v4.3.0';
+const DYNAMIC_CACHE_NAME = 'dutch-underground-dynamic-v4.3.1';
 
 // Install Event - Cache static assets with proper error handling
 self.addEventListener('install', event => {
